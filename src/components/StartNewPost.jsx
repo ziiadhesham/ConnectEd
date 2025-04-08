@@ -11,14 +11,16 @@ const DivStyles = {
 const PStyles = {
     fontSize: "16px",
     color : "silver",
-    marginLeft: "10px"
+    marginLeft: "10px" ,
+    border: "none" ,
+    backgroundColor: "transparent" ,
 }
 
 const StartNewPost = () => {
     return (
         <div style={DivStyles}>
             <PhotoAvatar />
-            <p style={PStyles}>Start a Post...</p>
+            <input placeholder="Start a Post..." style={PStyles}></input>
         </div>
     );
 };
