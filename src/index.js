@@ -13,13 +13,17 @@ import SocialSidebarUserItem from './components/SocialSidebarUserItem';
 import Check from './components/check';
 import PasswordInput from './components/PasswordInput';
 import PostActions from './components/PostActions';
+import PhotoAvatar from './components/PhotoAvatar';
+import StartNewPost from './components/StartNewPost';
+import VideoAdded from './components/VideoAdded';
+import Comment from './components/Comment';
 
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <div style={{ backgroundColor: "#37373d", height: "100vh" }}>
+    <div style={{ backgroundColor: "#37373d", height: "300vh" }}>
       <NotificationButton showNotification={true} active={true} />
       <LikeButton />
      <BookmarkButton />
@@ -31,6 +35,10 @@ root.render(
      <Check active={true}/>
      <PasswordInput placeholder={"Passw"} />
      <PostActions />
+     <PhotoAvatar />
+     <StartNewPost />
+     <VideoAdded />
+     <Comment />
     
     </div>
   </React.StrictMode>
