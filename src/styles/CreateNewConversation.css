@@ -1,0 +1,14 @@
+
+.svg-parent{
+    display: flex;
+padding: 10px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+border-radius: 32px;
+
+background:  rgba(40, 40, 40, 0.70);
+/* Blur */
+box-shadow: 2px 4px 16px 0px rgba(248, 248, 248, 0.06) inset;
+backdrop-filter: blur(50px);
+}
