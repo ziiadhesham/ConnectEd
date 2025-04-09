@@ -23,6 +23,8 @@ import BlockedUser from './components/BlockedUser';
 import FancyButton from './components/Button';
 import TagPeopleCard from './components/TagPeopleCard';
 import ConversationSelector from './components/CreateNewConversation';
+import MessageInput from './components/MessageInput';
+import MessageItem from './components/MessageItem';
 
 
 
@@ -53,6 +55,8 @@ root.render(
     <FancyButton/>
     <TagPeopleCard name="John Doe" username="johndoe"/>
     <ConversationSelector/>
+    <MessageInput/>
+    <MessageItem isReply={true}/>
     </div>
   </React.StrictMode>
 );
