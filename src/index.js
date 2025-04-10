@@ -33,13 +33,17 @@ import SocialPost from './components/SocialPost';
 import Tag from './components/Tag';
 import TagButton from './components/TagButton';
 import BookmarkFolderModal from './components/BookMarkFolderModal';
+import Sidebar from './components/Sidebar';
+import SettingProfileSidebar from './components/SettingProfieSidebar';
+import HomeIcon from '@mui/icons-material/Home';
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <div style={{ backgroundColor: "#37373d", height: "200%",  minHeight: "100vh"}}>
-      <ChatHeader/>
+      {/* <ChatHeader/>
       <Check active={true} />
       <Comment/>
       <ConversationItem/>
@@ -76,7 +80,10 @@ root.render(
       />
       <Tag/>
       <TagButton/>
-      <BookmarkFolderModal/>
+      <BookmarkFolderModal/> */}
+      <Sidebar/>
+      <SocialSidebarItem label="Home" icon={<HomeIcon />} collapsed={false} />
+      <SocialSidebarItem label="Notifications" icon={<NotificationButton />} badge={12} collapsed={false} />
     </div>
   </React.StrictMode>
 );
