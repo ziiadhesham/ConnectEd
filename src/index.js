@@ -25,6 +25,9 @@ import TagPeopleCard from './components/TagPeopleCard';
 import ConversationSelector from './components/CreateNewConversation';
 import MessageInput from './components/MessageInput';
 import MessageItem from './components/MessageItem';
+import TextAndPhoto from './components/textAndPhoto';
+import TextAndVedio from './components/TextAndVedio';
+import VideoAdded from './components/VideoAdded';
 
 
 
@@ -32,7 +35,7 @@ import MessageItem from './components/MessageItem';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <div style={{ backgroundColor: "#37373d", height: "100%",  minHeight: "100vh"}}>
+    <div style={{ backgroundColor: "#37373d", height: "200%",  minHeight: "100vh"}}>
       <ChatHeader/>
       <Check active={true} />
       <Comment/>
@@ -42,21 +45,26 @@ root.render(
       <PhotoAvatar/>
       <NotificationButton showNotification={true} active={true} />
       <LikeButton />
-     <BookmarkButton />
-     <CommentButton />  
-     <RepostButton />
-     <GifPhoto src="https://media.giphy.com/media/3o7aCSPqXE5C6T8tBC/giphy.gif" />
-     <SocialSidebarItem collapsed={false} />
-     <SocialSidebarUserItem name="John Doe" username="johndoe" collapsed={false} active={false}/>
-     <Check active={true}/>
-     <PasswordInput placeholder={"Passw"} />
-     <PostActions />
-     <BlockedUser/>
-    <FancyButton/>
-    <TagPeopleCard name="John Doe" username="johndoe"/>
-    <ConversationSelector/>
-    <MessageInput/>
-    <MessageItem isReply={true}/>
+      <BookmarkButton />
+      <CommentButton />  
+      <RepostButton />
+      <GifPhoto src="https://media.giphy.com/media/3o7aCSPqXE5C6T8tBC/giphy.gif" />
+      <SocialSidebarItem collapsed={false} />
+      <SocialSidebarUserItem name="John Doe" username="johndoe" collapsed={false} active={false}/>
+      <Check active={true}/>
+      <PasswordInput placeholder={"Passw"} />
+      <PostActions />
+      <BlockedUser/>
+      <FancyButton/>    
+      <TagPeopleCard name="John Doe" username="johndoe"/>
+      <ConversationSelector/>
+      <MessageInput/>
+      <MessageItem isReply={true}/>
+      <VideoAdded/>
+      <TextAndPhoto />
+      <TextAndVedio />
+      
+      
     </div>
   </React.StrictMode>
 );
