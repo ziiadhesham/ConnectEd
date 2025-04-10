@@ -25,7 +25,10 @@ import TagPeopleCard from './components/TagPeopleCard';
 import ConversationSelector from './components/CreateNewConversation';
 import MessageInput from './components/MessageInput';
 import MessageItem from './components/MessageItem';
-
+import Header from './components/HeaderPosting';
+import { useState } from 'react';
+import ProfileCard from './components/ProfileContainer';
+import SocialMenuButton from './components/SocialMoreButton';
 
 
 
@@ -57,6 +60,12 @@ root.render(
     <ConversationSelector/>
     <MessageInput/>
     <MessageItem isReply={true}/>
+    <Header isPosting={false} />
+    
+    <ProfileCard noAvatar={true} />
+    <ProfileCard avatarUrl="https://i.pravatar.cc/150?img=10" />
+    <SocialMenuButton/>
+
     </div>
   </React.StrictMode>
 );

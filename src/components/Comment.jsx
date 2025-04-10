@@ -6,13 +6,12 @@ import PhotoAvatar from './PhotoAvatar';
 function Comment() {
   return (
     <Box sx={{ p: 2, maxWidth: 600 }}>
-      <Box sx={{ position: 'relative', display: 'flex', alignItems: 'flex-start' }}>
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
         {/* Avatar */}
-        <Box sx={{ flexShrink: 0 }}>
-          <PhotoAvatar />
-        </Box>
+        
 
-        <Box sx={{ maxWidth:528, ml: 3, mt: 6, flex: 1 }}>
+        {/* Message Container */}
+        <Box sx={{ flex: 1 }}>
           <Paper
             elevation={3}
             sx={{
@@ -24,6 +23,7 @@ function Comment() {
               position: 'relative',
             }}
           >
+        
             {/* Three Dots Icon */}
             <IconButton
               sx={{
@@ -39,6 +39,7 @@ function Comment() {
 
             {/* Name and Time */}
             <Box display="flex" alignItems="center" gap={1} mb={0.5}>
+            <PhotoAvatar />
               <Typography
                 variant="subtitle2"
                 sx={{ color: '#bdbdbd', fontWeight: 500 }}
@@ -53,7 +54,7 @@ function Comment() {
               </Typography>
             </Box>
 
-            
+            {/* Comment Text */}
             <Typography variant="body2">
               Ready to level up your portfolio game? Check out these 15 standout
               examples of creative, sleek, and interactive portfolio websites made in
@@ -66,6 +67,3 @@ function Comment() {
 }
 
 export default Comment;
-
-
-// By SEIF
