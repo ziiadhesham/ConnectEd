@@ -30,6 +30,9 @@ import { useState } from 'react';
 import ProfileCard from './components/ProfileContainer';
 import SocialMenuButton from './components/SocialMoreButton';
 import SocialPost from './components/SocialPost';
+import Tag from './components/Tag';
+import TagButton from './components/TagButton';
+import BookmarkFolderModal from './components/BookMarkFolderModal';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -71,6 +74,9 @@ root.render(
         time="09:00 AM"
         content="Ready to level up your portfolio game? Check out these 15 standout examples of creative, sleek, and interactive portfolio websites made in..."
       />
+      <Tag/>
+      <TagButton/>
+      <BookmarkFolderModal/>
     </div>
   </React.StrictMode>
 );
