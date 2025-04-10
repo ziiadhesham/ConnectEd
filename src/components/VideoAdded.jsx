@@ -50,7 +50,7 @@ const CloseButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-const TimerBox = styled(Box)(({ theme }) => ({
+export const TimerBox = styled(Box)(({ theme }) => ({
   position: 'absolute',
   bottom: theme.spacing(1),
   left: theme.spacing(2),

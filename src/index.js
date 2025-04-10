@@ -35,7 +35,7 @@ import SocialMenuButton from './components/SocialMoreButton';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <div style={{ backgroundColor: "#37373d", height: "100%",  minHeight: "100vh"}}>
+    <div style={{ backgroundColor: "#37373d", height: "200%",  minHeight: "100vh"}}>
       <ChatHeader/>
       <Check active={true} />
       <Comment/>
