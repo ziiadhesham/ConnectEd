@@ -29,7 +29,7 @@ import Header from './components/HeaderPosting';
 import { useState } from 'react';
 import ProfileCard from './components/ProfileContainer';
 import SocialMenuButton from './components/SocialMoreButton';
-
+import SocialPost from './components/SocialPost';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -65,7 +65,12 @@ root.render(
     <ProfileCard noAvatar={true} />
     <ProfileCard avatarUrl="https://i.pravatar.cc/150?img=10" />
     <SocialMenuButton/>
-
+    <SocialPost
+        avatarSrc="https://example.com/avatar.jpg"
+        username="Moyo Shiro"
+        time="09:00 AM"
+        content="Ready to level up your portfolio game? Check out these 15 standout examples of creative, sleek, and interactive portfolio websites made in..."
+      />
     </div>
   </React.StrictMode>
 );

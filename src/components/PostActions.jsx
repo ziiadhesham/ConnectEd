@@ -23,9 +23,10 @@ export default function PostActions() {
         sx={{
           display: "flex",
           gap: "10px",
-          paddingLeft: { xs: "0px", md: "48px" },
+          paddingLeft: { xs: "0px", md: "28px" },
           justifyContent: { xs: "space-around", md: "flex-start" },
           flexGrow: 1,
+
         }}
       >
         <LikeButton />
