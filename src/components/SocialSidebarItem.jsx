@@ -38,12 +38,12 @@ const SocialSidebarItem = ({ label, icon, collapsed = false, badge }) => {
         {/* Icon with optional Badge */}
         {badge ? (
           <Badge badgeContent={badge} color="error">
-            <Box sx={{ color: "#fff", padding: collapsed ? "0px" : "2px", margin: "0px" }}>
+            <Box sx={{ color: "rgba(248, 248, 248, 0.5)", padding: collapsed ? "0px" : "2px", margin: "0px" }}>
               {icon}
             </Box>
           </Badge>
         ) : (
-          <Box sx={{ color: "#fff", padding: collapsed ? "0px" : "2px", margin: "0px" }}>
+          <Box sx={{ color: "rgba(248, 248, 248, 0.5)", padding: collapsed ? "0px" : "2px", margin: "0px" }}>
             {icon}
           </Box>
         )}
@@ -52,7 +52,7 @@ const SocialSidebarItem = ({ label, icon, collapsed = false, badge }) => {
         {!collapsed && (
           <ListItemText
             primary={label}
-            sx={{ color: "#fff", paddingRight: "80px" ,marginLeft:"8px" }}
+            sx={{ color: "rgba(248, 248, 248, 0.5)", paddingRight: "80px" ,marginLeft:"8px" }}
           />
         )}
       </ListItem>

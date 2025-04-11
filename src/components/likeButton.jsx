@@ -40,10 +40,10 @@ const LikeButton = ({ initialLikes = 12 }) => {
       onMouseDown={() => setInteraction("press")}
       onMouseUp={() => setInteraction("hover")}
     >
-      <IconButton sx={{ color: "white", padding: 0 }}>
+      <IconButton sx={{ color: "rgba(248, 248, 248, 0.7)", padding: 0 }}>
         {liked ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
       </IconButton>
-      <Typography sx={{ color: "white", fontSize: 14 }}>{likes}</Typography>
+      <Typography sx={{ color: "rgba(248, 248, 248, 0.7)", fontSize: 14 }}>{likes}</Typography>
     </Box>
   );
 };

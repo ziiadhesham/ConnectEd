@@ -36,14 +36,21 @@ import BookmarkFolderModal from './components/BookMarkFolderModal';
 import Sidebar from './components/Sidebar';
 import SettingProfileSidebar from './components/SettingProfieSidebar';
 import HomeIcon from '@mui/icons-material/Home';
+import  HomePage  from './Pages/HomePage/Home';
+import ComposerInput from './components/ComposerInput';
+import Feed from './Pages/HomePage/Feed';
+import ArticleCard from './components/ArticleCard';
+import TextAndVedio from './components/TextAndVedio';
+import TextAndPhoto from './components/textAndPhoto';
+import TrendingTopics from './Pages/HomePage/TrendingTopics';
 
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <div style={{ backgroundColor: "#37373d", height: "200%",  minHeight: "100vh"}}>
-      {/* <ChatHeader/>
+     <div style={{ backgroundColor: "#37373d", height: "200%",  minHeight: "100vh" ,margin:"0px",padding:"0px"}}>
+     {/* <ChatHeader/>
       <Check active={true} />
       <Comment/>
       <ConversationItem/>
@@ -80,10 +87,26 @@ root.render(
       />
       <Tag/>
       <TagButton/>
-      <BookmarkFolderModal/> */}
+      <BookmarkFolderModal/>
       <Sidebar/>
       <SocialSidebarItem label="Home" icon={<HomeIcon />} collapsed={false} />
       <SocialSidebarItem label="Notifications" icon={<NotificationButton />} badge={12} collapsed={false} />
+     
+      <Tag/>
+      <ComposerInput /> */}
+      {/* <Feed/> */}
+      <HomePage/>
+      
+      {/* <ArticleCard
+  image="https://picsum.photos/200/300"
+  title="The Best iOS18 Features"
+  content="So Apple announced the new features coming in iOS18 and it’s just over a couple of weeks since..."
+  author="Avatar 5"
+  authorAvatar="https://picsum.photos/200/300"
+  date="5 Jul 2024"
+  category="Design"
+/> */}
+{/* <TrendingTopics/> */}
     </div>
   </React.StrictMode>
 );

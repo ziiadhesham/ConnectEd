@@ -25,8 +25,8 @@ const InfoStyles = {
 };
 
 const AvatarStyles = {
-  width: "48px",
-  height: "48px",
+  width: "44px",
+  height: "44px",
   borderRadius: "50%", 
   marginTop: "8px",
 };
@@ -55,7 +55,7 @@ const ImageStyles = {
   width: "528px",
   height: "304px",
   borderRadius: "24px",
-  marginBottom: "12px",
+  marginBottom: "0px",
   marginLeft: "64px",
 };
 
@@ -72,7 +72,7 @@ const TextAndPhoto = () => {
     <div style={ContainerStyles} className="text-and-photo-container">
       
       <div style={InfoStyles}>
-            <Avatar style={AvatarStyles} />
+            <Avatar style={AvatarStyles}  />
             <div style={TextStyles}>
                 <strong>John Doe</strong>
                 <span style={TimeStyles}>09:00 AM</span>
@@ -94,7 +94,7 @@ const TextAndPhoto = () => {
       />
 
       {/* Post Actions (Like, Comment, Share) */}
-      <PostActions />
+      <PostActions  />
     </div>
   );
 };

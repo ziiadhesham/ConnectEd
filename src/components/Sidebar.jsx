@@ -28,11 +28,7 @@ const menuItems = [
   { icon: <Explore />, label: 'Explore' },
 ];
 
-const Sidebar = ({ open: initialOpen }) => {
-  const [open, setOpen] = useState(initialOpen);
-
-  const toggleDrawer = () => setOpen(prev => !prev);
-
+const Sidebar = ({ open, toggleDrawer }) => {
   return (
     <Drawer
       variant="permanent"
@@ -44,7 +40,7 @@ const Sidebar = ({ open: initialOpen }) => {
           width: open ? "320px" : "72px",
           boxSizing: 'border-box',
           backgroundColor: 'rgba(40, 40, 40, 0.7)',
-          color: '#fff',
+          color: 'rgba(248, 248, 248, 0.5)',
           transition: 'width 0.3s',
           overflowX: 'hidden',
           borderRight: 'none',
@@ -52,20 +48,12 @@ const Sidebar = ({ open: initialOpen }) => {
         },
       }}
     >
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        height="100%"
-        p={1}
-      >
-        {/* Top section */}
+      <Box display="flex" flexDirection="column" justifyContent="space-between" height="100%" p={1}>
         <Box>
-          <IconButton onClick={toggleDrawer} sx={{ color: 'white', mb: 2 }}>
+          <IconButton onClick={toggleDrawer} sx={{ color: 'rgba(248, 248, 248, 0.5)', mb: 2 }}>
             <Menu />
           </IconButton>
 
-          {/* Menu Items */}
           {menuItems.map(({ icon, label, badge }) => (
             <SocialSidebarItem
               key={label}
@@ -77,7 +65,6 @@ const Sidebar = ({ open: initialOpen }) => {
           ))}
         </Box>
 
-        {/* Bottom section */}
         <Box textAlign="center" pb={2}>
           <Avatar
             alt="Kohaku"
@@ -87,9 +74,7 @@ const Sidebar = ({ open: initialOpen }) => {
           {open ? (
             <>
               <Typography>Kohaku</Typography>
-              <Typography variant="caption" color="gray">
-                @kohaku
-              </Typography>
+              <Typography variant="caption" color="gray">@kohaku</Typography>
               <Button
                 variant="contained"
                 fullWidth
@@ -104,7 +89,7 @@ const Sidebar = ({ open: initialOpen }) => {
               </Button>
             </>
           ) : (
-            <IconButton sx={{ color: 'white', mt: 1 , borderRadius: "32px",bgcolor:"rgba(40, 40, 40, 0.7)" }}>
+            <IconButton sx={{ color: 'white', mt: 1, borderRadius: "32px", bgcolor: "rgba(40, 40, 40, 0.7)" }}>
               <Add />
             </IconButton>
           )}
@@ -115,3 +100,4 @@ const Sidebar = ({ open: initialOpen }) => {
 };
 
 export default Sidebar;
+

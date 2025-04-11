@@ -36,10 +36,10 @@ const RepostButton = ({ initialReposts = 12 }) => {
       onMouseDown={() => setInteraction("press")}
       onMouseUp={() => setInteraction("hover")}
     >
-      <IconButton sx={{ color: reposted ? "green" : "white", padding: 0 }}>
+      <IconButton sx={{ color: reposted ? "green" : "rgba(248, 248, 248, 0.7)", padding: 0 }}>
         <RepeatIcon />
       </IconButton>
-      <Typography sx={{ color: "white", fontSize: 16 }}>{repostes}</Typography>
+      <Typography sx={{ color: "rgba(248, 248, 248, 0.7)", fontSize: 16 }}>{repostes}</Typography>
     </Box>
   );
 };
