@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import LikeButton from './components/likeButton';
 import BookmarkButton from './components/BookmarkButton';
 import CommentButton from './components/CommentButton';
+import PostContent from './components/PostContent';
 import RepostButton from './components/RepostButton';
 import GifPhoto from './components/GifPhoto';
 import SocialSidebarItem from './components/SocialSidebarItem';
@@ -32,18 +33,21 @@ import SocialMenuButton from './components/SocialMoreButton';
 import SocialPost from './components/SocialPost';
 import Tag from './components/Tag';
 import TagButton from './components/TagButton';
+
 import BookmarkFolderModal from './components/BookMarkFolderModal';
 import Sidebar from './components/Sidebar';
 import SettingProfileSidebar from './components/SettingProfieSidebar';
 import HomeIcon from '@mui/icons-material/Home';
-
+import ProfileHeader from './components/ProfileHeader';
+import PostModal from './components/PostModel';
+import SettingSection from './components/SettingSection';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <div style={{ backgroundColor: "#37373d", height: "200%",  minHeight: "100vh"}}>
-      {/* <ChatHeader/>
+       <ChatHeader/>
       <Check active={true} />
       <Comment/>
       <ConversationItem/>
@@ -80,10 +84,24 @@ root.render(
       />
       <Tag/>
       <TagButton/>
-      <BookmarkFolderModal/> */}
-      <Sidebar/>
+      <BookmarkFolderModal/> 
+      {/* <Sidebar/>
       <SocialSidebarItem label="Home" icon={<HomeIcon />} collapsed={false} />
-      <SocialSidebarItem label="Notifications" icon={<NotificationButton />} badge={12} collapsed={false} />
+      <SocialSidebarItem label="Notifications" icon={<NotificationButton />} badge={12} collapsed={false} /> */}
+<ProfileHeader disabled={false} />
+      <PostContent
+        username="Moyo Shiro"
+        time="09:00 AM"
+        text="Ready to level up your portfolio game? Check out these 15 standout examples of creative, sleek, and interactive portfolio websites made in"
+        image="https://images.unsplash.com/photo-1535223289827-42f1e9919769"
+        video="https://www.w3schools.com/html/mov_bbb.mp4"
+      />
+      <PostModal/>
+    <SettingSection title="Account">
+          <p>Email: user@example.com</p>
+          <p>Password: ********</p>
+        </SettingSection>
+
     </div>
   </React.StrictMode>
 );
