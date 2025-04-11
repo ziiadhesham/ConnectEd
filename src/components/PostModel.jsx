@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Paper,
@@ -13,21 +13,30 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 function PostModal({ value = '' }) {
+  const [inputValue, setInputValue] = useState(value);
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <Paper
       elevation={4}
       sx={{
-        bgcolor: 'rgba(40, 40, 40, 0.8)',
+        bgcolor: 'rgba(40, 40, 40, 0.9)',
         borderRadius: 3,
         px: 2,
         py: 1.5,
+        minWidth: "500px",
         width: 'auto',
-        maxWidth: 600,
+        maxWidth: "800px",
         color: 'white',
         display: 'flex',
         flexDirection: 'column',
         gap: 1,
         mx: 'auto',
+        maxHeight: '80vh', // Limit max height to prevent overflowing the screen
+        overflow: 'auto', // Add scroll if content exceeds maxHeight
       }}
     >
       {/* Top: Avatar + Text Input */}
@@ -37,7 +46,8 @@ function PostModal({ value = '' }) {
           variant="standard"
           fullWidth
           placeholder="Start a post..."
-          defaultValue={value}
+          value={inputValue}
+          onChange={handleInputChange} // Update the state as user types
           InputProps={{
             disableUnderline: true,
             sx: {
@@ -46,6 +56,9 @@ function PostModal({ value = '' }) {
               bgcolor: 'transparent',
             },
           }}
+          multiline
+          minRows={3} // Minimum number of rows
+          maxRows={6} // Maximum number of rows
         />
       </Box>
 

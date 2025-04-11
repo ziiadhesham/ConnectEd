@@ -16,7 +16,7 @@ const HomePage = () => {
             {/* Sidebar */}
             {!isSmallScreen && (
                 <Box sx={{
-                    width: sidebarOpen ? "320px" : "72px",
+                    width: sidebarOpen ? "300px" : "72px",
                     position: 'fixed',
                     top: 0,
                     left: 0,
@@ -32,7 +32,7 @@ const HomePage = () => {
             {/* Feed */}
             <Box sx={{
                 flex: 1,
-                marginLeft: !isSmallScreen ? (sidebarOpen ? '320px' : '72px') : 0,
+                marginLeft: !isSmallScreen ? (sidebarOpen ? '300px' : '72px') : 0,
                 marginRight: !isSmallScreen ? '430px' : 0,
                 marginTop: '-14px',
                 padding: 2,

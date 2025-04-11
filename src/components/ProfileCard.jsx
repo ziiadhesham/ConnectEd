@@ -20,7 +20,7 @@ const ProfileCard = ({ name, username, bio, avatar, initiallyFollowing = false }
         borderRadius: '20px',
         padding: '12px',
         gap: '12px',
-        width: '90%',
+        width: '95%',
         margin: '10px',
         '&:hover': {
           backgroundColor: 'rgba(248, 248, 248, 0.06)',
