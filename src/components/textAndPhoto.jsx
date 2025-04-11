@@ -2,7 +2,7 @@ import PostActions from "./PostActions";
 import Avatar from "./avatar";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import IconButton from '@mui/material/IconButton';
-
+import PhotoAvatar from './PhotoAvatar';
 const ContainerStyles = {
   width: "616px",
   height: "480px", 
@@ -72,7 +72,9 @@ const TextAndPhoto = () => {
     <div style={ContainerStyles} className="text-and-photo-container">
       
       <div style={InfoStyles}>
-            <Avatar style={AvatarStyles}  />
+            {/* <Avatar style={AvatarStyles}  />
+             */}
+             <PhotoAvatar src="https://i.pravatar.cc/300?img=10"/>
             <div style={TextStyles}>
                 <strong>John Doe</strong>
                 <span style={TimeStyles}>09:00 AM</span>

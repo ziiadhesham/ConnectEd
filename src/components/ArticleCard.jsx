@@ -21,9 +21,11 @@ const ArticleCard = ({
         backgroundColor: 'rgba(248, 248, 248, 0.02)',
         transition: 'background-color 0.3s ease, transform 0.2s ease',
         cursor: 'pointer',
+        margin: '10px',
         '&:hover': {
           backgroundColor: 'rgba(248, 248, 248, 0.06)',
           transform: 'translateY(-2px)',
+          
         },
       }}
     >

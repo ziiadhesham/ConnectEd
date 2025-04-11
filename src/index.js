@@ -46,12 +46,12 @@ import TextAndVedio from './components/TextAndVedio';
 import TextAndPhoto from './components/textAndPhoto';
 import TrendingTopics from './Pages/HomePage/TrendingTopics';
 
-
+import PostModal from './components/PostModel';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     <div style={{ backgroundColor: "#37373d", height: "200%",  minHeight: "100vh" ,margin:"0px",padding:"0px"}}>
+     <div style={{ backgroundColor: "rgb(64, 64, 70)", height: "200%",  minHeight: "100vh" ,margin:"0px",padding:"0px"}}>
      {/* <ChatHeader/>
       <Check active={true} />
       <Comment/>
@@ -109,6 +109,8 @@ root.render(
   category="Design"
 /> */}
 {/* <TrendingTopics/> */}
+      {/* <PostModal/>
+      <PostContent/> */}
     </div>
   </React.StrictMode>
 );

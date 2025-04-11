@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, Fade } from '@mui/material';
 import ArticleCard from "../../components/ArticleCard";
+import ProfileCard from "../../components/ProfileCard"; // Make sure this path is correct
 
 const TrendingTopics = () => {
   const [tab, setTab] = useState('trending'); // 'trending' or 'follow'
-  const isPosting = false; // just for now, can be controlled from props if needed
+  const isPosting = false;
 
   const handleTabChange = (newTab) => {
     setTab(newTab);
@@ -12,81 +13,84 @@ const TrendingTopics = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-     {/* Toggle Wrapper (Centering the button) */}
-<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-  {/* Toggle Button */}
-  <Box
-    sx={{
-      position: 'relative',
-      display: 'flex',
-      bgcolor: 'rgba(40, 40, 40, 0.6)',
-      borderRadius: '9999px',
-      width: '278px',
-      height: '40px',
-      alignItems: 'center',
-      padding: '4px',
-      opacity: isPosting ? 0.6 : 1,
-      pointerEvents: isPosting ? 'none' : 'auto',
-    }}
-  >
-    {/* Sliding background */}
-    <Box
-      sx={{
-        position: 'absolute',
-        top: 4,
-        left: tab === 'trending' ? 4 : 'calc(50% + 2px)',
-        width: 'calc(50% - 6px)',
-        height: '40px',
-        bgcolor: 'rgba(248, 248, 248, 0.05)',
-        borderRadius: '9999px',
-        transition: 'left 0.3s ease-in-out',
-        zIndex: 1,
-      }}
-    />
+      {/* Toggle Wrapper */}
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box
+          sx={{
+            position: 'relative',
+            display: 'flex',
+            bgcolor: 'rgba(40, 40, 40, 0.6)',
+            borderRadius: '9999px',
+            width: '278px',
+            height: '40px',
+            alignItems: 'center',
+            padding: '4px',
+            opacity: isPosting ? 0.6 : 1,
+            pointerEvents: isPosting ? 'none' : 'auto',
+          }}
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 4,
+              left: tab === 'trending' ? 4 : 'calc(50% + 2px)',
+              width: 'calc(50% - 6px)',
+              height: '40px',
+              bgcolor: 'rgba(248, 248, 248, 0.05)',
+              borderRadius: '9999px',
+              transition: 'left 0.3s ease-in-out',
+              zIndex: 1,
+            }}
+          />
+          <Box sx={{ display: 'flex', width: '100%', zIndex: 2 }}>
+            <button
+              onClick={() => handleTabChange('trending')}
+              style={{
+                flex: 1,
+                border: 'none',
+                background: 'transparent',
+                color: tab === 'trending' ? '#fff' : '#aaa',
+                fontWeight: 600,
+                fontSize: '13px',
+                cursor: 'pointer',
+                padding: '8px 0',
+                borderRadius: '9999px',
+              }}
+            >
+              Trending Topics
+            </button>
+            <button
+              onClick={() => handleTabChange('follow')}
+              style={{
+                flex: 1,
+                border: 'none',
+                background: 'transparent',
+                color: tab === 'follow' ? '#fff' : '#aaa',
+                fontWeight: 600,
+                fontSize: '13px',
+                cursor: 'pointer',
+                padding: '8px 0',
+                borderRadius: '9999px',
+              }}
+            >
+              Who to Follow
+            </button>
+          </Box>
+        </Box>
+      </Box>
 
-    {/* Buttons */}
-    <Box sx={{ display: 'flex', width: '100%', zIndex: 2 }}>
-      <button
-        onClick={() => handleTabChange('trending')}
-        style={{
-          flex: 1,
-          border: 'none',
-          background: 'transparent',
-          color: tab === 'trending' ? '#fff' : '#aaa',
-          fontWeight: 600,
-          fontSize: '13px',
-          cursor: 'pointer',
-          padding: '8px 0',
-          borderRadius: '9999px',
-        }}
-      >
-        Trending Topics
-      </button>
-      <button
-        onClick={() => handleTabChange('follow')}
-        style={{
-          flex: 1,
-          border: 'none',
-          background: 'transparent',
-          color: tab === 'follow' ? '#fff' : '#aaa',
-          fontWeight: 600,
-          fontSize: '13px',
-          cursor: 'pointer',
-          padding: '8px 0',
-          borderRadius: '9999px',
-        }}
-      >
-        Who to Follow
-      </button>
-    </Box>
-  </Box>
-</Box>
-
-
-      {/* Conditional Content */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        {tab === 'trending' ? (
-          <>
+      {/* Tab Content with Transitions */}
+      <Box sx={{ position: 'relative', minHeight: '300px' }}>
+        {/* Trending Topics */}
+        <Fade in={tab === 'trending'} timeout={400} unmountOnExit>
+          <Box
+            key="trending"
+            sx={{
+              display: tab === 'trending' ? 'block' : 'none',
+              position: 'absolute',
+              width: '100%',
+            }}
+          >
             <ArticleCard
               image="https://picsum.photos/200/300"
               title="The Best iOS18 Features"
@@ -105,30 +109,35 @@ const TrendingTopics = () => {
               date="8 Apr 2025"
               category="Tech"
             />
-          </>
-        ) : (
-          <>
-            {/* You can replace these with your own FollowCard components later */}
-            <ArticleCard
-              image="https://picsum.photos/200/302"
-              title="Mohamed Shawky"
-              content="Front-end Developer • JavaScript | React | AI"
-              author="@mshawky"
-              authorAvatar="https://i.pravatar.cc/150?img=5"
-              date=""
-              category="Suggested"
+          </Box>
+        </Fade>
+
+        {/* Who to Follow */}
+        <Fade in={tab === 'follow'} timeout={400} unmountOnExit>
+          <Box
+            key="follow"
+            sx={{
+              display: tab === 'follow' ? 'block' : 'none',
+              position: 'absolute',
+              width: '100%',
+            }}
+          >
+            <ProfileCard
+              name="Brandi Padberg"
+              username="@Abbie_Pollich34"
+              bio='The "No Code SaaS" Guy. Building a portfolio of software companies.'
+              avatar="https://i.pravatar.cc/150?img=11"
+              initiallyFollowing={false}
             />
-            <ArticleCard
-              image="https://picsum.photos/200/303"
-              title="Sara Techie"
-              content="Flutter Dev • Mobile UX wizard & Coffee nerd ☕"
-              author="@sara"
-              authorAvatar="https://i.pravatar.cc/150?img=10"
-              date=""
-              category="Suggested"
+            <ProfileCard
+              name="Sara Techie"
+              username="@sara"
+              bio="Flutter Dev • Mobile UX wizard & Coffee nerd ☕"
+              avatar="https://i.pravatar.cc/150?img=10"
+              initiallyFollowing={false}
             />
-          </>
-        )}
+          </Box>
+        </Fade>
       </Box>
     </Box>
   );

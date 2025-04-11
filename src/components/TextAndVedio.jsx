@@ -4,6 +4,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import IconButton from '@mui/material/IconButton';
 import Box from "@mui/material/Box";
 import { maxWidth } from "@mui/system";
+import PhotoAvatar from "./PhotoAvatar";
 
 
 const ContainerStyles = {
@@ -93,7 +94,9 @@ const TextAndVedio = () => {
     <div style={ContainerStyles} className="text-and-photo-container">
       
       <div style={InfoStyles}>
-            <Avatar style={AvatarStyles} />
+            {/* <Avatar style={AvatarStyles} />
+             */}
+             <PhotoAvatar imgsrc="https://i.pravatar.cc/300?img=5" />
             <div style={TextStyles}>
                 <strong>John Doe</strong>
                 <span style={TimeStyles}>09:00 AM</span>
