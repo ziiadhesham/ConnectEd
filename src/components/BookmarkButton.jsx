@@ -44,7 +44,7 @@ const BookmarkButton = ({ disabled = false }) => {
       onFocus={() => setInteraction("focus")}
       onBlur={() => setInteraction("default")}
     >
-      <IconButton disabled={disabled} sx={{ color: "white" }}>
+      <IconButton disabled={disabled} sx={{ color: "rgba(248, 248, 248, 0.7)" }}>
         {active ? <BookmarkIcon /> : <BookmarkBorderIcon />}
       </IconButton>
     </Box>

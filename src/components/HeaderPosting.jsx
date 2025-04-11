@@ -21,15 +21,15 @@ const Header = ({ isPosting = false ,setisPosting }) => {
       sx={{
         // boxSizing: 'border-box',
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'space-between',
         gap: 1.5,
         padding: '12px',
         borderRadius: '12px',
-        maxWidth: '640px',
-        margin: '0 auto',
+        maxWidth: '720px',
         width: '100%',
         height: '50px',
+        marginTop: '0px',
       }}
     >
       {/* Sliding Toggle */}
@@ -112,11 +112,12 @@ const Header = ({ isPosting = false ,setisPosting }) => {
           backgroundColor: 'rgba(40, 40, 40, 0.7)',
           borderRadius: '9999px',
           flex: 1,
-          height: '42px',
+          height: '42px', 
           px: 1.5,
           ml: 1,
           opacity: isPosting ? 0.6 : 1,
           pointerEvents: isPosting ? 'none' : 'auto',
+          marginTop: '0px',
         }}
       >
         <SearchIcon sx={{ color: 'rgba(248, 248, 248, 0.5)', fontSize: 20, mr: 1 }} />

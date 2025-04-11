@@ -3,10 +3,10 @@ import { Avatar, ListItemAvatar, Box } from "@mui/material";
 import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded"; // Icon on hover
 
 const UserAvatarWithHoverIcon = ({
-  src,
+  src="https://example.com/avatar.jpg",
   alt = "User Avatar",
   disabled = false,
-  size = 50,
+  size = "40px",
   editable = false, // toggles the hover icon
 }) => {
   const [isHovered, setIsHovered] = useState(false);
