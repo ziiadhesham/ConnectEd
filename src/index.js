@@ -32,7 +32,10 @@ import SocialMenuButton from './components/SocialMoreButton';
 import SocialPost from './components/SocialPost';
 import Tag from './components/Tag';
 import TagButton from './components/TagButton';
+import TextAndPhoto from './components/TextAndPhoto';
+import TextAndVedio from './components/TextAndVedio';
 import BookmarkFolderModal from './components/BookMarkFolderModal';
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -44,6 +47,7 @@ root.render(
       <Comment/>
       <ConversationItem/>
       <Dropdown/>
+      
       <InputField type="name" placeholder="Full Name" />
       <PhotoAvatar/>
       <NotificationButton showNotification={true} active={true} />
@@ -59,6 +63,8 @@ root.render(
      <PostActions />
      <BlockedUser/>
     <FancyButton/>
+    <TextAndPhoto/>
+    <TextAndVedio/>
     <TagPeopleCard name="John Doe" username="johndoe"/>
     <ConversationSelector/>
     <MessageInput/>
