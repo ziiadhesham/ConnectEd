@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import LikeButton from './components/likeButton';
 import BookmarkButton from './components/BookmarkButton';
 import CommentButton from './components/CommentButton';
+import PostContent from './components/PostContent';
 import RepostButton from './components/RepostButton';
 import GifPhoto from './components/GifPhoto';
 import SocialSidebarItem from './components/SocialSidebarItem';
@@ -32,6 +33,7 @@ import SocialMenuButton from './components/SocialMoreButton';
 import SocialPost from './components/SocialPost';
 import Tag from './components/Tag';
 import TagButton from './components/TagButton';
+
 import BookmarkFolderModal from './components/BookMarkFolderModal';
 import Sidebar from './components/Sidebar';
 import SettingProfileSidebar from './components/SettingProfieSidebar';
