@@ -50,8 +50,6 @@ import PostModal from './components/PostModel';
 import LoginForm from './components/LoginForm';
 import { BrowserRouter } from 'react-router-dom';
 import SignUpForm from './components/SignUpForm';
-import Profile from './Pages/ProfilePage/Profile';
-import FollowSuggestions from './components/FollowSuggestions';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -119,10 +117,11 @@ root.render(
 /> */}
 {/* <TrendingTopics/> */}
       {/* <PostModal/>
-//       <PostContent/> */}
-// <Profile />
-{/* <FollowSuggestions/> */}
+      <PostContent/> */}
+
     </div>
+
+
   </React.StrictMode>
 );
 
