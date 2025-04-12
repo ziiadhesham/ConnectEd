@@ -1,7 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import styles from "../pages/ProfileGuessViewFeatured.module.css";
+import { Box, Typography } from "@mui/material";
+import ToggleTextButton from "./ToggleTextButton"; // Adjust the path as needed
 import ProfileCard from "./ProfileCard";
+import styles from "../Pages/ProfileGuessViewFeatured.module.css";
 
 function FollowSuggestions() {
   const [activeTab, setActiveTab] = useState("Who to follow");
@@ -50,74 +52,69 @@ function FollowSuggestions() {
     },
   ];
 
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    // In a real app, this would change the content displayed
-    console.log(`Switched to ${tab} tab`);
+  const handleTabChange = (side) => {
+    const selectedTab = side === "left" ? "Who to follow" : "Trending topics";
+    setActiveTab(selectedTab);
   };
 
   const handleShowMore = () => {
-    // In a real app, this would load more profiles
     alert("Show more profiles");
   };
 
   return (
     <aside className={styles.widgetwhotofollow}>
-      <header className={styles.widgettitle}>
-        <div className={styles.togglegroup}>
-          <button
-            className={
-              activeTab === "Who to follow" ? styles.item01 : styles.item02
-            }
-            onClick={() => handleTabChange("Who to follow")}
-            aria-selected={activeTab === "Who to follow"}
-            role="tab"
-          >
-            Who to follow
-          </button>
-          <button
-            className={
-              activeTab === "Trending topics" ? styles.item01 : styles.item02
-            }
-            onClick={() => handleTabChange("Trending topics")}
-            aria-selected={activeTab === "Trending topics"}
-            role="tab"
-          >
-            <span className={styles.postFeedNavigationItemLabel}>
-              Trending topics
-            </span>
-          </button>
-        </div>
-      </header>
+      <Box sx={{ mb: 2 }}>
+        <ToggleTextButton
+          tab={activeTab === "Who to follow" ? "left" : "right"}
+          handleTabChange={handleTabChange}
+          leftText="Followers"
+          rightText="Following"
+        />
+      </Box>
 
       <div className={styles.profileCards}>
-        <div className={styles.div13}>
-          {profiles.map((profile, index) => (
-            <ProfileCard
-              key={index}
-              avatar={profile.avatar}
-              name={profile.name}
-              handle={profile.handle}
-              description={profile.description}
-              isFollowing={profile.isFollowing}
-              index={index}
-            />
-          ))}
-        </div>
-
-        <button
-          className={styles.button}
-          onClick={handleShowMore}
-          aria-label="Show more profiles"
-        >
-          <div className={styles.avatargroup}>
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f1ffb197a952c1365a8e8b406e2f18ce3bc827c?placeholderIfAbsent=true&apiKey=e8c977dc9b2946bd9e217b52d0aa041e"
-              className={styles.img37}
-              alt="Avatar group"
-            />
+        {activeTab === "Who to follow" ? (
+          <div className={styles.div13}>
+            {profiles.map((profile, index) => (
+              <ProfileCard
+                key={index}
+                avatar={profile.avatar}
+                name={profile.name}
+                handle={profile.handle}
+                description={profile.description}
+                isFollowing={profile.isFollowing}
+                index={index}
+              />
+            ))}
+            <button
+              className={styles.button}
+              onClick={handleShowMore}
+              aria-label="Show more profiles"
+            >
+              <div className={styles.avatargroup}>
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f1ffb197a952c1365a8e8b406e2f18ce3bc827c?placeholderIfAbsent=true&apiKey=e8c977dc9b2946bd9e217b52d0aa041e"
+                  className={styles.img37}
+                  alt="Avatar group"
+                />
+              </div>
+            </button>
           </div>
-        </button>
+        ) : (
+          <div className={styles.div14}>
+            {profiles.map((profile, index) => (
+              <ProfileCard
+                key={index}
+                avatar={profile.avatar}
+                name={profile.name}
+                handle={profile.handle}
+                description={profile.description}
+                isFollowing={profile.isFollowing}
+                index={index}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </aside>
   );
