@@ -24,6 +24,8 @@ root.render(
         <NotificationsPage/>
 
     </div>
+
+
   </React.StrictMode>
 );
 
