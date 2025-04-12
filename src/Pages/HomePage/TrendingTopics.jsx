@@ -99,6 +99,7 @@ const TrendingTopics = () => {
               authorAvatar="https://picsum.photos/200/300"
               date="5 Jul 2024"
               category="Design"
+              
             />
             <ArticleCard
               image="https://picsum.photos/200/300"
@@ -120,6 +121,7 @@ const TrendingTopics = () => {
               display: tab === 'follow' ? 'block' : 'none',
               position: 'absolute',
               width: '100%',
+              marginTop: '20px',
             }}
           >
             <ProfileCard
