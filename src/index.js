@@ -47,6 +47,9 @@ import TextAndPhoto from './components/textAndPhoto';
 import TrendingTopics from './Pages/HomePage/TrendingTopics';
 
 import PostModal from './components/PostModel';
+import LoginForm from './components/LoginForm';
+import { BrowserRouter } from 'react-router-dom';
+import SignUpForm from './components/SignUpForm';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -115,6 +118,7 @@ root.render(
 {/* <TrendingTopics/> */}
       {/* <PostModal/>
       <PostContent/> */}
+
     </div>
   </React.StrictMode>
 );

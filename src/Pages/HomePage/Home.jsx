@@ -2,18 +2,16 @@ import Sidebar from "../../components/Sidebar";
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import Feed from "./Feed";
 import TrendingTopics from "./TrendingTopics";
-import { useState } from "react";
+import useSidebarStore from "../../Stores/SideBarStore"; // import the store
 
 const HomePage = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(true);
     const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down("md")); // md = 960px
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-    const toggleSidebar = () => setSidebarOpen(prev => !prev);
+    const { sidebarOpen, toggleSidebar } = useSidebarStore(); // use the store
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-            {/* Sidebar */}
             {!isSmallScreen && (
                 <Box sx={{
                     width: sidebarOpen ? "300px" : "72px",
@@ -29,7 +27,6 @@ const HomePage = () => {
                 </Box>
             )}
 
-            {/* Feed */}
             <Box sx={{
                 flex: 1,
                 marginLeft: !isSmallScreen ? (sidebarOpen ? '300px' : '72px') : 0,
@@ -43,7 +40,6 @@ const HomePage = () => {
                 <Feed />
             </Box>
 
-            {/* Trending Topics */}
             {!isSmallScreen && (
                 <Box sx={{
                     width: 400,
