@@ -1671,6 +1671,7 @@
   width: 44px;
   margin-top: auto;
   margin-bottom: auto;
+  border-radius: 50%;
 }
 .cardUserDetailsFrame {
   flex-direction: column;
@@ -1777,7 +1778,7 @@
 .profileCard2 {
   background-color: #f8f8f805;
   border-radius: 20px;
-  width: 100%;
+  width: 90%;
   margin-top: 8px;
   padding: 12px;
 }
