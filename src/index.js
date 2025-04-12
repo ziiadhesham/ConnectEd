@@ -15,13 +15,13 @@ import NotificationsPage from './Pages/Notifications/NotificationsPage';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     <div style={{ backgroundColor: "rgb(64, 64, 70)", height: "200%",
+     <div style={{ backgroundColor: "rgba(40, 40, 40, 0.7)", height: "200%",
                   minHeight: "100vh" ,margin:"0px",padding:"0px"}}>
     
 
         {/* <Feed/> */}
-        {/* <HomePage/> */}
-        <NotificationsPage/>
+        <HomePage/>
+        {/* <NotificationsPage/> */}
 
     </div>
 

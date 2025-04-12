@@ -14,7 +14,7 @@ const pageStyle = {
         justifyContent: "space-between",
         minHeight: "100vh",
         // width: "50vw",
-        backgroundColor: "#141414",
+        backgroundColor: "rgba(40, 40, 40, 0.7)",
         
     };
 
