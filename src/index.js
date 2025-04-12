@@ -50,6 +50,8 @@ import PostModal from './components/PostModel';
 import LoginForm from './components/LoginForm';
 import { BrowserRouter } from 'react-router-dom';
 import SignUpForm from './components/SignUpForm';
+import PostComment from './components/PostComment';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -116,10 +118,20 @@ root.render(
   category="Design"
 /> */}
 {/* <TrendingTopics/> */}
-      {/* <PostModal/>
-      <PostContent/> */}
+       {/* <PostModal/>
+      <PostContent/>  */}
+{/* <PostComment
+  user={{
+    name: "Moyo Shiro",
+    avatar: "https://i.pravatar.cc/40?img=3"
+  }}
+  time="09:00 AM"
+  text="Trully beautiful 👀"
+/> */}
 
     </div>
+
+
   </React.StrictMode>
 );
 
