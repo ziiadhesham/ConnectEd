@@ -20,10 +20,10 @@ export const ComposerInput = ({ stateProp, className }) => {
     overflow: "hidden",
     padding: 12,
     position: "relative",
-    width: 616,
+    width: "720px",
     backgroundColor: isHover
       ? "rgba(40, 40, 40, 0.8)"
-      : "#f4f4f4",
+      : "rgba(248, 248, 248, 0.02)",
     background:
       isHover &&
       `linear-gradient(0deg, rgba(40, 40, 40, 0.8), rgba(40, 40, 40, 0.8)),

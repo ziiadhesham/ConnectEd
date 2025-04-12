@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import styles from "../pages/ProfileGuessViewFeatured.module.css";
+import styles from "../Pages/ProfileGuessViewFeatured.module.css";
 
 function ProfileCard({
   avatar,

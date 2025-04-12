@@ -1,57 +1,103 @@
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, Box, Typography } from "@mui/material";
-import { Home, Notifications, Message, Bookmark, Person, Explore } from "@mui/icons-material";
+import React, { useState } from 'react';
+import {
+  Box,
+  IconButton,
+  Drawer,
+  Avatar,
+  Button,
+  Typography,
+} from '@mui/material';
+import {
+  Home,
+  Mail,
+  Bookmark,
+  Person,
+  Explore,
+  Menu,
+  Add,
+} from '@mui/icons-material';
+import NotificationButton from './NotificationButton';
+import SocialSidebarItem from './SocialSidebarItem'; // import your reusable item
 
-const Sidebar = () => {
-  const menuItems = [
-    { text: "Home", icon: <Home /> },
-    { text: "Notifications", icon: <Notifications /> },
-    { text: "Messages", icon: <Message /> },
-    { text: "Bookmarks", icon: <Bookmark /> },
-    { text: "Profile", icon: <Person /> },
-    { text: "Explore", icon: <Explore /> },
-  ];
+const menuItems = [
+  { icon: <Home />, label: 'Home' },
+  { icon: <NotificationButton />, label: 'Notifications', badge: 12 },
+  { icon: <Mail />, label: 'Messages' },
+  { icon: <Bookmark />, label: 'Bookmarks' },
+  { icon: <Person />, label: 'Profile' },
+  { icon: <Explore />, label: 'Explore' },
+];
 
+const Sidebar = ({ open, toggleDrawer }) => {
   return (
     <Drawer
       variant="permanent"
+      anchor="left"
       sx={{
-        width: 280,
-        bgcolor: "rgba(255, 255, 255, 0.8))", // Set the background to rgba(5, 5, 5, 0.5)
-        color: "white",
-        borderRadius: "0 20px 20px 0",
-        border: "none",
-        "& .MuiDrawer-paper": {
-          borderRadius: "0 20px 20px 0",
-          border: "none",
-          bgcolor: "#2c2c2c", // Also set the paper background
+        width: open ? "240px" : 80,
+        flexShrink: 0,
+        '& .MuiDrawer-paper': {
+          width: open ? "300px" : "72px",
+          boxSizing: 'border-box',
+          backgroundColor: 'rgba(40, 40, 40, 0.7)',
+          color: 'rgba(248, 248, 248, 0.5)',
+          transition: 'width 0.3s',
+          overflowX: 'hidden',
+          borderRight: 'none',
+          borderRadius: "0px 32px 32px 0px"
         },
       }}
     >
-      <List sx={{ pt: 2, pb: 2 }}>
-        {menuItems.map((item, index) => (
-          <ListItem
-            button
-            key={index}
-            sx={{
-              pl: 3,
-              pr: 3,
-              mb: 0.5,
-              ...(item.text === "Profile" && {
-                bgcolor: "#282828",
-                borderRadius: "8px",
-              }),
-            }}
-          >
-            <ListItemIcon sx={{ color: "white", minWidth: 36 }}>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} primaryTypographyProps={{color:"white", fontSize: "0.9rem" }} />
-          </ListItem>
-        ))}
-        <Box sx={{ mt: 2, p: 3, borderTop: "1px solid #333" }}>
-          
+      <Box display="flex" flexDirection="column" justifyContent="space-between" height="100%" p={1}>
+        <Box>
+          <IconButton onClick={toggleDrawer} sx={{ color: 'rgba(248, 248, 248, 0.5)', mb: 2 }}>
+            <Menu />
+          </IconButton>
+
+          {menuItems.map(({ icon, label, badge }) => (
+            <SocialSidebarItem
+              key={label}
+              label={label}
+              icon={icon}
+              badge={badge}
+              collapsed={!open}
+            />
+          ))}
         </Box>
-      </List>
+
+        <Box textAlign="center" pb={2}>
+          <Avatar
+            alt="Kohaku"
+            src="https://i.pravatar.cc/150?img=3"
+            sx={{ width: 40, height: 40, mx: 'auto', mb: 1 }}
+          />
+          {open ? (
+            <>
+              <Typography>Kohaku</Typography>
+              <Typography variant="caption" color="gray">@kohaku</Typography>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{
+                  mt: 2,
+                  backgroundColor: '#2c2c2e',
+                  '&:hover': { backgroundColor: 'rgba(40, 40, 40, 0.7)' },
+                  borderRadius: "32px",
+                }}
+              >
+                Post
+              </Button>
+            </>
+          ) : (
+            <IconButton sx={{ color: 'white', mt: 1, borderRadius: "32px", bgcolor: "rgba(40, 40, 40, 0.7)" }}>
+              <Add />
+            </IconButton>
+          )}
+        </Box>
+      </Box>
     </Drawer>
   );
 };
 
 export default Sidebar;
+

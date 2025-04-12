@@ -16,6 +16,9 @@ export default function PostActions() {
         alignItems: "center",
         flexDirection: { xs: "row", md: "row" },
         padding: 1,
+        marginLeft: "30px",
+        marginTop: "0px",
+      
       }}
     >
       {/* Desktop & Mobile Layouts */}

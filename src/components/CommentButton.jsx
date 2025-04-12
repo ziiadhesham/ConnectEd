@@ -28,10 +28,10 @@ const CommentButton = ({ initialComments = 12 }) => {
       onMouseDown={() => setInteraction("press")}
       onMouseUp={() => setInteraction("hover")}
     >
-      <IconButton sx={{ color: "white", padding: 0 }}>
+      <IconButton sx={{ color: "rgba(248, 248, 248, 0.7)", padding: 0 }}>
         <ChatBubbleOutlineIcon />
       </IconButton>
-      <Typography sx={{ color: "white", fontSize: 16 }}>{initialComments}</Typography>
+      <Typography sx={{ color: "rgba(248, 248, 248, 0.7)", fontSize: 16 }}>{initialComments}</Typography>
     </Box>
   );
 };

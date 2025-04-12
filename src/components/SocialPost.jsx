@@ -12,7 +12,7 @@ function SocialPost({
   onMoreClick,
 }) {
   return (
-    <Box sx={{ p: 2, maxWidth: 600 , }}>
+    <Box sx={{ p: 2, maxWidth: "616px" , }}>
       <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
           
 
@@ -26,7 +26,7 @@ function SocialPost({
               py: 1.5,
               bgcolor: 'rgba(248, 248, 248, 0.02)',
               color: 'white',
-              borderRadius: 2,
+              borderRadius: "20px",
               position: 'relative',
               transition: 'transform 0.3s, box-shadow 0.3s',
               '&:hover': {

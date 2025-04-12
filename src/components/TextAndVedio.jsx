@@ -3,10 +3,12 @@ import Avatar from "./avatar";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import IconButton from '@mui/material/IconButton';
 import Box from "@mui/material/Box";
+import { maxWidth } from "@mui/system";
+import PhotoAvatar from "./PhotoAvatar";
 
 
 const ContainerStyles = {
-  width: "616px",
+  maxWidth: "616px",
   height: "480px", 
   padding: "12px",
   borderRadius: "20px",
@@ -27,8 +29,8 @@ const InfoStyles = {
 };
 
 const AvatarStyles = {
-  width: "48px",
-  height: "48px",
+  width: "40px",
+  height: "40px",
   borderRadius: "50%", 
   marginTop: "8px",
 };
@@ -57,7 +59,7 @@ const ImageStyles = {
   width: "528px",
   height: "304px",
   borderRadius: "24px",
-  marginBottom: "12px",
+  marginBottom: "0px",
   marginLeft: "64px",
 };
 
@@ -92,7 +94,9 @@ const TextAndVedio = () => {
     <div style={ContainerStyles} className="text-and-photo-container">
       
       <div style={InfoStyles}>
-            <Avatar style={AvatarStyles} />
+            {/* <Avatar style={AvatarStyles} />
+             */}
+             <PhotoAvatar imgsrc="https://i.pravatar.cc/300?img=5" />
             <div style={TextStyles}>
                 <strong>John Doe</strong>
                 <span style={TimeStyles}>09:00 AM</span>
