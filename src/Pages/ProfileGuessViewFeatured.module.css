@@ -1671,6 +1671,7 @@
   width: 44px;
   margin-top: auto;
   margin-bottom: auto;
+  border-radius: 50%;
 }
 .cardUserDetailsFrame {
   flex-direction: column;
