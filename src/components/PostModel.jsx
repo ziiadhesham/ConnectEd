@@ -12,11 +12,20 @@ import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-function PostModal({ value = '' }) {
+function PostModal({ value = '', isCommentModal = false, onPost, onComment }) {
   const [inputValue, setInputValue] = useState(value);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
+  };
+
+  const handlePostAction = () => {
+    if (isCommentModal) {
+      onComment(inputValue); // Trigger the comment action if it's a comment modal
+    } else {
+      onPost(inputValue); // Trigger the post action if it's a post modal
+    }
+    setInputValue(''); // Clear the input after posting
   };
 
   return (
@@ -35,8 +44,8 @@ function PostModal({ value = '' }) {
         flexDirection: 'column',
         gap: 1,
         mx: 'auto',
-        maxHeight: '80vh', // Limit max height to prevent overflowing the screen
-        overflow: 'auto', // Add scroll if content exceeds maxHeight
+        maxHeight: '80vh',
+        overflow: 'auto',
       }}
     >
       {/* Top: Avatar + Text Input */}
@@ -45,9 +54,9 @@ function PostModal({ value = '' }) {
         <TextField
           variant="standard"
           fullWidth
-          placeholder="Start a post..."
+          placeholder={isCommentModal ? 'Add a comment...' : 'Start a post...'}
           value={inputValue}
-          onChange={handleInputChange} // Update the state as user types
+          onChange={handleInputChange}
           InputProps={{
             disableUnderline: true,
             sx: {
@@ -62,7 +71,7 @@ function PostModal({ value = '' }) {
         />
       </Box>
 
-      {/* Bottom: Icons + Post Button */}
+      {/* Bottom: Icons + Action Button */}
       <Box
         sx={{
           display: 'flex',
@@ -92,6 +101,7 @@ function PostModal({ value = '' }) {
 
         <Button
           variant="contained"
+          onClick={handlePostAction}
           sx={{
             bgcolor: 'rgba(248, 248, 248, 0.02)',
             color: 'white',
@@ -106,7 +116,7 @@ function PostModal({ value = '' }) {
             },
           }}
         >
-          Post
+          {isCommentModal ? 'Comment' : 'Post'}
         </Button>
       </Box>
     </Paper>

@@ -200,7 +200,7 @@ const Header = ({ onSearchFocus, onSearchBlur }) => {
             backdropFilter: 'blur(0px)', // Optional: add blur effect
           }}
         >
-          <PostModal value={searchQuery} sx={{ width: '400px', padding: '20px' }} />
+          <PostModal value={searchQuery}onPost={()=>{}} sx={{ width: '400px', padding: '20px' }} />
           <IconButton
             onClick={handleCloseAdd}
             sx={{
