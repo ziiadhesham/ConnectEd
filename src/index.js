@@ -38,21 +38,21 @@ import BookmarkFolderModal from './components/BookMarkFolderModal';
 import Sidebar from './components/Sidebar';
 import SettingProfileSidebar from './components/SettingProfieSidebar';
 import HomeIcon from '@mui/icons-material/Home';
-import  HomePage  from './Pages/HomePage/Home';
-import ComposerInput from './components/ComposerInput';
-import Feed from './Pages/HomePage/Feed';
-import ArticleCard from './components/ArticleCard';
-import TextAndVedio from './components/TextAndVedio';
-import TextAndPhoto from './components/textAndPhoto';
-import TrendingTopics from './Pages/HomePage/TrendingTopics';
-
+import ProfileHeader from './components/ProfileHeader';
 import PostModal from './components/PostModel';
+import SettingSection from './components/SettingSection';
+import EmojiPicker from './components/EmojiPicker';
+import InserEmojies from './components/InserEmojies';
+import HomePage from './Pages/Message/HomePage';
+import Home from './Pages/HomePage/Home';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     <div style={{ backgroundColor: "rgb(64, 64, 70)", height: "200%",  minHeight: "100vh" ,margin:"0px",padding:"0px"}}>
-     {/* <ChatHeader/>
+    <div style={{ backgroundColor: "#37373d", height: "200%",  minHeight: "100vh"}}>
+        {/* <ChatHeader/>
+        <ChatHeader/>
       <Check active={true} />
       <Comment/>
       <ConversationItem/>
@@ -75,6 +75,8 @@ root.render(
     <TagPeopleCard name="John Doe" username="johndoe"/>
     <ConversationSelector/>
     <MessageInput/>
+    <MessageInput/>
+    <MessageInput/>
     <MessageItem isReply={true}/>
     <Header isPosting={false} />
     
@@ -89,30 +91,28 @@ root.render(
       />
       <Tag/>
       <TagButton/>
-      <BookmarkFolderModal/>
-      <Sidebar/>
+      <BookmarkFolderModal/> 
+       <Sidebar/>
       <SocialSidebarItem label="Home" icon={<HomeIcon />} collapsed={false} />
-      <SocialSidebarItem label="Notifications" icon={<NotificationButton />} badge={12} collapsed={false} />
-     
-      <Tag/>
-      <ComposerInput /> */}
-      {/* <Feed/> */}
-      <HomePage/>
-      
-      {/* <ArticleCard
-  image="https://picsum.photos/200/300"
-  title="The Best iOS18 Features"
-  content="So Apple announced the new features coming in iOS18 and it’s just over a couple of weeks since..."
-  author="Avatar 5"
-  authorAvatar="https://picsum.photos/200/300"
-  date="5 Jul 2024"
-  category="Design"
-/> */}
-{/* <TrendingTopics/> */}
-      {/* <PostModal/>
-      <PostContent/> */}
-    </div>
-  </React.StrictMode>
+      <SocialSidebarItem label="Notifications" icon={<NotificationButton />} badge={12} collapsed={false} /> 
+<ProfileHeader disabled={false} />
+      <PostContent
+        username="Moyo Shiro"
+        time="09:00 AM"
+        text="Ready to level up your portfolio game? Check out these 15 standout examples of creative, sleek, and interactive portfolio websites made in"
+        image="https://images.unsplash.com/photo-1535223289827-42f1e9919769"
+        video="https://www.w3schools.com/html/mov_bbb.mp4"
+      />
+      <PostModal/>
+    <SettingSection title="Account">
+          <p>Email: user@example.com</p>
+          <p>Password: ********</p>
+        </SettingSection>
+    <EmojiPicker/>
+    <MessageItem/>  */}
+    <HomePage/>    
+ </div>
+  </React.StrictMode> 
 );
 
 // If you want to start measuring performance in your app, pass a function
