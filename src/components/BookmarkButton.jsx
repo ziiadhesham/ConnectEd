@@ -4,13 +4,15 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkFolderModal from "./BookMarkFolderModal";
 import CloseIcon from '@mui/icons-material/Close';
+
 const BookmarkButton = ({ disabled = false }) => {
   const [active, setActive] = useState(false);
   const [interaction, setInteraction] = useState("default");
   const [showModal, setShowModal] = useState(false);
 
   const handleToggle = (e) => {
-    e.stopPropagation();
+    e.preventDefault(); // Prevent the default action
+    e.stopPropagation(); // Prevent the click event from bubbling up to parent
     if (!disabled) {
       setActive((prev) => !prev);
       setShowModal(true);
@@ -24,7 +26,7 @@ const BookmarkButton = ({ disabled = false }) => {
   return (
     <>
       {/* Bookmark Button */}
-      <Box
+      <Box ClassName="bookmark-button"
         sx={{
           display: "inline-flex",
           justifyContent: "center",
@@ -68,15 +70,14 @@ const BookmarkButton = ({ disabled = false }) => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
             zIndex: 1000,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <Box onClick={(e) => e.stopPropagation()}>
-            {/* Clicking inside modal won't close it */}
+          <Box  onClick={(e) => e.stopPropagation()}>{/* Clicking inside modal won't close it */}
             <BookmarkFolderModal onClose={handleCloseModal} />
           </Box>
           <IconButton
@@ -89,8 +90,8 @@ const BookmarkButton = ({ disabled = false }) => {
               color: '#fff',
               cursor: 'pointer',
               '&:hover': {
-            backgroundColor: '#2A2A2A',
-          },
+                backgroundColor: '#2A2A2A',
+              },
             }}
           >
             <CloseIcon sx={{ color: '#ccc' }} />

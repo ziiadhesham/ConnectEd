@@ -13,10 +13,11 @@ const PostComment = ({ user = {}, time = "", text = "" }) => {
     return (
       <Box
         sx={{
+          boxSizing: "border-box",
           color: "#fff",
           p: 2,
           borderRadius: 2,
-          maxWidth: 600,
+          width: "616px",
         }}
       >
         <Stack direction="row" justifyContent="space-between">

@@ -68,11 +68,15 @@ const TextAndPhoto = ({
   avatar = "https://i.pravatar.cc/300?img=10",
   content = "Ready to level up your portfolio game? Check out these 15 standout examples of creative, sleek, and interactive portfolio websites made in...",
   image = "",
-  video = "", // New prop
+  video = "",
   onClick,
 }) => {
   return (
-    <div style={ContainerStyles} className="text-and-photo-container" onClick={onClick}>
+    <div
+      style={ContainerStyles}
+      className="text-and-photo-container"
+      onClick={onClick}
+    >
       {/* Info Section */}
       <div style={InfoStyles}>
         <PhotoAvatar src={avatar} />
@@ -97,12 +101,13 @@ const TextAndPhoto = ({
         </video>
       )}
 
-      {/* Post Actions */}
-      <PostActions />
+      {/* 📌 Add this wrapper with the correct class */}
+      <div className="bookmark-button">
+        <PostActions />
+      </div>
     </div>
   );
 };
 
 export default TextAndPhoto;
-
-// By SEIF
+//seif

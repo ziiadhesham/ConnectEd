@@ -38,7 +38,7 @@ function PostModal({ value = '', isCommentModal = false, onPost, onComment }) {
         py: 1.5,
         minWidth: "500px",
         width: 'auto',
-        maxWidth: "800px",
+        maxWidth: "90%",
         color: 'white',
         display: 'flex',
         flexDirection: 'column',
