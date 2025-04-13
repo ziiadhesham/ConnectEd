@@ -44,7 +44,7 @@ const HeaderPostingformessage = ({ isPosting = false, setisPosting }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          width: '50%',
+          width: '100%',
         }}
       >
         <Paper
@@ -96,7 +96,7 @@ const HeaderPostingformessage = ({ isPosting = false, setisPosting }) => {
           display: 'flex',
           bgcolor: 'rgba(40, 40, 40, 0.6)',
           borderRadius: '9999px',
-          width: '278px',
+          width: '600px ',
           height: '40px',
           alignItems: 'center',
           padding: '4px',

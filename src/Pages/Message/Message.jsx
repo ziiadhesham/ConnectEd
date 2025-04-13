@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography, useMediaQuery, useTheme } from "@mui/material";
 import ChatHeader from "../../components/ChatHeader";
 import EmojiPicker from "../../components/EmojiPicker";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -182,6 +182,8 @@ const MessageInput = ({
 const Message = () => {
   const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); // sm = 600px
 
   const handleSend = () => {
     if (message.trim()) {
@@ -216,6 +218,7 @@ const Message = () => {
         backgroundColor: "#1e1e1e",
         color: "#fff",
         position: "relative",
+        padding: isSmallScreen ? "8px" : "16px", // Adjust padding for small screens
       }}
     >
       <ChatHeader />
@@ -223,7 +226,7 @@ const Message = () => {
         sx={{
           flex: 1,
           overflowY: "auto",
-          padding: 2,
+          padding: isSmallScreen ? "8px" : "16px", // Adjust padding for small screens
         }}
       >
         <MessageItem
