@@ -28,7 +28,7 @@ const ChatHeader = () => {
       display="flex"
       alignItems="center"
       justifyContent="space-between"
-      maxWidth={"660px"}
+      maxWidth={"1660px"}
       px={2}
       py={1}
     //   bgcolor="#2f2f2f"
@@ -37,7 +37,7 @@ const ChatHeader = () => {
     >
       {/* Left side: Avatar + Name */}
       <Box display="flex" alignItems="center" gap={1}>
-        <Avatar src="https://via.placeholder.com/40" alt="James" />
+        <Avatar src="https://i.pravatar.cc/40" alt="James" />
         <Typography>James</Typography>
       </Box>
 
