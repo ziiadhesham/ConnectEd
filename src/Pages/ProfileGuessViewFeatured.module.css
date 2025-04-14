@@ -1528,6 +1528,13 @@
   .img26 {
     max-width: 100%;
   }
+  .cardDescriptionText {
+    word-wrap: break-word;       /* Wrap long words */
+    overflow-wrap: break-word;   /* Modern version of word-wrap */
+    white-space: normal;         /* Allow line breaks */
+    max-width: 100%;             /* Prevent text from overflowing container */
+  }
+  
 }
 .widgetwhotofollow {
   background-color: #282828cc;

@@ -121,12 +121,12 @@ const TrendingTopics = () => {
           >
             {whoToFollow.map((user) => (
               <ProfileCard
-                key={user.id}
+                index={user.id}
                 name={user.name}
-                username={user.username}
-                bio={user.bio}
+                handle={user.username}
+                descript={user.bio}
                 avatar={user.avatar}
-                initiallyFollowing={user.initiallyFollowing}
+                isFollowing={user.initiallyFollowing}
               />
             ))}
           </Box>

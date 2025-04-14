@@ -31,13 +31,14 @@ const menuItems = [
 const Sidebar = ({ open, toggleDrawer }) => {
   return (
     <Drawer
+    boxSizing="border-box"
       variant="permanent"
       anchor="left"
       sx={{
-        width: open ? "240px" : 80,
+        width: open ? "300px" : "80px",
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: open ? "300px" : "72px",
+          width: open ? "300px" : "80px",
           boxSizing: 'border-box',
           backgroundColor: 'rgba(40, 40, 40, 0.7)',
           color: 'rgba(248, 248, 248, 0.5)',
