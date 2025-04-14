@@ -47,76 +47,86 @@ import TextAndPhoto from './components/textAndPhoto';
 import TrendingTopics from './Pages/HomePage/TrendingTopics';
 
 import PostModal from './components/PostModel';
+import Settings from './Pages/HomePage/Settings';
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     <div style={{ backgroundColor: "rgb(64, 64, 70)", height: "200%",  minHeight: "100vh" ,margin:"0px",padding:"0px"}}>
-     {/* <ChatHeader/>
-      <Check active={true} />
-      <Comment/>
-      <ConversationItem/>
-      <Dropdown/>
-      
-      <InputField type="name" placeholder="Full Name" />
-      <PhotoAvatar/>
-      <NotificationButton showNotification={true} active={true} />
-      <LikeButton />
-     <BookmarkButton />
-     <CommentButton />  
-     <RepostButton />
-     <GifPhoto src="https://media.giphy.com/media/3o7aCSPqXE5C6T8tBC/giphy.gif" />
-     <SocialSidebarItem collapsed={false} />
-     <SocialSidebarUserItem name="John Doe" username="johndoe" collapsed={false} active={false}/>
-     <Check active={true}/>
-     <PasswordInput placeholder={"Passw"} />
-     <PostActions />
-     <BlockedUser/>
-    <FancyButton/>
-    <TextAndPhoto/>
-    <TextAndVedio/>
-    <TagPeopleCard name="John Doe" username="johndoe"/>
-    <ConversationSelector/>
-    <MessageInput/>
-    <MessageItem isReply={true}/>
-    <Header isPosting={false} />
-    
-    <ProfileCard noAvatar={true} />
-    <ProfileCard avatarUrl="https://i.pravatar.cc/150?img=10" />
-    <SocialMenuButton/>
-    <SocialPost
-        avatarSrc="https://example.com/avatar.jpg"
-        username="Moyo Shiro"
-        time="09:00 AM"
-        content="Ready to level up your portfolio game? Check out these 15 standout examples of creative, sleek, and interactive portfolio websites made in..."
-      />
-      <Tag/>
-      <TagButton/>
-      <BookmarkFolderModal/>
-      <Sidebar/>
-      <SocialSidebarItem label="Home" icon={<HomeIcon />} collapsed={false} />
-      <SocialSidebarItem label="Notifications" icon={<NotificationButton />} badge={12} collapsed={false} />
-     
-      <Tag/>
-      <ComposerInput /> */}
-      {/* <Feed/> */}
-      <HomePage/>
-      
-      {/* <ArticleCard
-  image="https://picsum.photos/200/300"
-  title="The Best iOS18 Features"
-  content="So Apple announced the new features coming in iOS18 and it’s just over a couple of weeks since..."
-  author="Avatar 5"
-  authorAvatar="https://picsum.photos/200/300"
-  date="5 Jul 2024"
-  category="Design"
-/> */}
-{/* <TrendingTopics/> */}
-      {/* <PostModal/>
-      <PostContent/> */}
-    </div>
+    <Settings />
   </React.StrictMode>
 );
+
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//   <React.StrictMode>
+//      <div style={{ backgroundColor: "rgb(64, 64, 70)", height: "200%",  minHeight: "100vh" ,margin:"0px",padding:"0px"}}>
+//      <ChatHeader/>
+//       <Check active={true} />
+//       <Comment/>
+//       <ConversationItem/>
+//       <Dropdown/>
+      
+//       <InputField type="name" placeholder="Full Name" />
+//       <PhotoAvatar/>
+//       <NotificationButton showNotification={true} active={true} />
+//       <LikeButton />
+//      <BookmarkButton />
+//      <CommentButton />  
+//      <RepostButton />
+//      <GifPhoto src="https://media.giphy.com/media/3o7aCSPqXE5C6T8tBC/giphy.gif" />
+//      <SocialSidebarItem collapsed={false} />
+//      <SocialSidebarUserItem name="John Doe" username="johndoe" collapsed={false} active={false}/>
+//      <Check active={true}/>
+//      <PasswordInput placeholder={"Passw"} />
+//      <PostActions />
+//      <BlockedUser/>
+//     <FancyButton/>
+//     <TextAndPhoto/>
+//     <TextAndVedio/>
+//     <TagPeopleCard name="John Doe" username="johndoe"/>
+//     <ConversationSelector/>
+//     <MessageInput/>
+//     <MessageItem isReply={true}/>
+//     <Header isPosting={false} />
+    
+//     <ProfileCard noAvatar={true} />
+//     <ProfileCard avatarUrl="https://i.pravatar.cc/150?img=10" />
+//     <SocialMenuButton/>
+//     <SocialPost
+//         avatarSrc="https://example.com/avatar.jpg"
+//         username="Moyo Shiro"
+//         time="09:00 AM"
+//         content="Ready to level up your portfolio game? Check out these 15 standout examples of creative, sleek, and interactive portfolio websites made in..."
+//       />
+//       <Tag/>
+//       <TagButton/>
+//       <BookmarkFolderModal/>
+//       {/* <Sidebar/> */}
+//       <SocialSidebarItem label="Home" icon={<HomeIcon />} collapsed={false} />
+//       <SocialSidebarItem label="Notifications" icon={<NotificationButton />} badge={12} collapsed={false} />
+     
+//       <Tag/>
+//       <ComposerInput /> 
+//       {/* <Feed/> */}
+//       {/* <HomePage/> */}
+      
+//       {/* <ArticleCard
+//   image="https://picsum.photos/200/300"
+//   title="The Best iOS18 Features"
+//   content="So Apple announced the new features coming in iOS18 and it’s just over a couple of weeks since..."
+//   author="Avatar 5"
+//   authorAvatar="https://picsum.photos/200/300"
+//   date="5 Jul 2024"
+//   category="Design"
+// /> */}
+// {/* <TrendingTopics/> */}
+//       {/* <PostModal/>
+//       <PostContent/> */}
+//     </div>
+//   </React.StrictMode>
+// );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
