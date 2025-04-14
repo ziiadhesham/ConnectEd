@@ -1,89 +1,108 @@
-import React from 'react';
-import { Box, Typography, IconButton, Button } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+"use client";
+import React, { useState } from "react";
+//import styles from "./ProfileGuessViewFeatured.module.css" in pages folder
+import styles from "../pages/ProfileGuessViewFeatured.module.css";
 
-function ProfileHeader({ disabled = false }) {
+function ProfileHeader() {
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  const handleFollow = () => {
+    setIsFollowing(!isFollowing);
+  };
+
+  const handleMoreOptions = () => {
+    alert("Profile options menu would open here");
+  };
+
   return (
-    <Box sx={{ p: 2, maxWidth: 600, mx: 'auto' }}>
-      <Box
-        sx={{
-          px: 2,
-          py: 1.5,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        {/* Left Side: Back Button + Title */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <IconButton
-            disabled={disabled}
-            sx={{
-              backgroundColor: disabled ? 'transparent' : '#222',
-              color: disabled ? '#555' : 'white',
-              width: 32,
-              height: 32,
-              '&:hover': {
-                backgroundColor: disabled ? 'transparent' : '#444',
-                transform: disabled ? 'none' : 'scale(1.05)',
-              },
-              transition: 'all 0.2s ease',
-            }}
-          >
-            <ArrowBackIcon fontSize="small" />
-          </IconButton>
-          <Typography
-            variant="subtitle1"
-            sx={{
-              fontWeight: 600,
-              color: disabled ? '#555' : 'white',
-            }}
-          >
-            Title
-          </Typography>
-        </Box>
+    <header className={styles.profileCover}>
+      <img
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/de668314661bb74cffaccc97ee188ed0a3f82c45?placeholderIfAbsent=true&apiKey=e8c977dc9b2946bd9e217b52d0aa041e"
+        className={styles.img10}
+        alt="Profile cover"
+      />
 
-        {/* Right Side: Save + More */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <Button
-            variant="contained"
-            disabled={disabled}
-            sx={{
-              backgroundColor: '#222',
-              color: 'white',
-              textTransform: 'none',
-              fontSize: '0.75rem',
-              px: 2,
-              py: 0.5,
-              borderRadius: '20px',
-              boxShadow: 'none',
-              minWidth: 48,
-              '&:hover': {
-                backgroundColor: '#444',
-              },
-            }}
-          >
-            Save
-          </Button>
-          <IconButton
-            disabled={disabled}
-            sx={{
-              backgroundColor: '#222',
-              color: disabled ? '#555' : '#bdbdbd',
-              width: 32,
-              height: 32,
-              '&:hover': {
-                backgroundColor: '#444',
-              },
-            }}
-            size="small"
-          >
-            <MoreHorizIcon fontSize="small" />
-          </IconButton>
-        </Box>
-      </Box>
-    </Box>
+      <div className={styles.profileInfo}>
+        <div className={styles.profileInfoHeader}>
+          <div className={styles.profileInfoHeaderContent}>
+            <h1 className={styles.profileName}>Moyo Shiro</h1>
+            <p className={styles.profileHandle}>@moyoshiro</p>
+          </div>
+
+          <div className={styles.profileHeaderActions}>
+            <button
+              className={styles.profileHeaderActionsButton}
+              onClick={handleMoreOptions}
+              aria-label="More options"
+            >
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/7a04a1ea116d4f3330ed2d8896b4731e747670ca?placeholderIfAbsent=true&apiKey=e8c977dc9b2946bd9e217b52d0aa041e"
+                className={styles.img11}
+                alt="More options"
+              />
+            </button>
+            <button
+              className={styles.followbutton}
+              onClick={handleFollow}
+              aria-pressed={isFollowing}
+            >
+              {isFollowing ? "Following" : "Follow"}
+            </button>
+          </div>
+        </div>
+
+        <p className={styles.profileInfoDescription}>
+          🎨 UI/UX Designer | 💡 Crafting seamless digital experiences🚀
+          Designing user-centric interfaces📍 NYC | Post
+          <span style={{ color: "rgba(248,248,248,1)" }}>
+            {" "}
+            on #Design #UX
+          </span>{" "}
+          #UI
+        </p>
+
+        <div className={styles.profileStats}>
+          <ProfileStat
+            icon="https://cdn.builder.io/api/v1/image/assets/TEMP/7a04a1ea116d4f3330ed2d8896b4731e747670ca?placeholderIfAbsent=true&apiKey=e8c977dc9b2946bd9e217b52d0aa041e"
+            count="8"
+            label="posts"
+          />
+          <ProfileStat
+            icon="https://cdn.builder.io/api/v1/image/assets/TEMP/f31f928345e09d6bee148e8211725dbc82bce8a0?placeholderIfAbsent=true&apiKey=e8c977dc9b2946bd9e217b52d0aa041e"
+            count="0"
+            label="followers"
+          />
+          <div className={styles.profileFollowersStat2}>
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/f01317265b5804a76d5138dc830d8d2191f66fce?placeholderIfAbsent=true&apiKey=e8c977dc9b2946bd9e217b52d0aa041e"
+              className={styles.img14}
+              alt="Link"
+            />
+            <a
+              href="https://linktr.ee/tranmautritam"
+              className={styles.profileFollowersStatCount2}
+              style={{ textDecoration: "underline" }}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              https://linktr.ee/tranmautritam
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function ProfileStat({ icon, count, label }) {
+  return (
+    <div className={styles.profilePostsStat}>
+      <img src={icon} className={styles.img12} alt="" />
+      <span className={styles.profilePostsStatCount}>{count}</span>
+      <div className={styles.base2Textbutton}>
+        <span className={styles.profilePostsStatLabel}>{label}</span>
+      </div>
+    </div>
   );
 }
 

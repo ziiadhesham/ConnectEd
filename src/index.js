@@ -1,38 +1,9 @@
+// necessary imports
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import NotificationButton from './components/NotificationButton';
 import reportWebVitals from './reportWebVitals';
-import LikeButton from './components/likeButton';
-import BookmarkButton from './components/BookmarkButton';
-import CommentButton from './components/CommentButton';
-import PostContent from './components/PostContent';
-import RepostButton from './components/RepostButton';
-import GifPhoto from './components/GifPhoto';
-import SocialSidebarItem from './components/SocialSidebarItem';
-import SocialSidebarUserItem from './components/SocialSidebarUserItem';
-import Check from './components/check';
-import PasswordInput from './components/PasswordInput';
-import PostActions from './components/PostActions';
-import ChatHeader from './components/ChatHeader';
-import  Comment  from './components/Comment';
-import ConversationItem from './components/ConversationItem';
-import Dropdown from './components/DropDown';
-import InputField from './components/Input';
-import PhotoAvatar from "./components/PhotoAvatar";
-import BlockedUser from './components/BlockedUser';
-import FancyButton from './components/Button';
-import TagPeopleCard from './components/TagPeopleCard';
-import ConversationSelector from './components/CreateNewConversation';
-import MessageInput from './components/MessageInput';
-import MessageItem from './components/MessageItem';
-import Header from './components/HeaderPosting';
 import { useState } from 'react';
-import ProfileCard from './components/ProfileContainer';
-import SocialMenuButton from './components/SocialMoreButton';
-import SocialPost from './components/SocialPost';
-import Tag from './components/Tag';
-import TagButton from './components/TagButton';
 
 import BookmarkFolderModal from './components/BookMarkFolderModal';
 import Sidebar from './components/Sidebar';
@@ -45,11 +16,16 @@ import EmojiPicker from './components/EmojiPicker';
 import InserEmojies from './components/InserEmojies';
 import HomePage from './Pages/Message/HomePage';
 import Home from './Pages/HomePage/Home';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./Pages/HomePage/Home";
+import PostDetails from "./Pages/HomePage/PostDetailes";
+import NotificationsPage from "./Pages/Notifications/NotificationsPage"
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+
     <div style={{ backgroundColor: "#37373d", height: "200%",  minHeight: "100vh"}}>
         {/* <ChatHeader/>
         <ChatHeader/>
@@ -113,9 +89,21 @@ root.render(
     <HomePage/>    
  </div>
   </React.StrictMode> 
+     <div style={{ backgroundColor: "rgba(40, 40, 40, 0.7)", height: "200%",
+                  minHeight: "100vh" ,margin:"0px",padding:"0px"}}>
+    
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/post/:id" element={<PostDetails />} />  
+      </Routes>
+    </Router>
+    {/* <NotificationsPage/> */}
+
+    </div>
+
+
+  </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

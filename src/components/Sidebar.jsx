@@ -34,10 +34,10 @@ const Sidebar = ({ open, toggleDrawer }) => {
       variant="permanent"
       anchor="left"
       sx={{
-        width: open ? 240 : 80,
+        width: open ? "240px" : 80,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: open ? "320px" : "72px",
+          width: open ? "300px" : "72px",
           boxSizing: 'border-box',
           backgroundColor: 'rgba(40, 40, 40, 0.7)',
           color: 'rgba(248, 248, 248, 0.5)',

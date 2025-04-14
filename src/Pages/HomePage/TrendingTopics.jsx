@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Box, Fade } from '@mui/material';
 import ArticleCard from "../../components/ArticleCard";
 import ProfileCard from "../../components/ProfileCard"; // Make sure this path is correct
+import TrendingTopicsData from '../../MockData/TrendingTopicsData'; // Importing trending topics data
+import whoToFollow from '../../MockData/WhoToFollow'; // Importing who to follow data
 
 const TrendingTopics = () => {
   const [tab, setTab] = useState('trending'); // 'trending' or 'follow'
@@ -91,24 +93,18 @@ const TrendingTopics = () => {
               width: '100%',
             }}
           >
-            <ArticleCard
-              image="https://picsum.photos/200/300"
-              title="The Best iOS18 Features"
-              content="So Apple announced the new features coming in iOS18 and it’s just over a couple of weeks since..."
-              author="Avatar 5"
-              authorAvatar="https://picsum.photos/200/300"
-              date="5 Jul 2024"
-              category="Design"
-            />
-            <ArticleCard
-              image="https://picsum.photos/200/300"
-              title="React 19 Is Coming"
-              content="React just dropped some info about v19 and it’s packed with updates..."
-              author="John Dev"
-              authorAvatar="https://picsum.photos/200/301"
-              date="8 Apr 2025"
-              category="Tech"
-            />
+            {TrendingTopicsData.map((topic) => (
+              <ArticleCard
+                key={topic.id}
+                image={topic.image}
+                title={topic.title}
+                content={topic.content}
+                author={topic.author}
+                authorAvatar={topic.authorAvatar}
+                date={topic.date}
+                category={topic.category}
+              />
+            ))}
           </Box>
         </Fade>
 
@@ -120,22 +116,19 @@ const TrendingTopics = () => {
               display: tab === 'follow' ? 'block' : 'none',
               position: 'absolute',
               width: '100%',
+              marginTop: '20px',
             }}
           >
-            <ProfileCard
-              name="Brandi Padberg"
-              username="@Abbie_Pollich34"
-              bio='The "No Code SaaS" Guy. Building a portfolio of software companies.'
-              avatar="https://i.pravatar.cc/150?img=11"
-              initiallyFollowing={false}
-            />
-            <ProfileCard
-              name="Sara Techie"
-              username="@sara"
-              bio="Flutter Dev • Mobile UX wizard & Coffee nerd ☕"
-              avatar="https://i.pravatar.cc/150?img=10"
-              initiallyFollowing={false}
-            />
+            {whoToFollow.map((user) => (
+              <ProfileCard
+                key={user.id}
+                name={user.name}
+                username={user.username}
+                bio={user.bio}
+                avatar={user.avatar}
+                initiallyFollowing={user.initiallyFollowing}
+              />
+            ))}
           </Box>
         </Fade>
       </Box>
