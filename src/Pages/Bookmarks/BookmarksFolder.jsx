@@ -50,7 +50,7 @@ const BookmarksFolder = () => {
   return (
     <Box
       sx={{
-        width: "360px",
+        width: "auto",
         backgroundColor: "rgba(40, 40, 40, 0.8)",
         padding: "16px",
         display: "flex",
