@@ -5,12 +5,15 @@ import TrendingTopics from "../HomePage/TrendingTopics";
 import HeaderCard from "../../components/HeaderCard";
 import FollowButton from "../../components/FollowButton";
 import ToggleTextButton from "../../components/ToggleTextButton";
+import useSidebarStore from "../../Stores/SideBarStore";
+
 
 
 const Profile = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const { sidebarOpen, toggleSidebar } = useSidebarStore();
+
 
     const sidebarWidth = sidebarOpen ? 300 : 72;
     const [tab, setTab] = useState("left"); // Add this near the top
@@ -36,7 +39,8 @@ const handleTabChange = (newTab) => {
                         zIndex: 1000,
                     }}
                 >
-                    <Sidebar open={sidebarOpen} toggleDrawer={() => setSidebarOpen(prev => !prev)} />
+                         <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} />
+
                 </Box>
             )}
 

@@ -3,13 +3,14 @@ import { Box, useMediaQuery, useTheme } from "@mui/material";
 import Sidebar from "../../components/Sidebar";
 import ConversationSideBar from "./ConversationSideBar";
 import Message from "./Message";
+import useSidebarStore from "../../Stores/SideBarStore";
+
 
 const MessagesPage = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { sidebarOpen, toggleSidebar } = useSidebarStore();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md")); // md = 960px
 
-  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
 
   return (
     <Box

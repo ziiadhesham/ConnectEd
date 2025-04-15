@@ -18,11 +18,13 @@ import {
   import TextAndPhoto from "../../components/textAndPhoto";
   import TextAndVedio from "../../components/TextAndVedio";
   import posts from "../../MockData/PostsData";
+import useSidebarStore from "../../Stores/SideBarStore";
   
   const Profile = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const { sidebarOpen, toggleSidebar } = useSidebarStore();
+
     const sidebarWidth = sidebarOpen ? 300 : 72;
     const [tab, setTab] = useState("left");
     const navigate = useNavigate();
@@ -62,7 +64,7 @@ import {
               zIndex: 1000,
             }}
           >
-            <Sidebar open={sidebarOpen} toggleDrawer={() => setSidebarOpen(prev => !prev)} />
+                  <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} />
           </Box>
         )}
   
