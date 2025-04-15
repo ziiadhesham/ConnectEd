@@ -1539,11 +1539,12 @@
 .widgetwhotofollow {
   background-color: #282828cc;
   align-self: stretch;
-  width: 400px;
+  width: 80%;
   min-width: 400px;
-  max-width: 480px;
+  /* max-width: 480px; */
   padding: 12px;
   overflow: hidden;
+  
 }
 .widgettitle {
   color: #f8f8f8;
@@ -1623,12 +1624,12 @@
   }
 }
 .profileCards {
-  flex-direction: column;
-  justify-content: start;
-  align-items: stretch;
-  width: 100%;
-  margin-top: 12px;
-  display: flex;
+  /* flex-direction: column; */
+  /* justify-content: start; */
+  /* align-items: stretch; */
+  /* width: 100%; */
+  /* margin-top: 12px; */
+  /* display: flex; */
 }
 .div13 {
   width: 100%;
@@ -1636,9 +1637,13 @@
 .profileCard {
   background-color: #f8f8f805;
   border-radius: 20px;
-  width: 100%;
+  width: 90%;
+  margin-top: 8px;
   padding: 12px;
+  word-wrap: break-word; /* Ensures long words break and wrap */
+  white-space: normal; /* Allows text to wrap normally */
 }
+
 .cardProfileFrame {
   justify-content: space-between;
   align-items: center;
@@ -1766,6 +1771,9 @@
   font-weight: 400;
   line-height: 24px;
   display: flex;
+
+  word-wrap: break-word; /* Allow the text to wrap if needed */
+  white-space: normal;
 }
 @media (width<=991px) {
   .cardDescriptionFrame {
@@ -1781,14 +1789,22 @@
   align-self: stretch;
   margin-top: auto;
   margin-bottom: auto;
+  display: -webkit-box; /* Set the element as a flex container for the clamping */
+  overflow: hidden; /* Hide text that overflows */
+  word-wrap: break-word; /* Allow the text to wrap if needed */
+  white-space: normal; /* Ensure text wraps instead of being on a single line */
 }
+
 .profileCard2 {
   background-color: #f8f8f805;
   border-radius: 20px;
   width: 90%;
   margin-top: 8px;
   padding: 12px;
+  word-wrap: break-word; /* Ensures long words break and wrap */
+  white-space: normal; /* Allows text to wrap normally */
 }
+
 .cardProfileDetailsFrame2 {
   color: #f8f8f8;
   flex: 1;

@@ -16,6 +16,12 @@ import LoginForm from './Pages/LoginPages/LoginForm';
 import ResetPassword from './Pages/LoginPages/ResetPassword';
 import ConfirmPassword from './Pages/LoginPages/ConfirmPassword';
 import SignUpForm from './Pages/LoginPages/SignUpForm';
+import Profile from './Pages/ProfilePage/ProfileUser';
+import Followers from './Pages/ProfilePage/Followers&Following';
+import SocialFolderItem from './components/SocialFolderItem';
+import BookmarksFolder from './Pages/Bookmarks/BookmarksFolder';
+import BookmarkedPosts from './Pages/Bookmarks/BookmarkedPosts';
+import BookmarkPage from './Pages/Bookmarks/BookmarkPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,7 +29,7 @@ root.render(
      <div style={{ backgroundColor: "rgba(0, 0, 0, 0.8)", height: "200%",
                   minHeight: "100vh" ,margin:"0px",padding:"0px"}}>
     
-    <Router>
+     <Router>
   <Routes>
     {/* Default page is LoginForm */}
     <Route path="/" element={<LoginForm />} /> 
@@ -34,14 +40,17 @@ root.render(
     {/* Route for Post Details page */}
     <Route path="/post/:id" element={<PostDetails />} />
 
-    {/* Other routes */}
+    {/* Other routes  */}
     <Route path="/notifications" element={<NotificationsPage />} />
     <Route path="/messages" element={<MessagesPage />} />
     <Route path="/reset-password" element={<ResetPassword />} />
     <Route path="/confirm-password" element={<ConfirmPassword />} />
     <Route path="/signup" element={<SignUpForm />} />
+    <Route path="/profile" element={<Profile />} />
+    <Route path="/followers" element={<Followers />} />
+    <Route path="/bookmarks" element={<BookmarkPage />} />
   </Routes>
-</Router>
+</Router> 
 
 
     </div>

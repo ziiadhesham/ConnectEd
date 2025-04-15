@@ -63,7 +63,7 @@ function FollowSuggestions() {
 
   return (
     <aside className={styles.widgetwhotofollow}>
-      <Box sx={{ mb: 2 }}>
+      <Box sx={{display: "flex", justifyContent: "center"}}>
         <ToggleTextButton
           tab={activeTab === "Who to follow" ? "left" : "right"}
           handleTabChange={handleTabChange}
