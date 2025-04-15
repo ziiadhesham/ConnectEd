@@ -50,7 +50,8 @@ export default function ConversationSelector() {
         bgcolor: "rgba(248, 248, 248, 0.03)",
         color: "#fff",
         p: 2,
-        borderRadius: "32px"
+        borderRadius: "32px",
+        backdropFilter: "blur(10px)",
       }}
     >
 
