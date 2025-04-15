@@ -225,10 +225,21 @@ const Message = () => {
       <Box
         sx={{
           flex: 1,
-          overflowY: "auto",
+          overflowY: "scroll",
           padding: isSmallScreen ? "8px" : "16px", // Adjust padding for small screens
-        }}
+        "&::-webkit-scrollbar": {
+      display: "none", // Hide the scroll bar for WebKit browsers
+    },
+    "-ms-overflow-style": "none", // Hide the scroll bar for Internet Explorer
+    "scrollbar-width": "none", // Hide the scroll bar for Firefox
+  }}
       >
+        <MessageItem
+          avatar="https://i.pravatar.cc/40"
+          name="Moyo Shiro"
+          time="09:15 AM"
+          message="I like where you're going with this!"
+        />
         <MessageItem
           avatar="https://i.pravatar.cc/40"
           name="Moyo Shiro"
