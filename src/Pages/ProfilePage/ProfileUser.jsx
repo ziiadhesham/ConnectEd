@@ -17,6 +17,7 @@ import {
   import ToggleTextButton from "../../components/ToggleTextButton";
   import TextAndPhoto from "../../components/textAndPhoto";
   import TextAndVedio from "../../components/TextAndVedio";
+  import posts from "../../MockData/PostsData";
   
   const Profile = () => {
     const theme = useTheme();
@@ -32,9 +33,13 @@ import {
     const [bio, setBio] = useState(`🧠 UI/UX Designer | 💡 Crafting seamless digital experiences
   🚀 Designing user-centric interfaces
   📍 NYC | Post on #Design #UX #UI`);
-  
-    const handleTabChange = (newTab) => {
+  const handleTabChange = (newTab) => {
       setTab(newTab);
+    };
+    const handlePostClick = (postId, e) => {
+      e.stopPropagation();
+      if (e.target.closest(".bookmark-button")) return;
+      navigate(`/post/${postId}`);
     };
   
     const handleEditToggle = () => {
@@ -196,10 +201,21 @@ import {
   
             <Box sx={{ mt: 3, display: "flex", flexDirection: "column", justifyContent: "center", width: "100%", height: "100%", marginLeft: "70px" }}>
               {tab === "left" ? (
-                <>
-                  <TextAndPhoto />
-                  <TextAndVedio />
-                </>
+                
+                   <div className="posts-container" style={{ maxWidth: "720px" }}>
+            {posts.map((post) => (
+              <TextAndPhoto
+                key={post.id}
+                username={post.username}
+                time={post.time}
+                avatar={post.avatar}
+                content={post.content}
+                image={post.image}
+                video={post.video}
+                onClick={(e) => handlePostClick(post.id, e)}
+              />
+            ))}
+          </div>
               ) : (
                 <Typography>Showing Replies...</Typography>
               )}

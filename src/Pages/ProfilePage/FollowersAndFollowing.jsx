@@ -7,7 +7,7 @@ import ToggleTextButton from "../../components/ToggleTextButton";
 
 
 
-const Profile = () => {
+const Followers = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -21,7 +21,7 @@ const handleTabChange = (newTab) => {
 
 
     return (
-        <Box sx={{ display: "flex", minHeight: "100vh", backgroundColor: "#2c2c2c" }}>
+        <Box sx={{ display: "flex", minHeight: "100vh", backgroundColor: "#2c2c2c",width:"100%" }}>
             {/* Left Sidebar */}
             {!isSmallScreen && (
                 <Box
@@ -34,6 +34,7 @@ const handleTabChange = (newTab) => {
                         left: 0,
                         top: 0,
                         zIndex: 1000,
+                        
                     }}
                 >
                     <Sidebar open={sidebarOpen} toggleDrawer={() => setSidebarOpen(prev => !prev)} />
@@ -43,31 +44,20 @@ const handleTabChange = (newTab) => {
             {/* Main Content Area */}
             <Box
                 sx={{
+                    width: "100%",
                     flex: 1,
                     marginLeft: !isSmallScreen ? `${sidebarWidth}px` : 0,
                     marginRight: !isSmallScreen ? "26%" : 0,
                     padding: 2,
                     transition: "margin 0.3s ease",
                     color: "white",
+
                 }}
             >
-                
-                
-
-                
-                <Box sx={{ mt: 2 }}>
-         
-      
-         
-         
-          
-         
-            
-            
            
-              <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' , width: '100%', height: '100%' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center' , width: '100%', height: '100%' }}>
   <FollowSuggestions />
-</Box>
+
 
 
 
@@ -97,4 +87,4 @@ const handleTabChange = (newTab) => {
     );
 };
 
-export default Profile;
+export default Followers;
