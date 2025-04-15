@@ -4,6 +4,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Check from "./check"; // Import the Check component
+import { Link } from "react-router";
 
 const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
   const [isPressed, setIsPressed] = useState(false);
@@ -15,7 +16,7 @@ const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
       onMouseDown={() => setIsPressed(!isPressed)}
       sx={{
         display: "flex",
-        bgcolor: isPressed ? "#1212124D" : active ? "#222" : "rgba(248, 248, 248, 0.10)",
+        bgcolor: isPressed ? "rgba(248, 248, 248, 0.15)" : active ? "#222" : "transparent",
         color: "white",
         borderRadius: collapsed ? 30 : 2,
         transition: "background 0.2s",
@@ -25,6 +26,7 @@ const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
         justifyContent: collapsed ? "center" : "flex-start",
         position: "relative",
         padding: collapsed ? 0 : "4px 8px",
+        marginLeft: collapsed ? "20px" : "8px",
       }}
     >
       <ListItemAvatar
@@ -77,7 +79,7 @@ const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
           sx={{
             position: "absolute",
             right: collapsed ? "-40px" : 10,
-            top: "100%",
+            top: "-200%",
             transform: "translateY(10px)",
             display: "flex",
             flexDirection: "column",
@@ -89,9 +91,11 @@ const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
             zIndex: 3,
           }}
         >
+             <Link key={"Settings"} to={"/Settings"} style={{ textDecoration: 'none' }}>
           <IconButton sx={{ color: "white" }}>
             <SettingsIcon />
           </IconButton>
+          </Link>
           <IconButton sx={{ color: "white" }}>
             <LogoutIcon />
           </IconButton>

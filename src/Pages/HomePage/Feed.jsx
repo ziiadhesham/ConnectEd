@@ -33,6 +33,11 @@ const Feed = () => {
         paddingBottom: "100px",
       }}
     >
+        <Header
+            onSearchFocus={() => setSearchFocused(true)}
+            onSearchBlur={() => setSearchFocused(false)}
+          />
+          <ComposerInput />
       {searchFocused && (
         <div className="posts-container">
           <ToggleTextButton
@@ -43,6 +48,7 @@ const Feed = () => {
           />
         </div>
       )}
+    
 
       {searchFocused ? (
         <div className="posts-container" style={{ maxWidth: "720px" }}>
@@ -79,11 +85,7 @@ const Feed = () => {
         </div>
       ) : (
         <>
-          <Header
-            onSearchFocus={() => setSearchFocused(true)}
-            onSearchBlur={() => setSearchFocused(false)}
-          />
-          <ComposerInput />
+          
           <div className="posts-container" style={{ maxWidth: "720px" }}>
             {posts.map((post) => (
               <TextAndPhoto
