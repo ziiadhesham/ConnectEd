@@ -60,7 +60,7 @@ const ConversationItem = ({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        width: "376px",
+        width: "auto",
         height: "68px",
         px: 2,
         py: 1.5,

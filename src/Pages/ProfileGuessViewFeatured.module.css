@@ -1528,6 +1528,13 @@
   .img26 {
     max-width: 100%;
   }
+  .cardDescriptionText {
+    word-wrap: break-word;       /* Wrap long words */
+    overflow-wrap: break-word;   /* Modern version of word-wrap */
+    white-space: normal;         /* Allow line breaks */
+    max-width: 100%;             /* Prevent text from overflowing container */
+  }
+  
 }
 .widgetwhotofollow {
   background-color: #282828cc;
@@ -1671,6 +1678,7 @@
   width: 44px;
   margin-top: auto;
   margin-bottom: auto;
+  border-radius: 50%;
 }
 .cardUserDetailsFrame {
   flex-direction: column;
@@ -1777,7 +1785,7 @@
 .profileCard2 {
   background-color: #f8f8f805;
   border-radius: 20px;
-  width: 100%;
+  width: 90%;
   margin-top: 8px;
   padding: 12px;
 }

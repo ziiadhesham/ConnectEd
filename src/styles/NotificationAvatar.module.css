@@ -1,0 +1,39 @@
+.notification-avatar-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .notification-avatar-image {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .avatar-overlay {
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .avatar-overlay svg {
+    fill: white;
+  }
+  
+  .avatar-overlay.repost {
+    background-color: #2ecc71;
+  }
+  
+  .avatar-overlay.comment {
+    background-color: #3498db;
+  }
+  
+  .avatar-overlay.like {
+    background-color: #e74c3c;
+  }
+  
+  .avatar-overlay.plus {
+    background-color: #9b59b6;
+  }

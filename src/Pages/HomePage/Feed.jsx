@@ -5,60 +5,34 @@ import TextAndPhoto from "../../components/textAndPhoto";
 import TextAndVedio from "../../components/TextAndVedio";
 import ToggleTextButton from "../../components/ToggleTextButton";
 import ProfileCard from "../../components/ProfileCard";
-import PostComment from "../../components/PostComment";
+import { useNavigate } from "react-router-dom";
+import posts from "../../MockData/PostsData"; // ✅ Import mock posts
 
 const Feed = () => {
   const [tab, setTab] = useState("left");
   const [searchFocused, setSearchFocused] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
+  const navigate = useNavigate();
 
   const handleTabChange = (newTab) => {
     setTab(newTab);
   };
 
-  const handlePostClick = (post) => {
-    setSelectedPost(post);
+  const handlePostClick = (postId, e) => {
+    e.stopPropagation();
+    if (e.target.closest(".bookmark-button")) return;
+    navigate(`/post/${postId}`);
   };
-
-  const handleBack = () => {
-    setSelectedPost(null);
-  };
-
-  const handleClick = () =>
-    handlePostClick({
-      id: 1,
-      username: "Kohaku",
-      time: "10:45 AM",
-      avatar: "https://i.pravatar.cc/300?img=11",
-      content: "Just launched a new UI kit 🔥 Check it out!",
-      image: "https://picsum.photos/200/300",
-      comments: [
-        {
-          user: {
-            name: "Brandi",
-            avatar: "https://i.pravatar.cc/150?img=13",
-          },
-          time: "11:00 AM",
-          text: "This is amazing 🔥",
-        },
-        {
-          user: {
-            name: "Tommy",
-            avatar: "https://i.pravatar.cc/150?img=15",
-          },
-          time: "11:05 AM",
-          text: "Can’t wait to try it!",
-        },
-      ],
-    });
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <Header
-        onSearchFocus={() => setSearchFocused(true)}
-        onSearchBlur={() => setSearchFocused(false)}
-      />
-
+    <div
+      style={{
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingBottom: "100px",
+      }}
+    >
       {searchFocused && (
         <div className="posts-container">
           <ToggleTextButton
@@ -73,24 +47,24 @@ const Feed = () => {
       {searchFocused ? (
         <div className="posts-container" style={{ maxWidth: "720px" }}>
           {tab === "left" ? (
-            <div className="posts-container" style={{ maxWidth: "720px" }}>
+            <>
               <ProfileCard
                 name="Brandi Padberg"
                 username="@Abbie_Pollich34"
-                bio='The "No Code SaaS" Guy. Building a portfolio of software companies.'
+                bio='The "No Code SaaS" Guy.'
                 avatar="https://i.pravatar.cc/150?img=11"
                 initiallyFollowing={false}
               />
               <ProfileCard
                 name="Sara Techie"
                 username="@sara"
-                bio="Flutter Dev • Mobile UX wizard & Coffee nerd ☕"
+                bio="Flutter Dev • Mobile UX wizard"
                 avatar="https://i.pravatar.cc/150?img=10"
                 initiallyFollowing={false}
               />
-            </div>
+            </>
           ) : (
-            <div className="posts-container" style={{ maxWidth: "720px" }}>
+            <>
               <TextAndVedio />
               <TextAndPhoto
                 username="Mohamed Shawky"
@@ -98,65 +72,31 @@ const Feed = () => {
                 avatar="https://i.pravatar.cc/300?img=60"
                 content="Check out my latest coding vlog."
                 video="https://www.w3schools.com/html/mov_bbb.mp4"
+                onClick={(e) => handlePostClick("2", e)}
               />
-            </div>
+            </>
           )}
-        </div>
-      ) : selectedPost ? (
-        <div className="posts-container" style={{ maxWidth: "720px" }}>
-          {/* Full post view */}
-          <TextAndPhoto
-            username="Mohamed Shawky"
-            time="2:30 PM"
-            avatar="https://i.pravatar.cc/300?img=60"
-            content="Check out my latest coding vlog."
-            video="https://www.w3schools.com/html/mov_bbb.mp4"
-            image="https://picsum.photos/200/300"
-          />
-
-          {/* Comments */}
-          {selectedPost.comments?.map((comment, index) => (
-            <PostComment
-              key={index}
-              user={{
-                name: comment.user?.name,
-                avatar: comment.user?.avatar,
-              }}
-              time={comment.time}
-              text={comment.text}
-            />
-          ))}
-
-          {/* Back button */}
-          <button
-            onClick={handleBack}
-            style={{
-              marginTop: "1rem",
-              padding: "8px 16px",
-              backgroundColor: "#333",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer",
-            }}
-          >
-            ← Back to Feed
-          </button>
         </div>
       ) : (
         <>
+          <Header
+            onSearchFocus={() => setSearchFocused(true)}
+            onSearchBlur={() => setSearchFocused(false)}
+          />
           <ComposerInput />
           <div className="posts-container" style={{ maxWidth: "720px" }}>
-            <TextAndVedio />
-            <TextAndPhoto
-              username="Kohaku"
-              time="10:45 AM"
-              avatar="https://i.pravatar.cc/300?img=11"
-              content="Just launched a new UI kit 🔥 Check it out!"
-              image="https://picsum.photos/200/300"
-              onClick={handleClick}
-              video="https://www.w3schools.com/html/mov_bbb.mp4"
-            />
+            {posts.map((post) => (
+              <TextAndPhoto
+                key={post.id}
+                username={post.username}
+                time={post.time}
+                avatar={post.avatar}
+                content={post.content}
+                image={post.image}
+                video={post.video}
+                onClick={(e) => handlePostClick(post.id, e)}
+              />
+            ))}
           </div>
         </>
       )}

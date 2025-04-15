@@ -1,28 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { ListItem, ListItemText, Box, Badge } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 const SocialSidebarItem = ({ label, icon, collapsed = false, badge }) => {
-  const [interaction, setInteraction] = useState("default");
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const itemPath = `/${label.toLowerCase()}`;
+
+  const isActive = currentPath === itemPath;
 
   return (
     <Box display="inline-block">
       <ListItem
         button
-        onMouseEnter={() =>
-          setInteraction(interaction === "pressed" ? "pressed" : "hover")
-        }
-        onMouseLeave={() =>
-          setInteraction(interaction === "pressed" ? "pressed" : "default")
-        }
-        onMouseUp={() => setInteraction("active")}
-        onClick={() => setInteraction("pressed")}
         sx={{
-          backgroundColor:
-            interaction === "pressed"
-              ? "rgba(18, 18, 18, 0.3)"
-              : interaction === "active"
-              ? "rgba(18, 18, 18, 0.3)"
-              : "transparent",
+          backgroundColor: isActive
+            ? "rgba(248, 248, 248, 0.15)"
+            : "transparent",
           transition: "background 0.3s",
           borderRadius: "12px",
           marginBottom: "8px",
@@ -30,20 +24,22 @@ const SocialSidebarItem = ({ label, icon, collapsed = false, badge }) => {
           alignItems: "center",
           padding: "8px",
           width: collapsed ? "40px" : "271px",
-          '&:hover': interaction === "pressed"
-            ? {}
-            : { bgcolor: "rgba(255, 255, 255, 0.05)" }
+          '&:hover': {
+            bgcolor: isActive
+              ? "rgba(248, 248, 248, 0.15)"
+              : "rgba(255, 255, 255, 0.05)"
+          }
         }}
       >
         {/* Icon with optional Badge */}
         {badge ? (
           <Badge badgeContent={badge} color="error">
-            <Box sx={{ color: "rgba(248, 248, 248, 0.5)", padding: collapsed ? "0px" : "2px", margin: "0px" }}>
+            <Box sx={{ color: "rgba(248, 248, 248, 0.5)", padding: collapsed ? "0px" : "2px" }}>
               {icon}
             </Box>
           </Badge>
         ) : (
-          <Box sx={{ color: "rgba(248, 248, 248, 0.5)", padding: collapsed ? "0px" : "2px", margin: "0px" }}>
+          <Box sx={{ color: "rgba(248, 248, 248, 0.5)", padding: collapsed ? "0px" : "2px" }}>
             {icon}
           </Box>
         )}
@@ -52,7 +48,11 @@ const SocialSidebarItem = ({ label, icon, collapsed = false, badge }) => {
         {!collapsed && (
           <ListItemText
             primary={label}
-            sx={{ color: "rgba(248, 248, 248, 0.5)", paddingRight: "80px" ,marginLeft:"8px" }}
+            sx={{
+              color: "rgba(248, 248, 248, 0.5)",
+              paddingRight: "80px",
+              marginLeft: "8px"
+            }}
           />
         )}
       </ListItem>
