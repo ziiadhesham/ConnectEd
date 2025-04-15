@@ -3,24 +3,41 @@ import ComposerInput from "../../components/ComposerInput";
 import Header from "../../components/HeaderPosting";
 import TextAndPhoto from "../../components/textAndPhoto";
 import TextAndVedio from "../../components/TextAndVedio";
-import ToggleTextButton from "../../components/ToggleTextButton"; // Import the ToggleButton component
+import ToggleTextButton from "../../components/ToggleTextButton";
 import ProfileCard from "../../components/ProfileCard";
+import { useNavigate } from "react-router-dom";
+import posts from "../../MockData/PostsData"; // ✅ Import mock posts
 
 const Feed = () => {
-  const [tab, setTab] = useState("left"); // Track left or right tab
+  const [tab, setTab] = useState("left");
   const [searchFocused, setSearchFocused] = useState(false);
+  const navigate = useNavigate();
 
-  // Handles tab switching
   const handleTabChange = (newTab) => {
     setTab(newTab);
   };
 
-  return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      {/* Header */}
-      <Header onSearchFocus={() => setSearchFocused(true)} onSearchBlur={() => setSearchFocused(false)} />
+  const handlePostClick = (postId, e) => {
+    e.stopPropagation();
+    if (e.target.closest(".bookmark-button")) return;
+    navigate(`/post/${postId}`);
+  };
 
-      {/* Toggle Button with custom text */}
+  return (
+    <div
+      style={{
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingBottom: "100px",
+      }}
+    >
+        <Header
+            onSearchFocus={() => setSearchFocused(true)}
+            onSearchBlur={() => setSearchFocused(false)}
+          />
+          <ComposerInput />
       {searchFocused && (
         <div className="posts-container">
           <ToggleTextButton
@@ -31,46 +48,57 @@ const Feed = () => {
           />
         </div>
       )}
+    
 
-      {/* Content based on search focus */}
       {searchFocused ? (
-        <div className="posts-container">
+        <div className="posts-container" style={{ maxWidth: "720px" }}>
           {tab === "left" ? (
-            // Content for "People to follow" when the left tab is selected
-           <div className="posts-container" style={{ maxWidth: "720px" }}>
+            <>
               <ProfileCard
-              name="Brandi Padberg"
-              username="@Abbie_Pollich34"
-              bio='The "No Code SaaS" Guy. Building a portfolio of software companies.'
-              avatar="https://i.pravatar.cc/150?img=11"
-              initiallyFollowing={false}
-            />
-            <ProfileCard
-              name="Sara Techie"
-              username="@sara"
-              bio="Flutter Dev • Mobile UX wizard & Coffee nerd ☕"
-              avatar="https://i.pravatar.cc/150?img=10"
-              initiallyFollowing={false}
-            />
-              {/* Add content or components for people to follow */}
-            </div>
+                name="Brandi Padberg"
+                username="@Abbie_Pollich34"
+                bio='The "No Code SaaS" Guy.'
+                avatar="https://i.pravatar.cc/150?img=11"
+                initiallyFollowing={false}
+              />
+              <ProfileCard
+                name="Sara Techie"
+                username="@sara"
+                bio="Flutter Dev • Mobile UX wizard"
+                avatar="https://i.pravatar.cc/150?img=10"
+                initiallyFollowing={false}
+              />
+            </>
           ) : (
-            // Content for "Trending Topics" when the right tab is selected
-            <div>
-              <div className="posts-container" style={{ maxWidth: "720px" }}>
-            <TextAndVedio />
-            <TextAndPhoto />
-          </div>
-              {/* Add content or components for trending topics */}
-            </div>
+            <>
+              <TextAndVedio />
+              <TextAndPhoto
+                username="Mohamed Shawky"
+                time="2:30 PM"
+                avatar="https://i.pravatar.cc/300?img=60"
+                content="Check out my latest coding vlog."
+                video="https://www.w3schools.com/html/mov_bbb.mp4"
+                onClick={(e) => handlePostClick("2", e)}
+              />
+            </>
           )}
         </div>
       ) : (
         <>
-          <ComposerInput />
+          
           <div className="posts-container" style={{ maxWidth: "720px" }}>
-            <TextAndVedio />
-            <TextAndPhoto />
+            {posts.map((post) => (
+              <TextAndPhoto
+                key={post.id}
+                username={post.username}
+                time={post.time}
+                avatar={post.avatar}
+                content={post.content}
+                image={post.image}
+                video={post.video}
+                onClick={(e) => handlePostClick(post.id, e)}
+              />
+            ))}
           </div>
         </>
       )}

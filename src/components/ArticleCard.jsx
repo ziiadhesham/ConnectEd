@@ -13,15 +13,16 @@ const ArticleCard = ({
   return (
     <Box
       sx={{
-        width: '390px',
-        padding: '8px',
+        width: '100%',
+        // padding: '8px',
         display: 'flex',
         gap: '16px',
+        marginBottom: '14px',
         borderRadius: '20px',
-        backgroundColor: 'rgba(248, 248, 248, 0.02)',
+        backgroundColor: 'rgba(248, 248, 248, 0.04)',
         transition: 'background-color 0.3s ease, transform 0.2s ease',
         cursor: 'pointer',
-        margin: '10px',
+        // margin: '10px',
         '&:hover': {
           backgroundColor: 'rgba(248, 248, 248, 0.06)',
           transform: 'translateY(-2px)',

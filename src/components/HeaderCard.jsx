@@ -2,26 +2,30 @@ import React from 'react';
 import { Card, CardMedia, Box, Avatar, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import headerImg from './profileheaderz.svg';
+import avatarImg from './AvatarProfile.svg';
 
 export default function HeaderCard() {
   return (
     <Card
-      sx={{
-        position: 'relative',
-        width: '100%',
-        maxWidth: 800,
-        margin: '40px auto',
-        borderRadius: 3,
-        overflow: 'visible',
-      }}
-    >
-      {/* Background SVG as header */}
-      <Box sx={{ position: 'relative', height: 160 }}>
+    sx={{
+    position: 'relative',
+    width: '100%',
+    marginBottom: 10,
+    borderRadius: 3,
+    overflow: 'visible',
+    backgroundColor: '#1a1a1a',
+  }}
+  >
+
+      {/* Background Header Image */}
+      <Box sx={{ position: 'relative', height: { xs: 120, sm: 160 }, backgroundColor: '#1a1a1a' }}>
         <CardMedia
           component="img"
-          height="160"
-          image={require('./profileheaderz.svg').default} // import from Components/
+          height="100%"
+          image={headerImg}
           alt="Header background"
+          sx={{ objectFit: 'cover', width: '100%' }}
         />
 
         {/* Back Button */}
@@ -33,9 +37,11 @@ export default function HeaderCard() {
             backgroundColor: 'rgba(0,0,0,0.5)',
             color: '#fff',
             '&:hover': { backgroundColor: 'rgba(0,0,0,0.7)' },
+            width: { xs: 32, sm: 40 },
+            height: { xs: 32, sm: 40 },
           }}
         >
-          <ArrowBackIcon />
+          <ArrowBackIcon fontSize="small" />
         </IconButton>
 
         {/* More Options Button */}
@@ -47,25 +53,28 @@ export default function HeaderCard() {
             backgroundColor: 'rgba(0,0,0,0.5)',
             color: '#fff',
             '&:hover': { backgroundColor: 'rgba(0,0,0,0.7)' },
+            width: { xs: 32, sm: 40 },
+            height: { xs: 32, sm: 40 },
           }}
         >
-          <MoreVertIcon />
+          <MoreVertIcon fontSize="small" />
         </IconButton>
       </Box>
 
-      {/* Profile Image (SVG) */}
+      {/* Profile Avatar */}
       <Avatar
-        src={require('./AvatarProfile.svg').default} // import from Components/
+        src={avatarImg}
         alt="Profile"
         sx={{
-          width: 75,
-          height: 75,
+          width: { xs: 60, sm: 75 },
+          height: { xs: 60, sm: 75 },
           position: 'absolute',
-          bottom: -32,
+          bottom: { xs: -30, sm: -32 },
           left: 16,
           border: '4px solid white',
         }}
       />
     </Card>
+    
   );
 }

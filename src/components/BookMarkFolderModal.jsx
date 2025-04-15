@@ -65,7 +65,7 @@ export default function BookmarkFolderModal() {
       sx={{
         width: 400,
         borderRadius: 4,
-        backgroundColor: "rgba(248, 248, 248, 0.03)",
+        backgroundColor: "rgba(248, 248, 248, 0.15)",
         color: "#fff",
         p: 2
       }}

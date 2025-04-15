@@ -15,7 +15,7 @@ const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
       onMouseDown={() => setIsPressed(!isPressed)}
       sx={{
         display: "flex",
-        bgcolor: isPressed ? "#1212124D" : active ? "#222" : "rgba(248, 248, 248, 0.10)",
+        bgcolor: isPressed ? "rgba(248, 248, 248, 0.15)" : active ? "#222" : "transparent",
         color: "white",
         borderRadius: collapsed ? 30 : 2,
         transition: "background 0.2s",
@@ -25,6 +25,7 @@ const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
         justifyContent: collapsed ? "center" : "flex-start",
         position: "relative",
         padding: collapsed ? 0 : "4px 8px",
+        marginLeft: collapsed ? "20px" : "8px",
       }}
     >
       <ListItemAvatar
@@ -77,7 +78,7 @@ const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
           sx={{
             position: "absolute",
             right: collapsed ? "-40px" : 10,
-            top: "100%",
+            top: "-200%",
             transform: "translateY(10px)",
             display: "flex",
             flexDirection: "column",
