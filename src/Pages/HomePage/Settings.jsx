@@ -8,7 +8,6 @@ import {
   Email, Lock, Delete, Security, Notifications, Settings as PrefIcon,
   Block, HeadsetMic, VisibilityOff, Cookie, Message, ExpandLess, ExpandMore,
 } from '@mui/icons-material';
-
 const Settings = () => {
   const [supportOpen, setSupportOpen] = React.useState(false);
 
