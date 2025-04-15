@@ -37,6 +37,8 @@ import SocialFolderItem from './components/SocialFolderItem';
 import BookmarksFolder from './Pages/Bookmarks/BookmarksFolder';
 import BookmarkedPosts from './Pages/Bookmarks/BookmarkedPosts';
 import BookmarkPage from './Pages/Bookmarks/BookmarkPage';
+import SettingsBlocked from './Pages/HomePage/SettingsBlocked';
+import SettingsNotifications from './Pages/HomePage/SettingsNotifications';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -57,6 +59,9 @@ root.render(
           <Route path="/followers" element={<Followers />} />
           <Route path="/bookmarks" element={<BookmarkPage />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/settings/notifications" element={<SettingsNotifications />} />
+          <Route path="/settings/blocked" element={<SettingsBlocked />} />
+
         </Routes>
       </Router>
     </div>

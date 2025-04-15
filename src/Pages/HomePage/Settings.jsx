@@ -10,6 +10,7 @@ import {
   Email, Lock, Delete, Security, Notifications, Settings as PrefIcon,
   Block, HeadsetMic, VisibilityOff, Cookie, Message, ExpandLess, ExpandMore,
 } from '@mui/icons-material';
+import { Link } from 'react-router';
 const Settings = () => {
     const [sidebarOpen, setSidebarOpen] = useState(true); // <-- Add state
     const [supportOpen, setSupportOpen] = useState(false);
@@ -65,13 +66,15 @@ const Settings = () => {
             borderRadius: 3,
           }}
         >
+          <Link to="/settings" style={{ textDecoration: 'none'}}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <Avatar src="/profile.jpg" sx={{ width: 40, height: 40 }} />
             <Box>
-              <Typography fontWeight="bold" fontSize="0.95rem">Moyo</Typography>
+              <Typography fontWeight="bold" fontSize="0.95rem"> </Typography>
               <Typography variant="body2" color="#aaa" fontSize="0.8rem">@moyoshiro</Typography>
             </Box>
           </Box>
+          </Link>
           <Typography sx={{ color: '#888' }}>›</Typography>
         </Box>
 
@@ -79,7 +82,7 @@ const Settings = () => {
         {[ 
           { label: 'Notifications', icon: <Notifications /> },
           { label: 'Preferences', icon: <PrefIcon /> },
-          { label: 'Blocked accounts', icon: <Block /> },
+          { label: 'Blocked', icon: <Block /> },
           {
             label: 'Contact support',
             icon: <HeadsetMic />,
@@ -88,7 +91,8 @@ const Settings = () => {
             onClick: () => setSupportOpen(!supportOpen),
           },
         ].map((item, index) => (
-          <Box key={index}>
+          <Link key={item.label} to={item.label.toLowerCase()} style={{ textDecoration: 'none', color: '#fff' }}>
+            <Box key={index}>
             <Box
               sx={{
                 display: 'flex',
@@ -119,6 +123,7 @@ const Settings = () => {
               </Collapse>
             )}
           </Box>
+          </Link>
         ))}
       </Box>
 

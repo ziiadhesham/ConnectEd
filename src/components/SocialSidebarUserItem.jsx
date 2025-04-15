@@ -4,6 +4,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Check from "./check"; // Import the Check component
+import { Link } from "react-router";
 
 const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
   const [isPressed, setIsPressed] = useState(false);
@@ -90,9 +91,11 @@ const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
             zIndex: 3,
           }}
         >
+             <Link key={"Settings"} to={"/Settings"} style={{ textDecoration: 'none' }}>
           <IconButton sx={{ color: "white" }}>
             <SettingsIcon />
           </IconButton>
+          </Link>
           <IconButton sx={{ color: "white" }}>
             <LogoutIcon />
           </IconButton>

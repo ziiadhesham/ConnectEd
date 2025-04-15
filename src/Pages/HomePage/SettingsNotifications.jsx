@@ -11,6 +11,8 @@ import {
 } from '@mui/icons-material';
 import Button from '../../components/Button';
 import ToggleButton from '../../components/ToggleButton';
+import { Link } from 'react-router';
+
 
 const SettingsNotifications = () => {
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -37,101 +39,109 @@ const SettingsNotifications = () => {
       <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} />
 
       {/* Sidebar Menu */}
-      <Box sx={{ width: 280, p: 1.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+       {/* Sidebar */}
+       <Box sx={{ width: 280, p: 1.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+       
+       {/* Search Bar */}
+       <Box
+         sx={{
+           display: 'flex',
+           alignItems: 'center',
+           bgcolor: 'rgba(40, 40, 40, 0.8)',
+           borderRadius: 4,
+           px: 1.5,
+           py: 1,
+         }}
+       >
+           
+         
+         <input
+           type="text"
+           placeholder="Search settings..."
+           style={{
+             background: 'transparent',
+             border: 'none',
+             outline: 'none',
+             color: 'white',
+             marginLeft: 10,
+             flex: 1,
+             fontSize: '0.9rem'
+           }}
+         />
+       </Box>
 
-        {/* Search Bar */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            bgcolor: 'rgba(40, 40, 40, 0.8)',
-            borderRadius: 4,
-            px: 1.5,
-            py: 1,
-          }}
-        >
-          <input
-            type="text"
-            placeholder="Search settings..."
-            style={{
-              background: 'transparent',
-              border: 'none',
-              outline: 'none',
-              color: 'white',
-              marginLeft: 10,
-              flex: 1,
-              fontSize: '0.9rem'
-            }}
-          />
-        </Box>
+       {/* User Info */}
+       <Box
+         sx={{
+           display: 'flex',
+           alignItems: 'center',
+           justifyContent: 'space-between',
+           bgcolor: 'rgba(40, 40, 40, 0.8)',
+           p: 1.5,
+           borderRadius: 3,
+         }}
+       >
+         <Link to="../settings" style={{ textDecoration: 'none'}}>
+         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+           <Avatar src="/profile.jpg" sx={{ width: 40, height: 40 }} />
+           <Box>
+             <Typography fontWeight="bold" fontSize="0.95rem"> </Typography>
+             <Typography variant="body2" color="#aaa" fontSize="0.8rem">@moyoshiro</Typography>
+           </Box>
+         </Box>
+         </Link>
+         <Typography sx={{ color: '#888' }}>›</Typography>
+       </Box>
 
-        {/* User Info */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            bgcolor: 'rgba(40, 40, 40, 0.8)',
-            p: 1.5,
-            borderRadius: 3,
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <Avatar src="/profile.jpg" sx={{ width: 40, height: 40 }} />
-            <Box>
-              <Typography fontWeight="bold" fontSize="0.95rem">Moyo</Typography>
-              <Typography variant="body2" color="#aaa" fontSize="0.8rem">@moyoshiro</Typography>
-            </Box>
-          </Box>
-          <Typography sx={{ color: '#888' }}>›</Typography>
-        </Box>
+       {/* Menu Options */}
+       {[ 
+         { label: 'Notifications', icon: <Notifications /> ,path: "../settings/notifications"},
+         { label: 'Preferences', icon: <PrefIcon /> ,path: "../settings/preferences"},
+         { label: 'Blocked', icon: <Block /> ,path: "../settings/blocked"},
+         {
+           label: 'Contact support',
+           icon: <HeadsetMic />, 
+           path: "./support",
+           expandable: true,
+           expanded: supportOpen,
+           onClick: () => setSupportOpen(!supportOpen),
+         },
+       ].map((item, index) => (
+         <Link key={item.label} to={item.path.toLowerCase()} style={{ textDecoration: 'none', color: '#fff' }}>
+           <Box key={index}>
+           <Box
+             sx={{
+               display: 'flex',
+               alignItems: 'center',
+               justifyContent: 'space-between',
+               bgcolor: 'rgba(40, 40, 40, 0.8)',
+               p: 1.5,
+               borderRadius: 3,
+               cursor: 'pointer',
+               mb: 1,
+               '&:hover': { bgcolor: 'rgba(50, 50, 50, 0.8)' },
+             }}
+             onClick={item.onClick}
+           >
+             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+               <Box sx={{ color: '#fff' }}>{item.icon}</Box>
+               <Typography fontWeight="medium" fontSize="0.95rem">{item.label}</Typography>
+             </Box>
+             {item.expandable ? (item.expanded ? <ExpandLess /> : <ExpandMore />) : null}
+           </Box>
 
-        {/* Menu Options */}
-        {[ 
-          { label: 'Notifications', icon: <Notifications /> },
-          { label: 'Preferences', icon: <PrefIcon /> },
-          { label: 'Blocked accounts', icon: <Block /> },
-          {
-            label: 'Contact support',
-            icon: <HeadsetMic />,
-            expandable: true,
-            expanded: supportOpen,
-            onClick: () => setSupportOpen(!supportOpen),
-          },
-        ].map((item, index) => (
-          <Box key={index}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                bgcolor: 'rgba(40, 40, 40, 0.8)',
-                p: 1.5,
-                borderRadius: 3,
-                cursor: 'pointer',
-                mb: 1,
-                '&:hover': { bgcolor: 'rgba(50, 50, 50, 0.8)' },
-              }}
-              onClick={item.onClick}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Box sx={{ color: '#fff' }}>{item.icon}</Box>
-                <Typography fontWeight="medium" fontSize="0.95rem">{item.label}</Typography>
-              </Box>
-              {item.expandable ? (item.expanded ? <ExpandLess /> : <ExpandMore />) : null}
-            </Box>
-
-            {item.expandable && (
-              <Collapse in={item.expanded} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding sx={{ pl: 4 }}>
-                  <ListItem button><ListItemText primary="FAQ" /></ListItem>
-                  <ListItem button><ListItemText primary="Live Chat" /></ListItem>
-                </List>
-              </Collapse>
-            )}
-          </Box>
-        ))}
-      </Box>
+           {item.expandable && (
+             <Collapse in={item.expanded} timeout="auto" unmountOnExit>
+               <List component="div" disablePadding sx={{ pl: 4 }}>
+                 <ListItem button><ListItemText primary="FAQ" /></ListItem>
+                 <ListItem button><ListItemText primary="Live Chat" /></ListItem>
+               </List>
+             </Collapse>
+           )}
+         </Box>
+         </Link>
+       ))}
+     </Box>
 
       {/* Right Section - Notification Panel */}
       <Box sx={{ flex: 1, p: 2, borderRadius: 3, bgcolor: 'rgba(25, 25, 25, 0.8)', overflowY: 'auto' }}>
