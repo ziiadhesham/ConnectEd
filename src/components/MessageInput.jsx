@@ -11,6 +11,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import CloseIcon from "@mui/icons-material/Close";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import EmojiPicker from "./EmojiPicker"; // Import EmojiPicker component
 
 export default function MessageInput({ onSendMessage }) {
   const [message, setMessage] = useState("");
@@ -18,6 +19,7 @@ export default function MessageInput({ onSendMessage }) {
   const [isReplying, setIsReplying] = useState(false);
   const [replyTo, setReplyTo] = useState("James");
   const [longText, setLongText] = useState(false);
+  const [isEmojiPickerOpen, setEmojiPickerOpen] = useState(false); // State for EmojiPicker visibility
 
   const isTyping = message.trim().length > 0;
 
@@ -34,18 +36,43 @@ export default function MessageInput({ onSendMessage }) {
     setIsRecording(!isRecording);
   };
 
+  const handleEmojiSelect = (emoji) => {
+    setMessage((prev) => prev + emoji); // Append the selected emoji to the message
+    setEmojiPickerOpen(false); // Close the EmojiPicker after selection
+  };
+
   return (
     <Box
       sx={{
-        boxSizing: "border-box",
-        p: 2,
-        borderRadius: "32px",
-        display: "flex",
-        flexDirection: "column",
-        gap: 1,
+        position: "relative", // Ensure relative positioning for the overlay
         width: "100%",
+                    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+
       }}
     >
+      {/* EmojiPicker Overlay */}
+      {isEmojiPickerOpen && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: "73%",
+            left: "37%",
+            width: "100%",
+            height: "100%",
+            zIndex: 2000, // Ensure it appears above other elements
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onClick={() => setEmojiPickerOpen(false)} // Close EmojiPicker when clicking outside
+        >
+          <Box onClick={(e) => e.stopPropagation()}>
+            <EmojiPicker onEmojiSelect={handleEmojiSelect} />
+          </Box>
+        </Box>
+      )}
+
+      {/* Replying Section */}
       {isReplying && (
         <Box
           sx={{
@@ -67,6 +94,7 @@ export default function MessageInput({ onSendMessage }) {
         </Box>
       )}
 
+      {/* Input Section */}
       <TextField
         fullWidth
         multiline
@@ -85,8 +113,8 @@ export default function MessageInput({ onSendMessage }) {
             px: 1.5,
             py: 0.5,
             transition: "background-color 0.2s ease",
-            '&:hover': { bgcolor: "rgba(18, 18, 18, 0.5)" },
-            '& textarea::selection': {
+            "&:hover": { bgcolor: "rgba(18, 18, 18, 0.5)" },
+            "& textarea::selection": {
               bgcolor: "#444",
             },
           },
@@ -99,7 +127,7 @@ export default function MessageInput({ onSendMessage }) {
           ),
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton>
+              <IconButton onClick={() => setEmojiPickerOpen(!isEmojiPickerOpen)}>
                 <EmojiEmotionsIcon sx={{ color: "#999" }} />
               </IconButton>
               {isTyping ? (
