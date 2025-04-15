@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   IconButton,
   Drawer,
-  Avatar,
   Button,
-  Typography,
 } from '@mui/material';
 import {
   Home,
   Mail,
   Bookmark,
   Person,
-  Explore,
   Menu,
   Add,
 } from '@mui/icons-material';
+import { useLocation, Link } from 'react-router-dom';
+
 import NotificationButton from './NotificationButton';
-import SocialSidebarItem from './SocialSidebarItem'; // import your reusable item
+import SocialSidebarItem from './SocialSidebarItem';
+import SocialSidebarUserItem from './SocialSidebarUserItem';
 
 const menuItems = [
   { icon: <Home />, label: 'Home' },
@@ -25,13 +25,14 @@ const menuItems = [
   { icon: <Mail />, label: 'Messages' },
   { icon: <Bookmark />, label: 'Bookmarks' },
   { icon: <Person />, label: 'Profile' },
-  { icon: <Explore />, label: 'Explore' },
 ];
 
 const Sidebar = ({ open, toggleDrawer }) => {
+  const location = useLocation();
+  const currentPath = location.pathname.toLowerCase();
+
   return (
     <Drawer
-    boxSizing="border-box"
       variant="permanent"
       anchor="left"
       sx={{
@@ -43,62 +44,75 @@ const Sidebar = ({ open, toggleDrawer }) => {
           backgroundColor: 'rgba(40, 40, 40, 0.7)',
           color: 'rgba(248, 248, 248, 0.5)',
           transition: 'width 0.3s',
-          overflowX: 'hidden',
+          overflow: 'hidden',
           borderRight: 'none',
-          borderRadius: "0px 32px 32px 0px"
+          borderRadius: "0px 32px 32px 0px",
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
         },
       }}
     >
-      <Box display="flex" flexDirection="column" justifyContent="space-between" height="100%" p={1}>
-        <Box>
-          <IconButton onClick={toggleDrawer} sx={{ color: 'rgba(248, 248, 248, 0.5)', mb: 2 }}>
-            <Menu />
+      {/* Header with Hamburger */}
+      <Box
+        display="flex"
+        justifyContent={ "flex-start"}
+        alignItems="center"
+        px={1}
+        py={2}
+      >
+        <IconButton onClick={toggleDrawer} sx={{ color: 'rgba(248, 248, 248, 0.5)' }}>
+          <Menu />
+        </IconButton>
+      </Box>
+
+      {/* Menu Items */}
+      <Box flex={1} display="flex" flexDirection="column" px={1}>
+        {menuItems.map(({ icon, label, badge }) => {
+          const isActive = currentPath === `/${label.toLowerCase()}`;
+          return (
+            <Link key={label} to={`/${label.toLowerCase()}`} style={{ textDecoration: 'none' }}>
+              <SocialSidebarItem
+                label={label}
+                icon={icon}
+                badge={badge}
+                collapsed={!open}
+                active={isActive}
+              />
+            </Link>
+          );
+        })}
+      </Box>
+
+      {/* Footer with User + Post */}
+      <Box p={1}>
+        <SocialSidebarUserItem
+          name="Kohaku"
+          username="kohaku"
+          collapsed={!open}
+          active={false}
+        />
+        {open ? (
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{
+              mt: 2,
+              backgroundColor: '#2c2c2e',
+              '&:hover': { backgroundColor: 'rgba(40, 40, 40, 0.7)' },
+              borderRadius: "32px",
+            }}
+          >
+            Post
+          </Button>
+        ) : (
+          <IconButton sx={{ color: 'white', mt: 1, borderRadius: "32px", bgcolor: "rgba(40, 40, 40, 0.7)",ml:"4px" }}>
+            <Add />
           </IconButton>
-
-          {menuItems.map(({ icon, label, badge }) => (
-            <SocialSidebarItem
-              key={label}
-              label={label}
-              icon={icon}
-              badge={badge}
-              collapsed={!open}
-            />
-          ))}
-        </Box>
-
-        <Box textAlign="center" pb={2}>
-          <Avatar
-            alt="Kohaku"
-            src="https://i.pravatar.cc/150?img=3"
-            sx={{ width: 40, height: 40, mx: 'auto', mb: 1 }}
-          />
-          {open ? (
-            <>
-              <Typography>Kohaku</Typography>
-              <Typography variant="caption" color="gray">@kohaku</Typography>
-              <Button
-                variant="contained"
-                fullWidth
-                sx={{
-                  mt: 2,
-                  backgroundColor: '#2c2c2e',
-                  '&:hover': { backgroundColor: 'rgba(40, 40, 40, 0.7)' },
-                  borderRadius: "32px",
-                }}
-              >
-                Post
-              </Button>
-            </>
-          ) : (
-            <IconButton sx={{ color: 'white', mt: 1, borderRadius: "32px", bgcolor: "rgba(40, 40, 40, 0.7)" }}>
-              <Add />
-            </IconButton>
-          )}
-        </Box>
+        )}
       </Box>
     </Drawer>
   );
 };
 
 export default Sidebar;
-

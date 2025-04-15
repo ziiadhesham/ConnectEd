@@ -12,6 +12,10 @@ import PostDetails from "./Pages/HomePage/PostDetailes";
 import NotificationsPage from "./Pages/Notifications/NotificationsPage"
 import Message from './Pages/Message/Message';
 import ConversationPage from './Pages/Message/ConversionPage';
+import LoginForm from './Pages/LoginPages/LoginForm';
+import ResetPassword from './Pages/LoginPages/ResetPassword';
+import ConfirmPassword from './Pages/LoginPages/ConfirmPassword';
+import SignUpForm from './Pages/LoginPages/SignUpForm';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,16 +24,26 @@ root.render(
                   minHeight: "100vh" ,margin:"0px",padding:"0px"}}>
     
     <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/post/:id" element={<PostDetails />} />  
-      </Routes>
-    </Router>
-    {/* <NotificationsPage/> */}
- {/* <MessagesPage/> */}
- {/* <Message/> */}
- 
-  {/* <ConversationPage/> */}
+  <Routes>
+    {/* Default page is LoginForm */}
+    <Route path="/" element={<LoginForm />} /> 
+
+    {/* Route for HomePage, accessible after login */}
+    <Route path="/home" element={<HomePage />} />
+
+    {/* Route for Post Details page */}
+    <Route path="/post/:id" element={<PostDetails />} />
+
+    {/* Other routes */}
+    <Route path="/notifications" element={<NotificationsPage />} />
+    <Route path="/messages" element={<MessagesPage />} />
+    <Route path="/reset-password" element={<ResetPassword />} />
+    <Route path="/confirm-password" element={<ConfirmPassword />} />
+    <Route path="/signup" element={<SignUpForm />} />
+  </Routes>
+</Router>
+
+
     </div>
 
 

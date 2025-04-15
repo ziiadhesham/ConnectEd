@@ -3,13 +3,16 @@ import { Box, useMediaQuery, useTheme } from "@mui/material";
 import Sidebar from "../../components/Sidebar";
 import ConversionPage from "./ConversionPage";
 import Message from "./Message";
+import useSidebarStore from "../../Stores/SideBarStore";
+
 
 const MessagesPage = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md")); // md = 960px
 
-  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+  const { sidebarOpen, toggleSidebar } = useSidebarStore();
+
 
   const sidebarWidth = sidebarOpen ? 300 : 80;
 
@@ -35,7 +38,7 @@ const MessagesPage = () => {
             transition: "width 0.3s ease",
           }}
         >
-          <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} />
+           <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} />
         </Box>
       )}
 
