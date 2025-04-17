@@ -1,5 +1,7 @@
 import React,{ useState } from 'react';
 import Sidebar from "../../components/Sidebar";
+import useSidebarStore from "../../Stores/SideBarStore";
+
 import {
   Box, Typography, Divider, Avatar,  List, ListItem, ListItemIcon,
   ListItemText, Switch, Collapse
@@ -15,7 +17,7 @@ import { Link } from 'react-router';
 
 
 const SettingsBlocked = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { sidebarOpen, toggleSidebar } = useSidebarStore();
     const [supportOpen, setSupportOpen] = useState(false);
     const [toggles, setToggles] = useState({
       email: false,
@@ -25,9 +27,6 @@ const SettingsBlocked = () => {
       product: false
     });
 
-    const toggleSidebar = () => {
-      setSidebarOpen((prev) => !prev);
-    };
 
     const handleToggle = (key) => {
       setToggles(prev => ({ ...prev, [key]: !prev }));

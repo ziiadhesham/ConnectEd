@@ -28,7 +28,7 @@ const BookmarkPage = () => {
       {!isSmallScreen && (
         <Box
           sx={{
-            width: `${sidebarWidth}px`,
+            width: sidebarOpen ? "300px" : "80px",
             position: "fixed",
             top: 0,
             left: 0,
@@ -38,47 +38,49 @@ const BookmarkPage = () => {
             transition: "width 0.3s ease",
           }}
         >
-           <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} />
+          <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} />
         </Box>
       )}
 
       {/* Main Area (Conversation + Message) */}
-      <Box
-  sx={{
-    display: "flex",
-    flexDirection: "row",
-    marginLeft: !isSmallScreen ?`${sidebarWidth}px` : 0,
-    width: !isSmallScreen ? `calc(100vw - ${sidebarWidth}px)` : "100vw",
-    height: "100vh",
-    transition: "margin-left 0.3s ease, width 0.3s ease",
-  }}
->
+     <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              marginLeft: !isSmallScreen ? (sidebarOpen ? "300px" : "80px") : 0,
+              width: !isSmallScreen
+                ? `calc(100vw - ${sidebarOpen ? "300px" : "80px"})`
+                : "100vw",
+              height: "100vh",
+              transition: "margin-left 0.3s ease, width 0.3s ease",
+            }}
+          >
 
         {/* Conversation List */}
         <Box
-          sx={{
-            width : "31%",
-            borderRight: isSmallScreen ? "none" : "1px solid rgba(255, 255, 255, 0.1)",
-
-            overflow: "hidden",
-          }}
-        >
+                  sx={{
+                    width: isSmallScreen ? "100%" : "30%",
+                    borderRight: isSmallScreen ? "none" : "1px solid rgba(255, 255, 255, 0.1)",
+                    display: isSmallScreen ? (sidebarOpen ? "none" : "block") : "block",
+                    overflow: "hidden",
+                  }}
+                >
           <BookmarksFolder />
         </Box>
 
         {/* Message Section */}
-         <Box
-         sx={{
-           flex: 1,
-
-           overflowY: "auto",
-           WebkitOverflowScrolling: "touch",
-           scrollbarWidth: "none", // Firefox
-           "&::-webkit-scrollbar": {
-             display: "none", // Chrome, Safari, Edge
-           },
-         }}
-       >
+        <Box
+                  sx={{
+                    flex: 1,
+                    display: isSmallScreen ? (sidebarOpen ? "block" : "none") : "block",
+                    overflowY: "auto",
+                    WebkitOverflowScrolling: "touch",
+                    scrollbarWidth: "none", // Firefox
+                    "&::-webkit-scrollbar": {
+                      display: "none", // Chrome, Safari, Edge
+                    },
+                  }}
+                >
          <BookmarkedPosts />
        </Box>
        

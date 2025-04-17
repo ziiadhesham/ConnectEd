@@ -1,5 +1,7 @@
 import React,{ useState } from 'react';
 import Sidebar from "../../components/Sidebar";
+import useSidebarStore from "../../Stores/SideBarStore";
+
 import {
   Box, Typography, Divider, Avatar, Button, List, ListItem, ListItemIcon,
   ListItemText, Switch, Collapse
@@ -12,13 +14,10 @@ import {
 } from '@mui/icons-material';
 import { Link } from 'react-router';
 const Settings = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(true); // <-- Add state
+  const { sidebarOpen, toggleSidebar } = useSidebarStore();
+
     const [supportOpen, setSupportOpen] = useState(false);
   
-    const toggleSidebar = () => {
-      setSidebarOpen((prev) => !prev); // <-- Toggle function
-    };
-
   return (
     <Box sx={{ display: 'flex', height: '100dvh', bgcolor: '#121212', color: '#fff', p: 1, gap: 1 }}>
 
