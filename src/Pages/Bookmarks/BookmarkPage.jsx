@@ -1,19 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import Sidebar from "../../components/Sidebar";
 import useSidebarStore from "../../Stores/SideBarStore";
 import BookmarksFolder from "./BookmarksFolder";
 import BookmarkedPosts from "./BookmarkedPosts";
 
-
 const BookmarkPage = () => {
-
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md")); // md = 960px
+  const isSmallScreen = useMediaQuery("(max-width: 480px)");
+  const isTablet = useMediaQuery("(min-width: 481px) and (max-width: 767px)");
+  const isMediumScreen = useMediaQuery("(min-width: 768px) and (max-width: 1024px)");
+  const isLargeScreen = useMediaQuery("(min-width: 1025px) and (max-width: 1440px)");
 
   const { sidebarOpen, toggleSidebar } = useSidebarStore();
-
-
   const sidebarWidth = sidebarOpen ? 300 : 80;
 
   return (
@@ -22,6 +21,7 @@ const BookmarkPage = () => {
         display: "flex",
         height: "100vh",
         overflow: "hidden",
+        flexDirection: isSmallScreen ? "column" : "row", // Stack layout for small screens
       }}
     >
       {/* Sidebar */}

@@ -13,7 +13,7 @@ import ToggleTextButton from "../../components/ToggleTextButton";
 import ComposerInput from "../../components/ComposerInput";
 import CreateNewConversation from "../../components/CreateNewConversation";
 
-const ConversationSideBar = () => {
+const ConversionPage = () => {
   const [tab, setTab] = useState("left");
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -163,4 +163,4 @@ const ConversationSideBar = () => {
   );
 };
 
-export default ConversationSideBar;
+export default ConversionPage;
