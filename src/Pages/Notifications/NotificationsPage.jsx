@@ -29,7 +29,7 @@ const NotificationsPage = () => {
     return (
         <div style={pageStyle}>
         <div style={{ flexGrow: 1  }}>
-            <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} />
+            <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} notificationCount={5} />
         </div>
         <div style={stackStyle}>
             <NotificationStackHeader />

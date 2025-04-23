@@ -35,7 +35,7 @@ const SettingsBlocked = () => {
   return (
     <Box sx={{ display: 'flex', height: '100dvh', bgcolor: '#121212', color: '#fff', p: 1, gap: 1 }}>
 
-      <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} />
+      <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} notificationCount={5}/>
 
      {/* Sidebar */}
      <Box sx={{ width: 280, p: 1.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}>

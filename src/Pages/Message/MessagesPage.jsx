@@ -35,7 +35,7 @@ const MessagesPage = () => {
             transition: "width 0.3s ease",
           }}
         >
-          <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} />
+          <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} notificationCount={5} />
         </Box>
       )}
 

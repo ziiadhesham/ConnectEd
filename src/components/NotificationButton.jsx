@@ -19,8 +19,8 @@ const NotificationButton = ({ showNotification = false, disabled = false }) => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      width: "40px", // Match IconButton width
-      height: "32px",
+      // width: "40px", // Match IconButton width
+      // height: "32px",
       borderRadius: 2,
       color: "#F8F8F8",
       backgroundColor:
@@ -31,7 +31,7 @@ const NotificationButton = ({ showNotification = false, disabled = false }) => {
           : interaction === "focus"
           ? "#333"
           : "transparent",
-      cursor: disabled ? "not-allowed" : "pointer",
+      cursor: "pointer",
       margin: 0,
       padding: 0, // Add this just to be sure
     }}

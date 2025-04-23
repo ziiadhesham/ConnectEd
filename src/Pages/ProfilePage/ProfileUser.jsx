@@ -64,7 +64,7 @@ import useSidebarStore from "../../Stores/SideBarStore";
               zIndex: 1000,
             }}
           >
-                  <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} />
+                  <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} notificationCount={5}/>
           </Box>
         )}
   

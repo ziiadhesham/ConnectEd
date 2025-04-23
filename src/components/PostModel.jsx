@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Box,
   Paper,
@@ -6,6 +6,7 @@ import {
   TextField,
   IconButton,
   Button,
+  Typography,
 } from '@mui/material';
 import ImageIcon from '@mui/icons-material/Image';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
@@ -14,19 +15,41 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 function PostModal({ value = '', isCommentModal = false, onPost, onComment }) {
   const [inputValue, setInputValue] = useState(value);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const fileInputRef = useRef(null);
+  const imageInputRef = useRef(null);
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
+  const handleInputChange = (e) => setInputValue(e.target.value);
 
   const handlePostAction = () => {
+    const postData = {
+      text: inputValue,
+      file: uploadedFile,
+    };
+
     if (isCommentModal) {
-      onComment(inputValue); // Trigger the comment action if it's a comment modal
+      onComment(postData);
     } else {
-      onPost(inputValue); // Trigger the post action if it's a post modal
+      onPost(postData);
     }
-    setInputValue(''); // Clear the input after posting
+
+    setInputValue('');
+    setUploadedFile(null);
   };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploadedFile(file);
+    }
+  };
+
+  const iconButtons = [
+    { Icon: InsertEmoticonIcon },
+    { Icon: ImageIcon, onClick: () => imageInputRef.current?.click() },
+    { Icon: AttachFileIcon, onClick: () => fileInputRef.current?.click() },
+    { Icon: MoreHorizIcon },
+  ];
 
   return (
     <Paper
@@ -36,9 +59,9 @@ function PostModal({ value = '', isCommentModal = false, onPost, onComment }) {
         borderRadius: 3,
         px: 2,
         py: 1.5,
-        minWidth: "500px",
+        minWidth: '500px',
         width: 'auto',
-        maxWidth: "90%",
+        maxWidth: '90%',
         color: 'white',
         display: 'flex',
         flexDirection: 'column',
@@ -48,7 +71,22 @@ function PostModal({ value = '', isCommentModal = false, onPost, onComment }) {
         overflow: 'auto',
       }}
     >
-      {/* Top: Avatar + Text Input */}
+      {/* Hidden Inputs */}
+      <input
+        type="file"
+        accept="image/*"
+        ref={imageInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileUpload}
+      />
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileUpload}
+      />
+
+      {/* Avatar & Text */}
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Avatar src="https://i.pravatar.cc/300" sx={{ width: 32, height: 32 }} />
         <TextField
@@ -66,12 +104,39 @@ function PostModal({ value = '', isCommentModal = false, onPost, onComment }) {
             },
           }}
           multiline
-          minRows={3} // Minimum number of rows
-          maxRows={6} // Maximum number of rows
+          minRows={3}
+          maxRows={6}
         />
       </Box>
 
-      {/* Bottom: Icons + Action Button */}
+      {/* File Preview */}
+      {uploadedFile && (
+        <Box
+          sx={{
+            mt: 1,
+            px: 1,
+            py: 1,
+            border: '1px dashed rgba(248, 248, 248, 0.2)',
+            borderRadius: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: 1,
+          }}
+        >
+          {uploadedFile.type.startsWith('image') ? (
+            <img
+              src={URL.createObjectURL(uploadedFile)}
+              alt="preview"
+              style={{ maxHeight: '150px', borderRadius: '8px' }}
+            />
+          ) : (
+            <Typography variant="body2">{uploadedFile.name}</Typography>
+          )}
+        </Box>
+      )}
+
+      {/* Icons + Button */}
       <Box
         sx={{
           display: 'flex',
@@ -81,9 +146,10 @@ function PostModal({ value = '', isCommentModal = false, onPost, onComment }) {
         }}
       >
         <Box sx={{ display: 'flex', gap: 1 }}>
-          {[InsertEmoticonIcon, ImageIcon, AttachFileIcon, MoreHorizIcon].map((Icon, i) => (
+          {iconButtons.map(({ Icon, onClick }, i) => (
             <IconButton
               key={i}
+              onClick={onClick}
               sx={{
                 color: 'rgba(248, 248, 248, 0.4)',
                 bgcolor: 'rgba(248, 248, 248, 0.02)',

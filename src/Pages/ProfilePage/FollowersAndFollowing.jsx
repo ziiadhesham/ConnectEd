@@ -37,7 +37,7 @@ const handleTabChange = (newTab) => {
                         
                     }}
                 >
-                    <Sidebar open={sidebarOpen} toggleDrawer={() => setSidebarOpen(prev => !prev)} />
+                    <Sidebar open={sidebarOpen} toggleDrawer={() => setSidebarOpen(prev => !prev)}notificationCount={5} />
                 </Box>
             )}
 

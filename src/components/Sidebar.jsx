@@ -19,17 +19,17 @@ import NotificationButton from './NotificationButton';
 import SocialSidebarItem from './SocialSidebarItem';
 import SocialSidebarUserItem from './SocialSidebarUserItem';
 
-const menuItems = [
-  { icon: <Home />, label: 'Home' },
-  { icon: <NotificationButton />, label: 'Notifications', badge: 12 },
-  { icon: <Mail />, label: 'Messages' },
-  { icon: <Bookmark />, label: 'Bookmarks' },
-  { icon: <Person />, label: 'Profile' },
-];
-
-const Sidebar = ({ open, toggleDrawer }) => {
+const Sidebar = ({ open, toggleDrawer, notificationCount = 0 }) => {
   const location = useLocation();
   const currentPath = location.pathname.toLowerCase();
+
+  const menuItems = [
+    { icon: <Home />, label: 'Home' },
+    { icon: <NotificationButton />, label: 'Notifications', badge: notificationCount },
+    { icon: <Mail />, label: 'Messages' },
+    { icon: <Bookmark />, label: 'Bookmarks' },
+    { icon: <Person />, label: 'Profile' },
+  ];
 
   return (
     <Drawer
@@ -56,12 +56,12 @@ const Sidebar = ({ open, toggleDrawer }) => {
       {/* Header with Hamburger */}
       <Box
         display="flex"
-        justifyContent={ "flex-start"}
+        justifyContent="flex-start"
         alignItems="center"
         px={1}
         py={2}
       >
-        <IconButton onClick={toggleDrawer} sx={{ color: 'rgba(248, 248, 248, 0.5)' }}>
+        <IconButton onClick={toggleDrawer} sx={{ color: 'rgba(248, 248, 248, 0.5)', display: 'flex' }}>
           <Menu />
         </IconButton>
       </Box>
@@ -106,7 +106,7 @@ const Sidebar = ({ open, toggleDrawer }) => {
             Post
           </Button>
         ) : (
-          <IconButton sx={{ color: 'white', mt: 1, borderRadius: "32px", bgcolor: "rgba(40, 40, 40, 0.7)",ml:"4px" }}>
+          <IconButton sx={{ color: 'white', mt: 1, borderRadius: "32px", bgcolor: "rgba(40, 40, 40, 0.7)", ml: "4px" }}>
             <Add />
           </IconButton>
         )}

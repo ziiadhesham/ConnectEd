@@ -35,7 +35,7 @@ const SettingsNotifications = () => {
   return (
     <Box sx={{ display: 'flex', height: '100dvh', bgcolor: '#121212', color: '#fff', p: 1, gap: 1 }}>
 
-      <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} />
+      <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} notificationCount={5} />
 
       {/* Sidebar Menu */}
        {/* Sidebar */}
