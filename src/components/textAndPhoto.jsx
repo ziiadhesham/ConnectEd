@@ -69,6 +69,10 @@ const TextAndPhoto = ({
   content = "Ready to level up your portfolio game? Check out these 15 standout examples of creative, sleek, and interactive portfolio websites made in...",
   image = "",
   video = "",
+  likesCount = 0,
+  commentsCount = 0,
+  repostsCount = 0,
+  bookmarksCount = 0,
   onClick,
 }) => {
   return (
@@ -101,13 +105,17 @@ const TextAndPhoto = ({
         </video>
       )}
 
-      {/* 📌 Add this wrapper with the correct class */}
+      {/* Post Actions */}
       <div className="bookmark-button">
-        <PostActions />
+        <PostActions
+          likesCount={likesCount}
+          commentsCount={commentsCount}
+          repostsCount={repostsCount}
+          bookmarksCount={bookmarksCount}
+        />
       </div>
     </div>
   );
 };
 
 export default TextAndPhoto;
-//seif

@@ -1,5 +1,5 @@
 // This file contains mock posts data used across the app
-// Each post can have an image or a video and optionally an array of comments
+// Each post can have an image or a video and optionally an array of comments, likes, reposts, and bookmarks
 
 const posts = [
   {
@@ -8,7 +8,7 @@ const posts = [
     time: "10:45 AM",
     avatar: "https://i.pravatar.cc/300?img=11",
     content: "Just launched a new UI kit 🔥 Check it out!",
-    image: "https://picsum.photos/seed/1/600/400", // Post includes an image
+    image: "https://picsum.photos/seed/1/600/400",
     comments: [
       {
         user: {
@@ -16,9 +16,22 @@ const posts = [
           avatar: "https://i.pravatar.cc/150?img=13",
         },
         time: "11:00 AM",
-        text: "This is amazing 🔥", // Comment text
+        text: "This is amazing 🔥",
       },
     ],
+    likes: [
+      { name: "Brandi", avatar: "https://i.pravatar.cc/150?img=13" },
+      { name: "Lina Tran", avatar: "https://i.pravatar.cc/300?img=32" },
+    ],
+    likesCount: 2,
+    reposts: [
+      { name: "Ahmed Zaki", avatar: "https://i.pravatar.cc/300?img=27" },
+    ],
+    repostsCount: 1,
+    bookmarks: [
+      { name: "John Cena", avatar: "https://i.pravatar.cc/300?img=7" },
+    ],
+    bookmarksCount: 1,
   },
   {
     id: "2",
@@ -34,7 +47,7 @@ const posts = [
           avatar: "https://i.pravatar.cc/150?img=13",
         },
         time: "11:00 AM",
-        text: "This is amazing 🔥", // Comment text
+        text: "This is amazing 🔥",
       },
       {
         user: {
@@ -42,9 +55,17 @@ const posts = [
           avatar: "https://i.pravatar.cc/150?img=13",
         },
         time: "11:00 AM",
-        text: "This is amazing 🔥", // Comment text
+        text: "This is amazing 🔥",
       },
-    ], // Post includes a video
+    ],
+    likes: [
+      { name: "Amira Said", avatar: "https://i.pravatar.cc/300?img=19" },
+    ],
+    likesCount: 1,
+    reposts: [],
+    repostsCount: 0,
+    bookmarks: [],
+    bookmarksCount: 0,
   },
   {
     id: "3",
@@ -52,7 +73,13 @@ const posts = [
     time: "3:15 PM",
     avatar: "https://i.pravatar.cc/300?img=32",
     content: "New blog post is up! 🚀",
-    image: "https://picsum.photos/seed/2/600/400", // Post with image
+    image: "https://picsum.photos/seed/2/600/400",
+    likes: [],
+    likesCount: 0,
+    reposts: [],
+    repostsCount: 0,
+    bookmarks: [],
+    bookmarksCount: 0,
   },
   {
     id: "4",
@@ -60,7 +87,18 @@ const posts = [
     time: "4:45 PM",
     avatar: "https://i.pravatar.cc/300?img=27",
     content: "Working on a React project!",
-    video: "https://www.w3schools.com/html/movie.mp4", // Post with video
+    video: "https://www.w3schools.com/html/movie.mp4",
+    likes: [
+      { name: "Techie Boy", avatar: "https://i.pravatar.cc/300?img=23" },
+      { name: "Sara Dev", avatar: "https://i.pravatar.cc/300?img=29" },
+    ],
+    likesCount: 2,
+    reposts: [
+      { name: "CodeQueen", avatar: "https://i.pravatar.cc/300?img=35" },
+    ],
+    repostsCount: 1,
+    bookmarks: [],
+    bookmarksCount: 0,
   },
   {
     id: "5",
@@ -69,6 +107,14 @@ const posts = [
     avatar: "https://i.pravatar.cc/300?img=17",
     content: "Photography vibes 📸",
     image: "https://picsum.photos/seed/3/600/400",
+    likes: [
+      { name: "Sara Dev", avatar: "https://i.pravatar.cc/300?img=29" },
+    ],
+    likesCount: 1,
+    reposts: [],
+    repostsCount: 0,
+    bookmarks: [],
+    bookmarksCount: 0,
   },
   {
     id: "6",
@@ -77,6 +123,12 @@ const posts = [
     avatar: "https://i.pravatar.cc/300?img=7",
     content: "You can't see me! 🕶️",
     image: "https://picsum.photos/seed/4/600/400",
+    likes: [],
+    likesCount: 0,
+    reposts: [],
+    repostsCount: 0,
+    bookmarks: [],
+    bookmarksCount: 0,
   },
   {
     id: "7",
@@ -85,6 +137,17 @@ const posts = [
     avatar: "https://i.pravatar.cc/300?img=19",
     content: "Launching soon 🚀",
     video: "https://www.w3schools.com/html/mov_bbb.mp4",
+    likes: [
+      { name: "Lina Tran", avatar: "https://i.pravatar.cc/300?img=32" },
+      { name: "Brandi", avatar: "https://i.pravatar.cc/150?img=13" },
+    ],
+    likesCount: 2,
+    reposts: [
+      { name: "Ahmed Zaki", avatar: "https://i.pravatar.cc/300?img=27" },
+    ],
+    repostsCount: 1,
+    bookmarks: [],
+    bookmarksCount: 0,
   },
   {
     id: "8",
@@ -93,6 +156,12 @@ const posts = [
     avatar: "https://i.pravatar.cc/300?img=23",
     content: "Debugging all day 😵‍💫",
     image: "https://picsum.photos/seed/5/600/400",
+    likes: [],
+    likesCount: 0,
+    reposts: [],
+    repostsCount: 0,
+    bookmarks: [],
+    bookmarksCount: 0,
   },
   {
     id: "9",
@@ -101,6 +170,12 @@ const posts = [
     avatar: "https://i.pravatar.cc/300?img=29",
     content: "Responsive design tips 🧠",
     video: "https://www.w3schools.com/html/movie.mp4",
+    likes: [],
+    likesCount: 0,
+    reposts: [],
+    repostsCount: 0,
+    bookmarks: [],
+    bookmarksCount: 0,
   },
   {
     id: "10",
@@ -109,6 +184,12 @@ const posts = [
     avatar: "https://i.pravatar.cc/300?img=35",
     content: "Frontend magic ✨",
     image: "https://picsum.photos/seed/6/600/400",
+    likes: [],
+    likesCount: 0,
+    reposts: [],
+    repostsCount: 0,
+    bookmarks: [],
+    bookmarksCount: 0,
   },
 ];
 

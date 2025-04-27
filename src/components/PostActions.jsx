@@ -5,7 +5,12 @@ import RepostButton from "./RepostButton";
 import CommentButton from "./CommentButton";
 import BookmarkButton from "./BookmarkButton";
 
-export default function PostActions() {
+export default function PostActions({
+  likesCount = 0,
+  commentsCount = 0,
+  repostsCount = 0,
+  bookmarksCount = 0,
+}) {
   return (
     <Box
       sx={{
@@ -18,7 +23,6 @@ export default function PostActions() {
         padding: 1,
         marginLeft: "30px",
         marginTop: "0px",
-      
       }}
     >
       {/* Desktop & Mobile Layouts */}
@@ -29,15 +33,14 @@ export default function PostActions() {
           paddingLeft: { xs: "0px", md: "28px" },
           justifyContent: { xs: "space-around", md: "flex-start" },
           flexGrow: 1,
-
         }}
       >
-        <LikeButton />
-        <RepostButton />
-        <CommentButton />
+        <LikeButton initialLikes={likesCount} />
+        <RepostButton initialReposts={repostsCount} />
+        <CommentButton initialComments={commentsCount} />
       </Box>
       <Box>
-        <BookmarkButton />
+        <BookmarkButton bookmarksCount={bookmarksCount} />
       </Box>
     </Box>
   );

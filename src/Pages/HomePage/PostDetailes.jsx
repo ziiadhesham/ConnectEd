@@ -96,6 +96,10 @@ const PostDetails = () => {
             content={post.content}
             video={post.video}
             image={post.image}
+            likesCount={post.likesCount}           /* ✅ Pass likes */
+            repostsCount={post.repostsCount}       /* ✅ Pass reposts */
+            commentsCount={post.comments?.length || 0}  /* ✅ Pass number of comments */
+            bookmarks={post.bookmarks || []}       /* ✅ Pass bookmarks */
           />
 
           {/* Comments */}

@@ -205,18 +205,25 @@ import useSidebarStore from "../../Stores/SideBarStore";
               {tab === "left" ? (
                 
                    <div className="posts-container" style={{ maxWidth: "720px" }}>
-            {posts.map((post) => (
-              <TextAndPhoto
-                key={post.id}
-                username={post.username}
-                time={post.time}
-                avatar={post.avatar}
-                content={post.content}
-                image={post.image}
-                video={post.video}
-                onClick={(e) => handlePostClick(post.id, e)}
-              />
-            ))}
+                {posts.map((post) => (
+            <TextAndPhoto
+              key={post.id}
+              username={post.username}
+              time={post.time}
+              avatar={post.avatar}
+              content={post.content}
+              image={post.image}
+              video={post.video}
+              likes={post.likes}
+              likesCount={post.likesCount}
+              reposts={post.reposts}
+              repostsCount={post.repostsCount}
+              bookmarks={post.bookmarks}
+              bookmarksCount={post.bookmarksCount}
+              commentsCount={post.comments?.length || 0}
+              onClick={(e) => handlePostClick(post.id, e)}
+            />
+          ))}
           </div>
               ) : (
                 <Typography>Showing Replies...</Typography>
