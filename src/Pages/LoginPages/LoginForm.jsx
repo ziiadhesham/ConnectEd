@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import './LoginForm.css';
 import { Link, useNavigate } from 'react-router-dom';
 import usersAccounts from '../../MockData/usersAccountsData'; // Import mock user data
+import useUserStore from '../../Stores/UseUserStore';
 
 const LoginForm = () => {
+const setUserId = useUserStore((state) => state.setUserId);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
   // Handle form submission
   const handleLogin = (e) => {
     e.preventDefault();
@@ -20,6 +21,7 @@ const LoginForm = () => {
 
     if (user) {
       // Successful login, redirect to home page
+      setUserId(user.id);
       navigate('/home');
     } else {
       // Show error if credentials are invalid

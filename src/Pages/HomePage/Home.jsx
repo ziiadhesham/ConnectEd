@@ -3,7 +3,6 @@ import { Box, useMediaQuery, useTheme } from "@mui/material";
 import Feed from "./Feed";
 import TrendingTopics from "./TrendingTopics";
 import useSidebarStore from "../../Stores/SideBarStore";
-
 const HomePage = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));

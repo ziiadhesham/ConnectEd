@@ -17,7 +17,7 @@ const SignUpForm = () => {
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" />
           Sign up with Google
         </button>
-        <p>Already have an account? <Link to="/login">Sign in</Link></p>
+        <p>Already have an account? <Link to="../">Sign in</Link></p>
       </div>
 
       <div className="footer">

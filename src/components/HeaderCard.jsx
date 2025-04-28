@@ -3,21 +3,19 @@ import { Card, CardMedia, Box, Avatar, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import headerImg from './profileheaderz.svg';
-import avatarImg from './AvatarProfile.svg';
 
-export default function HeaderCard() {
+export default function HeaderCard({ profilePicture }) { // Use destructuring to access the prop
   return (
     <Card
-    sx={{
-    position: 'relative',
-    width: '100%',
-    marginBottom: 10,
-    borderRadius: 3,
-    overflow: 'visible',
-    backgroundColor: '#1a1a1a',
-  }}
-  >
-
+      sx={{
+        position: 'relative',
+        width: '100%',
+        marginBottom: 10,
+        borderRadius: 3,
+        overflow: 'visible',
+        backgroundColor: '#1a1a1a',
+      }}
+    >
       {/* Background Header Image */}
       <Box sx={{ position: 'relative', height: { xs: 120, sm: 160 }, backgroundColor: '#1a1a1a' }}>
         <CardMedia
@@ -63,7 +61,7 @@ export default function HeaderCard() {
 
       {/* Profile Avatar */}
       <Avatar
-        src={avatarImg}
+        src={profilePicture} // The prop will now work here
         alt="Profile"
         sx={{
           width: { xs: 60, sm: 75 },
@@ -75,6 +73,5 @@ export default function HeaderCard() {
         }}
       />
     </Card>
-    
   );
 }

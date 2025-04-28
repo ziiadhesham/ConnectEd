@@ -18,10 +18,16 @@ import { useLocation, Link } from 'react-router-dom';
 import NotificationButton from './NotificationButton';
 import SocialSidebarItem from './SocialSidebarItem';
 import SocialSidebarUserItem from './SocialSidebarUserItem';
+import usersAccounts from "../MockData/usersAccountsData"; // Your users mock data
+import useUserStore from "../Stores/UseUserStore"; // Hook to get userId
 
 const Sidebar = ({ open, toggleDrawer, notificationCount = 0 }) => {
+  const { userId } = useUserStore();
   const location = useLocation();
   const currentPath = location.pathname.toLowerCase();
+
+  // Find the user based on userId
+  const currentUser = usersAccounts.find(user => user.id === userId);
 
   const menuItems = [
     { icon: <Home />, label: 'Home' },
@@ -86,12 +92,15 @@ const Sidebar = ({ open, toggleDrawer, notificationCount = 0 }) => {
 
       {/* Footer with User + Post */}
       <Box p={1}>
-        <SocialSidebarUserItem
-          name="Kohaku"
-          username="kohaku"
-          collapsed={!open}
-          active={false}
-        />
+        {currentUser && (
+          <SocialSidebarUserItem
+            name={currentUser.name}
+            username={currentUser.username}
+            avatar={currentUser.profilePicture}
+            collapsed={!open}
+            active={false}
+          />
+        )}
         {open ? (
           <Button
             variant="contained"
@@ -106,7 +115,15 @@ const Sidebar = ({ open, toggleDrawer, notificationCount = 0 }) => {
             Post
           </Button>
         ) : (
-          <IconButton sx={{ color: 'white', mt: 1, borderRadius: "32px", bgcolor: "rgba(40, 40, 40, 0.7)", ml: "4px" }}>
+          <IconButton
+            sx={{
+              color: 'white',
+              mt: 1,
+              borderRadius: "32px",
+              bgcolor: "rgba(40, 40, 40, 0.7)",
+              ml: "4px",
+            }}
+          >
             <Add />
           </IconButton>
         )}

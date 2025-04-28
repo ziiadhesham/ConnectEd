@@ -6,7 +6,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Check from "./check"; // Import the Check component
 import { Link } from "react-router";
 
-const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
+const SocialSidebarUserItem = ({ name, username, avatar, collapsed, active }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -31,45 +31,47 @@ const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
     >
       <ListItemAvatar
         sx={{
-          position: "relative", // Enables absolute positioning for child elements
+          position: "relative",
           paddingLeft: collapsed ? 6 : 0,
           paddingRight: collapsed ? 4 : 0,
         }}
       >
-        {/* Online/Offline Check Icon at Top-Left Corner */}
+        {/* Online/Offline Check Icon */}
         <Box
           sx={{
             position: "absolute",
             top: 5,
             left: 5,
-            transform: "translate(-30%, -30%)", // Adjust positioning
+            transform: "translate(-30%, -30%)",
             zIndex: 2,
             borderRadius: "50%",
             padding: "2px",
           }}
         >
-          <Check active={true} /> 
+          <Check active={true} />
         </Box>
 
-        <Avatar src="https://via.placeholder.com/40" alt={name} />
+        <Avatar src={avatar} alt={name} />
       </ListItemAvatar>
 
       {!collapsed && (
         <ListItemText
           primaryTypographyProps={{ color: "#F8F8F8B2", fontSize: 14, fontWeight: 600 }}
-          secondaryTypographyProps={{ color: "##F8F8F880", fontSize: 12 }}
+          secondaryTypographyProps={{ color: "#F8F8F880", fontSize: 12 }}
           primary={name}
           secondary={`@${username}`}
         />
       )}
 
       {!active && (
-        <IconButton sx={{ color: "white" }} onClick={(e) =>{ 
-          e.preventDefault();
-          e.stopPropagation(); 
-          setShowMenu((prev) => !prev)
-          
-        }}>
+        <IconButton
+          sx={{ color: "white" }}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setShowMenu((prev) => !prev);
+          }}
+        >
           <MoreVertIcon />
         </IconButton>
       )}
@@ -91,10 +93,10 @@ const SocialSidebarUserItem = ({ name, username, collapsed, active }) => {
             zIndex: 3,
           }}
         >
-             <Link key={"Settings"} to={"/Settings"} style={{ textDecoration: 'none' }}>
-          <IconButton sx={{ color: "white" }}>
-            <SettingsIcon />
-          </IconButton>
+          <Link key={"Settings"} to={"/Settings"} style={{ textDecoration: "none" }}>
+            <IconButton sx={{ color: "white" }}>
+              <SettingsIcon />
+            </IconButton>
           </Link>
           <IconButton sx={{ color: "white" }}>
             <LogoutIcon />

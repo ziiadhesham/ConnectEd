@@ -8,7 +8,7 @@ import {
     Fade,
     Grow
   } from "@mui/material";
-  import { useState } from "react";
+  import { useEffect, useState } from "react";
   import { useNavigate } from "react-router-dom";
   import Sidebar from "../../components/Sidebar";
   import TrendingTopics from "../HomePage/TrendingTopics";
@@ -19,22 +19,48 @@ import {
   import TextAndVedio from "../../components/TextAndVedio";
   import posts from "../../MockData/PostsData";
 import useSidebarStore from "../../Stores/SideBarStore";
-  
+import usersAccounts from "../../MockData/usersAccountsData";
+import useUserStore from "../../Stores/UseUserStore";
   const Profile = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
     const { sidebarOpen, toggleSidebar } = useSidebarStore();
+    
 
     const sidebarWidth = sidebarOpen ? 300 : 72;
     const [tab, setTab] = useState("left");
     const navigate = useNavigate();
-  
+    const { userId } = useUserStore();
     const [isEditing, setIsEditing] = useState(false);
     const [name, setName] = useState("Zoz beh");
     const [username, setUsername] = useState("@ziiadehesham");
     const [bio, setBio] = useState(`🧠 UI/UX Designer | 💡 Crafting seamless digital experiences
   🚀 Designing user-centric interfaces
   📍 NYC | Post on #Design #UX #UI`);
+ const[postslist, setPostsList] = useState([]);
+  const [profilePicturee, setProfilePicture] = useState("");
+  const [followersDialogOpen, setFollowersDialogOpen] = useState(false);
+  const [followingDialogOpen, setFollowingDialogOpen] = useState(false);
+
+  const [followersList, setFollowersList] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
+  useEffect(() => {
+    if (userId) {
+      const userData = usersAccounts.find(user => user.id === userId);
+      if (userData) {
+        setName(userData.name);
+        setUsername(userData.username);
+        setBio(userData.bio);
+        setProfilePicture(userData.profilePicture);
+        setFollowersList(usersAccounts.filter(user => userData.followers.includes(user.id)));
+        setFollowingList(usersAccounts.filter(user => userData.following.includes(user.id))); 
+        setPostsList(userData.posts);
+        console.log(postslist);
+        console.log("User data:", userData);
+         
+      }
+    }
+  }, [userId]);
   const handleTabChange = (newTab) => {
       setTab(newTab);
     };
@@ -79,7 +105,7 @@ import useSidebarStore from "../../Stores/SideBarStore";
             color: "white",
           }}
         >
-          <HeaderCard />
+          <HeaderCard profilePicture={profilePicturee} />
   
           <Box sx={{ maxWidth: '600px' }}>
             {/* Name and Edit Button */}
@@ -172,12 +198,18 @@ import useSidebarStore from "../../Stores/SideBarStore";
             )}
   
             <Box sx={{ display: 'flex', gap: 2, mt: 2, fontSize: 14 }}>
-              <Box>📸 8 posts</Box>
+              <Box>{postslist.length} posts</Box>
               <Box
                 onClick={() => navigate("/followers")}
                 sx={{ cursor: "pointer", "&:hover": { textDecoration: "underline" } }}
               >
-                👥 0 followers
+                {followersList.length} followers
+              </Box>
+              <Box
+                onClick={() => navigate("/followers")}
+                sx={{ cursor: "pointer", "&:hover": { textDecoration: "underline" } }}
+              >
+                {followingList.length} following
               </Box>
               <Box>
                 🔗{" "}
@@ -205,25 +237,31 @@ import useSidebarStore from "../../Stores/SideBarStore";
               {tab === "left" ? (
                 
                    <div className="posts-container" style={{ maxWidth: "720px" }}>
-                {posts.map((post) => (
-            <TextAndPhoto
-              key={post.id}
-              username={post.username}
-              time={post.time}
-              avatar={post.avatar}
-              content={post.content}
-              image={post.image}
-              video={post.video}
-              likes={post.likes}
-              likesCount={post.likesCount}
-              reposts={post.reposts}
-              repostsCount={post.repostsCount}
-              bookmarks={post.bookmarks}
-              bookmarksCount={post.bookmarksCount}
-              commentsCount={post.comments?.length || 0}
-              onClick={(e) => handlePostClick(post.id, e)}
-            />
-          ))}
+              {posts.filter((post) => post.userId === userId).map((post) => {
+ // Adjust this line to match the source of the logged-in user's ID
+
+  return (
+    <TextAndPhoto
+      key={post.id}
+      username={post.username}
+      time={post.time}
+      avatar={post.avatar}
+      content={post.content}
+      image={post.image}
+      video={post.video}
+      likes={post.likes}
+      likesCount={post.likesCount}
+      reposts={post.reposts}
+      repostsCount={post.repostsCount}
+      bookmarks={post.bookmarks}
+      bookmarksCount={post.bookmarksCount}
+      commentsCount={post.comments?.length || 0}
+      onClick={(e) => handlePostClick(post.id, e)}
+ // This can be used inside the TextAndPhoto component
+    />
+  );
+})}
+
           </div>
               ) : (
                 <Typography>Showing Replies...</Typography>

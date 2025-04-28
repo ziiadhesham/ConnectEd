@@ -1,59 +1,28 @@
 "use client";
 import React, { useState } from "react";
-import { Box, Typography } from "@mui/material";
-import ToggleTextButton from "./ToggleTextButton"; // Adjust the path as needed
+import { Box } from "@mui/material";
+import ToggleTextButton from "./ToggleTextButton";
 import ProfileCard from "./ProfileCard";
 import styles from "../Pages/ProfileGuessViewFeatured.module.css";
+import usersAccounts from "../MockData/usersAccountsData";
+import useUserStore from "../Stores/UseUserStore";
 
 function FollowSuggestions() {
-  const [activeTab, setActiveTab] = useState("Who to follow");
+  const { userId } = useUserStore();
+  const [activeTab, setActiveTab] = useState("Followers");
 
-  const profiles = [
-    {
-      avatar:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/c62c899c4c147d8db5c1a2310fdf816d6982cd5d?placeholderIfAbsent=true&apiKey=e8c977dc9b2946bd9e217b52d0aa041e",
-      name: "Kohaku",
-      handle: "Lolita52",
-      description: "I design digital products and ventures.",
-      isFollowing: false,
-    },
-    {
-      avatar:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/55f3ab30e6a802b124a284953fba1e4230b63772?placeholderIfAbsent=true&apiKey=e8c977dc9b2946bd9e217b52d0aa041e",
-      name: "Nettie Schuster",
-      handle: "Precious3",
-      description: "I design digital products and ventures.",
-      isFollowing: true,
-    },
-    {
-      avatar:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/a7ee1ecbdf1b298087dbf699526152c7cba705c8?placeholderIfAbsent=true&apiKey=e8c977dc9b2946bd9e217b52d0aa041e",
-      name: "Mrs. Lola Rohan",
-      handle: "Collin.Marks",
-      description: "I design digital products and ventures.",
-      isFollowing: true,
-    },
-    {
-      avatar:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/8b2842056b06ffd20289336e2ba1238c4d6919bd?placeholderIfAbsent=true&apiKey=e8c977dc9b2946bd9e217b52d0aa041e",
-      name: "Kohaku",
-      handle: "Susana_Dickens",
-      description: "I design digital products and ventures.",
-      isFollowing: false,
-    },
-    {
-      avatar:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/8ac9772bede7dce7fc60a987aa0b6c90474218d2?placeholderIfAbsent=true&apiKey=e8c977dc9b2946bd9e217b52d0aa041e",
-      name: "Brandi Padberg",
-      handle: "Abbie_Pollich34",
-      description:
-        'The "No Code SaaS" Guy. Building a portfolio of software companies. Join my newsletter and I\'ll send you free goodies on getting started in SaaS',
-      isFollowing: false,
-    },
-  ];
+  const loggedInUser = usersAccounts.find((user) => user.id === userId);
+
+  const followersData = loggedInUser
+    ? usersAccounts.filter((user) => loggedInUser.followers.includes(user.id))
+    : [];
+
+  const followingData = loggedInUser
+    ? usersAccounts.filter((user) => loggedInUser.following.includes(user.id))
+    : [];
 
   const handleTabChange = (side) => {
-    const selectedTab = side === "left" ? "Who to follow" : "Trending topics";
+    const selectedTab = side === "left" ? "Followers" : "Following";
     setActiveTab(selectedTab);
   };
 
@@ -61,11 +30,13 @@ function FollowSuggestions() {
     alert("Show more profiles");
   };
 
+  const displayedProfiles = activeTab === "Followers" ? followersData : followingData;
+
   return (
     <aside className={styles.widgetwhotofollow}>
-      <Box sx={{display: "flex", justifyContent: "center"}}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         <ToggleTextButton
-          tab={activeTab === "Who to follow" ? "left" : "right"}
+          tab={activeTab === "Followers" ? "left" : "right"}
           handleTabChange={handleTabChange}
           leftText="Followers"
           rightText="Following"
@@ -73,16 +44,16 @@ function FollowSuggestions() {
       </Box>
 
       <div className={styles.profileCards}>
-        {activeTab === "Who to follow" ? (
+        {displayedProfiles.length > 0 ? (
           <div className={styles.div13}>
-            {profiles.map((profile, index) => (
+            {displayedProfiles.map((profile, index) => (
               <ProfileCard
-                key={index}
-                avatar={profile.avatar}
+                key={profile.id}
+                avatar={profile.profilePicture}
                 name={profile.name}
-                handle={profile.handle}
-                description={profile.description}
-                isFollowing={profile.isFollowing}
+                handle={profile.username}
+                description={profile.bio}
+                isFollowing={loggedInUser.following.includes(profile.id)}
                 index={index}
               />
             ))}
@@ -102,17 +73,7 @@ function FollowSuggestions() {
           </div>
         ) : (
           <div className={styles.div14}>
-            {profiles.map((profile, index) => (
-              <ProfileCard
-                key={index}
-                avatar={profile.avatar}
-                name={profile.name}
-                handle={profile.handle}
-                description={profile.description}
-                isFollowing={profile.isFollowing}
-                index={index}
-              />
-            ))}
+            <p>No {activeTab.toLowerCase()} yet.</p>
           </div>
         )}
       </div>

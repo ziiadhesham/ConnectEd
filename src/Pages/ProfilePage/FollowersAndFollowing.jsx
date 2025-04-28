@@ -8,6 +8,7 @@ import ToggleTextButton from "../../components/ToggleTextButton";
 
 
 const Followers = () => {
+
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
     const [sidebarOpen, setSidebarOpen] = useState(true);
