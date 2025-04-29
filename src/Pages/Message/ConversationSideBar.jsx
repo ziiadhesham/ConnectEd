@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import {
   Box,
   IconButton,
-  Avatar,
-  Typography,
-  Stack,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
@@ -12,56 +9,31 @@ import ConversationItem from "../../components/ConversationItem";
 import ToggleTextButton from "../../components/ToggleTextButton";
 import ComposerInput from "../../components/ComposerInput";
 import CreateNewConversation from "../../components/CreateNewConversation";
+import useUserStore from "../../Stores/UseUserStore";
+import users from "../../MockData/usersAccountsData";
+import messages from "../../MockData/MessagesData";
 
 const ConversationSideBar = () => {
   const [tab, setTab] = useState("left");
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  const { userId } = useUserStore();
+
+  // Find the current user object
+  const currentUser = users.find(user => user.id === userId);
+console.log(currentUser);
+
+  // Fallback to empty array if following is undefined
+  const following = currentUser?.following || [];
+
+  // Show only users that the current user follows
+  const usersToDisplay =users.filter(user => following.includes(user.id));
+  
+
   const handleTabChange = (newTab) => setTab(newTab);
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
-
-  const users = [
-    {
-      name: "Kohaku",
-      message: "I'm thinking we could use som...",
-      time: "1m",
-      avatarUrl: "https://i.pravatar.cc/40?img=6",
-    },
-    {
-      name: "Moyo Shiro",
-      message: "Because we need to disable the zoom",
-      time: "50m",
-      avatarUrl: "https://i.pravatar.cc/40?img=7",
-    },
-    {
-      name: "Totoro",
-      message: "Want to make sure you're aware of the points t...",
-      time: "1h",
-      avatarUrl: "https://i.pravatar.cc/40?img=8",
-    },
-    {
-      name: "Ryo",
-      message: "That's so good. I like your style",
-      time: "23h",
-      avatarUrl: "https://i.pravatar.cc/40?img=9",
-    },
-    {
-      name: "Kira Tora",
-      message: "We need to fix the search box",
-      time: "1d",
-      avatarUrl: "https://i.pravatar.cc/40?img=10",
-    },
-  ];
-
-  const onlineUsers = [
-    "https://i.pravatar.cc/40?img=11",
-    "https://i.pravatar.cc/40?img=12",
-    "https://i.pravatar.cc/40?img=13",
-    "https://i.pravatar.cc/40?img=14",
-    "https://i.pravatar.cc/40?img=15",
-  ];
 
   return (
     <>
@@ -77,7 +49,7 @@ const ConversationSideBar = () => {
       >
         {/* Search and Add */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-          <ComposerInput />
+          <ComposerInput /> 
           <IconButton
             onClick={handleOpenModal}
             sx={{
@@ -103,17 +75,19 @@ const ConversationSideBar = () => {
 
         {/* Conversation List */}
         <Box sx={{ flex: 1, overflowY: "auto", pr: 1 }}>
-          {users.map((user, index) => (
+          {usersToDisplay.map((user, index) => (
             <Box
               key={index}
               onClick={() => setSelectedIndex(index)}
               sx={{ cursor: "pointer", mb: "10px" }}
             >
+              
+          
               <ConversationItem
                 name={user.name}
                 message={user.message}
                 time={user.time}
-                avatarUrl={user.avatarUrl}
+                avatarUrl={user.profilePicture}
                 state={selectedIndex === index ? "selected" : "default"}
               />
             </Box>
