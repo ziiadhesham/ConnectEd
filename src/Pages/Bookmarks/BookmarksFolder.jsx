@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   IconButton,
@@ -14,22 +14,37 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import FolderIcon from "@mui/icons-material/Folder";
 import CheckIcon from "@mui/icons-material/Check";
-import SocialFolderItem from "../../components/SocialFolderItem";
 import ToggleTextButton from "../../components/ToggleTextButton";
 import ComposerInput from "../../components/ComposerInput";
+import useBookmarkFolderStore from "../../Stores/useBookmarkFolderStore";
+import bookmarkFolders from "../../MockData/bookmarkFoldersData"; // Updated import
+import bookmarks from "../../MockData/bookmarksData"; // Updated import
+import useUserStore from "../../Stores/UseUserStore";
 
 const BookmarksFolder = () => {
+  const { userId } = useUserStore(); // Get current logged-in user ID
   const [tab, setTab] = useState("left");
-  const [selectedIndex, setSelectedIndex] = useState(null);
-  const [bookmarkFolders, setBookmarkFolders] = useState([
-    { id: 1, title: "Design Ideas", count: 12 },
-    { id: 2, title: "Inspiration", count: 8 },
-    { id: 3, title: "Saved Threads", count: 20 },
-    { id: 4, title: "Development", count: 5 },
-    { id: 5, title: "Articles", count: 14 },
-  ]);
   const [creatingNew, setCreatingNew] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
+
+  const { selectedFolderId, setSelectedFolderId } = useBookmarkFolderStore();
+
+  // Filter folders to only those that belong to the current user
+  const [folders, setFolders] = useState(
+    bookmarkFolders.filter((folder) => folder.userId === userId)
+  );
+
+  // Calculate the number of posts for each folder and update the folder object
+  useEffect(() => {
+    setFolders((prevFolders) =>
+      prevFolders.map((folder) => {
+        const folderPosts = bookmarks.filter(
+          (bookmark) => bookmark.folderId === folder.id && bookmark.userId === userId
+        );
+        return { ...folder, count: folderPosts.length };
+      })
+    );
+  }, [userId]);
 
   const handleTabChange = (newTab) => setTab(newTab);
 
@@ -39,9 +54,10 @@ const BookmarksFolder = () => {
       const newFolder = {
         id: Date.now(),
         title: name,
-        count: 0,
+        count: 0, // Initially set to 0, will be updated on render
+        userId, // assign folder to current user
       };
-      setBookmarkFolders((prev) => [...prev, newFolder]);
+      setFolders((prev) => [...prev, newFolder]);
       setNewFolderName("");
       setCreatingNew(false);
     }
@@ -58,7 +74,7 @@ const BookmarksFolder = () => {
         height: "100vh",
       }}
     >
-      {/* Search input */}
+      {/* Search + Add Folder Button */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
         <ComposerInput />
         <IconButton
@@ -75,19 +91,11 @@ const BookmarksFolder = () => {
         </IconButton>
       </Box>
 
-      {/* Tabs */}
-      <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
-        <ToggleTextButton
-          tab={tab}
-          handleTabChange={handleTabChange}
-          leftText="Primary"
-          rightText="Request"
-        />
-      </Box>
 
       {/* Folder List */}
       <Box sx={{ flex: 1, overflowY: "auto", pr: 1 }}>
         <List dense>
+          {/* New folder input */}
           {creatingNew && (
             <ListItem
               sx={{
@@ -128,7 +136,8 @@ const BookmarksFolder = () => {
             </ListItem>
           )}
 
-          {bookmarkFolders.map((folder, index) => (
+          {/* Render folders */}
+          {folders.map((folder) => (
             <ListItem
               key={folder.id}
               sx={{
@@ -136,11 +145,12 @@ const BookmarksFolder = () => {
                 mb: 1,
                 px: 2,
                 backgroundColor:
-                  selectedIndex === folder.id
+                  selectedFolderId === folder.id
                     ? "rgba(255,255,255,0.08)"
                     : "transparent",
+                cursor: "pointer",
               }}
-              onClick={() => setSelectedIndex(folder.id)}
+              onClick={() => setSelectedFolderId(folder.id)}
               button
             >
               <ListItemAvatar>
@@ -149,13 +159,14 @@ const BookmarksFolder = () => {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={folder.title}
+                primary={folder.name}
                 primaryTypographyProps={{ color: "#fff" }}
               />
+              {/* Display folder count */}
               <Typography variant="body2" sx={{ color: "#aaa", mr: 1 }}>
                 {folder.count}
               </Typography>
-              {selectedIndex === folder.id && (
+              {selectedFolderId === folder.id && (
                 <CheckIcon sx={{ color: "#aaa" }} />
               )}
             </ListItem>

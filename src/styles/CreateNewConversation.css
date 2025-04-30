@@ -6,6 +6,7 @@ justify-content: center;
 align-items: center;
 gap: 10px;
 border-radius: 32px;
+cursor: pointer;
 
 background:  rgba(40, 40, 40, 0.70);
 /* Blur */

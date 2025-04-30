@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
@@ -12,24 +12,57 @@ import CreateNewConversation from "../../components/CreateNewConversation";
 import useUserStore from "../../Stores/UseUserStore";
 import users from "../../MockData/usersAccountsData";
 import messages from "../../MockData/MessagesData";
+import useConversationStore from "../../Stores/useConversationStore";
 
 const ConversationSideBar = () => {
+  const { setSelectedUserId } = useConversationStore();
+
   const [tab, setTab] = useState("left");
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   const { userId } = useUserStore();
 
-  // Find the current user object
+  // Get current user
   const currentUser = users.find(user => user.id === userId);
-console.log(currentUser);
-
-  // Fallback to empty array if following is undefined
   const following = currentUser?.following || [];
 
-  // Show only users that the current user follows
-  const usersToDisplay =users.filter(user => following.includes(user.id));
+  // Filter messages where current user is sender or receiver
+  const userMessages = messages.filter(
+    (msg) => msg.senderId === userId || msg.receiverId === userId
+  );
+
   
+
+  // Create map of last message per other user
+  const conversationMap = new Map();
+
+  userMessages.forEach((msg) => {
+    const otherUserId = msg.senderId === userId ? msg.receiverId : msg.senderId;
+
+    // Always use the latest message by id (or sort by timestamp if available)
+    if (
+      !conversationMap.has(otherUserId) ||
+      conversationMap.get(otherUserId).id < msg.id
+    ) {
+      conversationMap.set(otherUserId, msg);
+    }
+  });
+
+  const conversationsToDisplay = Array.from(conversationMap.entries()).map(
+    ([otherUserId, message]) => {
+      const otherUser = users.find((u) => u.id === otherUserId);
+
+      return {
+        id: otherUserId,
+        name: otherUser?.name || "Unknown",
+        avatarUrl: otherUser?.profilePicture || "",
+        message: message.message,
+        time: message.time,
+        image: message.image || null,
+      };
+    }
+  );
 
   const handleTabChange = (newTab) => setTab(newTab);
   const handleOpenModal = () => setShowModal(true);
@@ -75,19 +108,22 @@ console.log(currentUser);
 
         {/* Conversation List */}
         <Box sx={{ flex: 1, overflowY: "auto", pr: 1 }}>
-          {usersToDisplay.map((user, index) => (
-            <Box
-              key={index}
-              onClick={() => setSelectedIndex(index)}
-              sx={{ cursor: "pointer", mb: "10px" }}
-            >
-              
+          {conversationsToDisplay.map((conv, index) => (
+           <Box
+           key={conv.id}
+           onClick={() => {
+             setSelectedIndex(index);
+             setSelectedUserId(conv.id); // store the selected user's ID
+           }}
+           sx={{ cursor: "pointer", mb: "10px" }}
+         >
           
               <ConversationItem
-                name={user.name}
-                message={user.message}
-                time={user.time}
-                avatarUrl={user.profilePicture}
+                name={conv.name}
+                message={conv.message}
+                time={conv.time}
+                avatarUrl={conv.avatarUrl}
+                image={conv.image} // optional, if your component uses it
                 state={selectedIndex === index ? "selected" : "default"}
               />
             </Box>

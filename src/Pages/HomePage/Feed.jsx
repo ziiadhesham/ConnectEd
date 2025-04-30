@@ -5,12 +5,15 @@ import TextAndVedio from "../../components/TextAndVedio";
 import ToggleTextButton from "../../components/ToggleTextButton";
 import ProfileCard from "../../components/ProfileCard";
 import { useNavigate } from "react-router-dom";
-import initialPosts from "../../MockData/PostsData"; // rename to initialPosts
+import initialPosts from "../../MockData/PostsData";
+import users from "../../MockData/usersAccountsData";
+import useUserStore from "../../Stores/UseUserStore";
 
 const Feed = () => {
+  const { userId } = useUserStore();
   const [tab, setTab] = useState("left");
   const [searchFocused, setSearchFocused] = useState(false);
-  const [posts, setPosts] = useState(initialPosts); // 🔥 make posts dynamic!
+  const [posts, setPosts] = useState(initialPosts);
   const navigate = useNavigate();
 
   const handleTabChange = (newTab) => {
@@ -25,10 +28,9 @@ const Feed = () => {
 
   const handleAddPost = (newPost) => {
     const newPostObject = {
-      id: Date.now().toString(), // unique id
-      username: "You",
+      id: Date.now().toString(),
+      userId: userId,
       time: "Just now",
-      avatar: "https://i.pravatar.cc/150?img=68",
       content: newPost.text,
       image: newPost.file ? URL.createObjectURL(newPost.file) : null,
       video: null,
@@ -40,16 +42,33 @@ const Feed = () => {
       bookmarksCount: 0,
       comments: [],
     };
-    setPosts([newPostObject, ...posts]); // Prepend new post at the top
+    setPosts([newPostObject, ...posts]);
   };
 
+  const currentUser = users.find((u) => u.id === userId);
+  const followingIds = currentUser?.following || [];
+
+  // Show posts only from followed users and self
+  const followingPosts = posts.filter(
+    (post) => followingIds.includes(post.userId) || post.userId === userId
+  );
+
   return (
-    <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: "100px" }}>
+    <div
+      style={{
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingBottom: "100px",
+      }}
+    >
       <Header
         onSearchFocus={() => setSearchFocused(true)}
         onSearchBlur={() => setSearchFocused(false)}
-        onPost={handleAddPost} // pass the post handler! 🔥
+        onPost={handleAddPost}
       />
+
       {searchFocused && (
         <div className="posts-container">
           <ToggleTextButton
@@ -96,25 +115,31 @@ const Feed = () => {
         </div>
       ) : (
         <div className="posts-container" style={{ maxWidth: "720px" }}>
-          {posts.map((post) => (
-            <TextAndPhoto
-              key={post.id}
-              username={post.username}
-              time={post.time}
-              avatar={post.avatar}
-              content={post.content}
-              image={post.image}
-              video={post.video}
-              likes={post.likes}
-              likesCount={post.likesCount}
-              reposts={post.reposts}
-              repostsCount={post.repostsCount}
-              bookmarks={post.bookmarks}
-              bookmarksCount={post.bookmarksCount}
-              commentsCount={post.comments?.length || 0}
-              onClick={(e) => handlePostClick(post.id, e)}
-            />
-          ))}
+          {followingPosts.map((post) => {
+            const postUser = users.find((u) => u.id === post.userId);
+            if (!postUser) return null;
+            console.log(postUser.profilePicture);
+            
+            return (
+              <TextAndPhoto
+                key={post.id}
+                username={postUser.username}
+                avatar={postUser.profilePicture}
+                time={post.time}
+                content={post.content}
+                image={post.image}
+                video={post.video}
+                likes={post.likes}
+                likesCount={post.likesCount}
+                reposts={post.reposts}
+                repostsCount={post.repostsCount}
+                bookmarks={post.bookmarks}
+                bookmarksCount={post.bookmarksCount}
+                commentsCount={post.comments?.length || 0}
+                onClick={(e) => handlePostClick(post.id, e)}
+              />
+            );
+          })}
         </div>
       )}
     </div>

@@ -3,8 +3,7 @@ import {
   Box,
   Typography,
   IconButton,
-  Avatar,
-  useTheme
+  Avatar
 } from "@mui/material";
 import ReplyIcon from "@mui/icons-material/Reply";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -19,9 +18,7 @@ export default function MessageItem({
   message = "",
   image = null,
   isReply = false,
-  replyAvatar = "/avatar2.png",
-  replyName = "Moya Shiro",
-  replyText = "",
+  replyTo = null, // { name, avatar, message }
   showActions = false
 }) {
   const [hover, setHover] = useState(false);
@@ -47,11 +44,11 @@ export default function MessageItem({
       onMouseLeave={() => setHover(false)}
       sx={{
         display: "flex",
-        marginBottom: "20px" ,
+        marginBottom: "20px",
         alignItems: "flex-start",
         gap: 1.5,
         maxWidth: "100%",
-        width: "100%",
+        width: "auto",
         px: 2,
         py: 1.5,
         backgroundColor: "rgba(248, 248, 248, 0.02)",
@@ -61,7 +58,7 @@ export default function MessageItem({
       }}
     >
       <Box sx={{ flex: 1 }}>
-        {isReply && (
+        {isReply && replyTo && (
           <Box
             sx={{
               display: "flex",
@@ -69,13 +66,14 @@ export default function MessageItem({
               px: 1.5,
               py: 0.8,
               borderRadius: 2,
-              mb: 1
+              mb: 1,
+              bgcolor: "rgba(255,255,255,0.02)"
             }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="20" viewBox="0 0 36 20" fill="none">
               <path d="M1 19V9C1 4.58172 4.58172 1 9 1H35" stroke="#F8F8F8" strokeOpacity="0.1" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
-            <Avatar src={replyAvatar} sx={{ width: 20, height: 20, mr: 1 }} />
+            <Avatar src={replyTo.avatar} sx={{ width: 20, height: 20, mx: 1 }} />
             <Typography
               variant="caption"
               sx={{
@@ -85,11 +83,11 @@ export default function MessageItem({
                 fontSize: 12
               }}
             >
-              <strong>{replyName}</strong> — {replyText}
+              <strong>{replyTo.name}</strong> — {replyTo.message}
             </Typography>
           </Box>
         )}
-        
+
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Avatar src={avatarSrc} sx={{ width: 36, height: 36, mt: 0.3 }} />
           <Box sx={{ display: "flex", alignItems: "baseline", gap: 1, mb: 0.5 }}>
@@ -113,7 +111,7 @@ export default function MessageItem({
             maxWidth: "100%",
             fontSize: 14,
             lineHeight: 1.5,
-            wordBreak: "break-word" // Ensure text wrapping
+            wordBreak: "break-word"
           }}
         >
           <Typography variant="body2" sx={{ whiteSpace: "pre-wrap", overflowWrap: "break-word", mb: image ? 1 : 0 }}>

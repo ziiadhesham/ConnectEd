@@ -9,16 +9,26 @@ import PostComment from "../../components/PostComment";
 import PostModal from "../../components/PostModel";
 import { ArrowBack } from "@mui/icons-material";
 import posts from "../../MockData/PostsData"; // ✅ Mock posts import
+import users from "../../MockData/usersAccountsData";
 
 const PostDetails = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Get the id from the URL (it's a string by default)
   const navigate = useNavigate();
-  const post = posts.find((p) => p.id === id);
+  
+  // Convert `id` to number or string depending on your data type in posts
+  const postId = Number(id); // Convert to number if the posts data uses numbers for IDs
+
+  // Find the post using the correct type for comparison
+  const post = posts.find((p) => p.id === postId); // Ensure you're comparing numbers
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { sidebarOpen, toggleSidebar } = useSidebarStore();
 
-  if (!post) return <div>Post not found</div>;
+  if (!post) return <div>Post not found</div>; // Display "Post not found" if no matching post
+
+  // Get the user for the post using the userId
+  const postUser = users.find((user) => user.id === post.userId);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -89,40 +99,45 @@ const PostDetails = () => {
             gap: 2,
           }}
         >
+          {/* Post Details */}
           <TextAndPhoto
-            username={post.username}
+            username={postUser?.name || "Unknown"}
             time={post.time}
-            avatar={post.avatar}
+            avatar={postUser.profilePicture}
             content={post.content}
             video={post.video}
             image={post.image}
-            likesCount={post.likesCount}           /* ✅ Pass likes */
-            repostsCount={post.repostsCount}       /* ✅ Pass reposts */
-            commentsCount={post.comments?.length || 0}  /* ✅ Pass number of comments */
-            bookmarks={post.bookmarks || []}       /* ✅ Pass bookmarks */
+            likesCount={post.likesCount}
+            repostsCount={post.repostsCount}
+            commentsCount={post.comments?.length || 0}
+            bookmarks={post.bookmarks || []}
           />
 
           {/* Comments */}
-          {post.comments?.map((comment, index) => (
-            <Box
-              key={index}
-              sx={{
-                width: "616px",
-                backgroundColor: "rgba(248, 248, 248, 0.02)",
-                borderRadius: "20px",
-                padding: "0.8rem",
-              }}
-            >
-              <PostComment
-                user={{
-                  name: comment.user?.name,
-                  avatar: comment.user?.avatar,
+          {post.comments?.map((comment, index) => {
+            const commentUser = users.find((user) => user.id === comment.userId);
+
+            return (
+              <Box
+                key={index}
+                sx={{
+                  width: "616px",
+                  backgroundColor: "rgba(248, 248, 248, 0.02)",
+                  borderRadius: "20px",
+                  padding: "0.8rem",
                 }}
-                time={comment.time}
-                text={comment.text}
-              />
-            </Box>
-          ))}
+              >
+                <PostComment
+                  user={{
+                    name: commentUser?.name || "Unknown",
+                    avatar: commentUser?.profilePicture,
+                  }}
+                  time={comment.time}
+                  text={comment.text}
+                />
+              </Box>
+            );
+          })}
 
           {/* Spacer */}
           <Box sx={{ height: "70px" }} />
@@ -145,7 +160,7 @@ const PostDetails = () => {
             borderRadius: "16px",
           }}
         >
-          <PostModal />
+          <PostModal isCommentModal={true} />
         </Box>
       </Box>
 

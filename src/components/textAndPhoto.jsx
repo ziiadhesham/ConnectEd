@@ -65,7 +65,7 @@ function ThreeDotsMenu() {
 const TextAndPhoto = ({
   username = "John Doe",
   time = "09:00 AM",
-  avatar = "https://i.pravatar.cc/300?img=10",
+  avatar ,
   content = "Ready to level up your portfolio game? Check out these 15 standout examples of creative, sleek, and interactive portfolio websites made in...",
   image = "",
   video = "",
@@ -74,8 +74,10 @@ const TextAndPhoto = ({
   repostsCount = 0,
   bookmarksCount = 0,
   onClick,
+  
 }) => {
   return (
+    
     <div
       style={ContainerStyles}
       className="text-and-photo-container"
@@ -83,6 +85,7 @@ const TextAndPhoto = ({
     >
       {/* Info Section */}
       <div style={InfoStyles}>
+        
         <PhotoAvatar src={avatar} />
         <div style={TextStyles}>
           <strong>{username}</strong>

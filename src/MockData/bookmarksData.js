@@ -1,0 +1,35 @@
+const bookmarks = [
+    { id: 1, userId: 1, postId: 1, folderId: 10 },
+    { id: 2, userId: 1, postId: 11, folderId: 11 },
+    { id: 3, userId: 1, postId: 12, folderId: 10 },
+    { id: 4, userId: 2, postId: 10, folderId: 34 },
+    { id: 5, userId: 3, postId: 1, folderId: 20 },
+    { id: 6, userId: 4, postId: 1, folderId: 10 },
+    { id: 7, userId: 5, postId: 10, folderId: 30 },
+    { id: 8, userId: 4, postId: 1, folderId: 21 },
+    { id: 9, userId: 1, postId: 2, folderId: 35 },
+    { id: 10, userId: 8, postId: 2, folderId: 30 },
+    { id: 11, userId: 2, postId: 3, folderId: 21 },
+    { id: 12, userId: 2, postId: 5, folderId: 38 },
+    { id: 13, userId: 2, postId: 1, folderId: 11 },
+    { id: 14, userId: 9, postId: 6, folderId: 14 },
+    { id: 15, userId: 8, postId: 3, folderId: 26 },
+    { id: 16, userId: 2, postId: 14, folderId: 19 },
+    { id: 17, userId: 2, postId: 15, folderId: 30 },
+    { id: 18, userId: 2, postId: 12, folderId: 38 },
+    { id: 19, userId: 2, postId: 16, folderId: 31 },
+    { id: 20, userId: 7, postId: 15, folderId: 39 },
+    { id: 21, userId: 6, postId: 18, folderId: 13 },
+    { id: 22, userId: 11, postId: 3, folderId: 20 },
+    { id: 23, userId: 2, postId: 1, folderId: 28 },
+    { id: 24, userId: 1, postId: 3, folderId: 29 },
+    { id: 25, userId: 2, postId: 11, folderId: 28 },
+    { id: 26, userId: 2, postId: 16, folderId: 30 },
+    { id: 27, userId: 11, postId: 3, folderId: 37 },
+    { id: 28, userId: 24, postId: 8, folderId: 20 },
+    { id: 29, userId: 18, postId: 12, folderId: 15 },
+    { id: 30, userId: 2, postId: 11, folderId: 34 }
+  ];
+  
+  export default bookmarks;
+  
