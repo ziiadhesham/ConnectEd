@@ -109,6 +109,41 @@ const Profile = () => {
         <Box sx={{ width: '100%' }}>
           <HeaderCard profilePicture={profilePicturee} />
 
+          {isEditing && (
+            <Box sx={{ position: "relative", top: "-50px", left: "100px" }}>
+              <Button
+                component="label"
+                sx={{
+                  px: 2,
+                  py: 1,
+                  borderRadius: "20px",
+                  backgroundColor: "#3a3a3a",
+                  color: "#fff",
+                  fontWeight: 500,
+                  textTransform: "none",
+                  "&:hover": {
+                    backgroundColor: "#4a4a4a",
+                  },
+                  boxShadow: "0 0 5px rgba(255,255,255,0.1)",
+                }}
+              >
+                Change Avatar
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      const imageUrl = URL.createObjectURL(file);
+                      setProfilePicture(imageUrl);
+                    }
+                  }}
+                />
+              </Button>
+            </Box>
+          )}
+
           {/* Name and Edit Button */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1 }}>
             {isEditing ? (
