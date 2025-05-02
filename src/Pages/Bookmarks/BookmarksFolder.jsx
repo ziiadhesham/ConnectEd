@@ -75,21 +75,27 @@ const BookmarksFolder = () => {
       }}
     >
       {/* Search + Add Folder Button */}
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-        <ComposerInput />
-        <IconButton
-          onClick={() => setCreatingNew(true)}
-          sx={{
-            backgroundColor: "#2a2a2a",
-            borderRadius: "50%",
-            color: "#fff",
-            ml: 1,
-            "&:hover": { backgroundColor: "#3a3a3a" },
-          }}
-        >
-          <AddIcon />
-        </IconButton>
-      </Box>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
+  <Typography variant="h6" sx={{ color: "#fff", fontWeight: 500
+    ,marginLeft:2
+   }}>
+    Bookmarks
+  </Typography>
+  <IconButton
+    onClick={() => setCreatingNew(true)}
+    sx={{
+      backgroundColor: "#2a2a2a",
+      borderRadius: "50%",
+      color: "#fff",
+      "&:hover": { backgroundColor: "#3a3a3a" },
+      marginRight:2
+    }}
+    title="Create New Folder"
+  >
+    <AddIcon />
+  </IconButton>
+</Box>
+
 
 
       {/* Folder List */}

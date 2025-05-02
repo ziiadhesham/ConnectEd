@@ -81,9 +81,15 @@ const ConversationSideBar = () => {
         }}
       >
         {/* Search and Add */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-          <ComposerInput /> 
-          <IconButton
+        {/* Tabs */}
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
+          <ToggleTextButton
+            tab={tab}
+            handleTabChange={handleTabChange}
+            leftText="Primary"
+            rightText="Request"
+          />
+           <IconButton
             onClick={handleOpenModal}
             sx={{
               backgroundColor: "#2a2a2a",
@@ -94,16 +100,6 @@ const ConversationSideBar = () => {
           >
             <AddIcon />
           </IconButton>
-        </Box>
-
-        {/* Tabs */}
-        <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
-          <ToggleTextButton
-            tab={tab}
-            handleTabChange={handleTabChange}
-            leftText="Primary"
-            rightText="Request"
-          />
         </Box>
 
         {/* Conversation List */}

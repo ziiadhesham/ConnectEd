@@ -255,7 +255,7 @@ const posts = [
     image: "https://picsum.photos/seed/13/600/400",
     likes: [],
     likesCount: 0,
-    reposts: [],
+    reposts: [],  
     repostsCount: 0,
     bookmarks: [],
     bookmarksCount: 0,

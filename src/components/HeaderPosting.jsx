@@ -8,31 +8,25 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import PostModal from './PostModel'; // Assuming PostModal is imported correctly
-import { Margin } from '@mui/icons-material';
+import PostModal from './PostModel';
 
-const Header = ({ onSearchFocus, onSearchBlur }) => {
-  const [tab, setTab] = useState('forYou');
+const Header = ({ tab, setTab, onSearchFocus, onSearchBlur }) => {
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isAdding, setIsAdding] = useState(false);
 
   const handleCloseAdd = () => {
-    setIsAdding(false); // Close the overlay
-  };
-
-  const handleTabChange = (newTab) => {
-    setTab(newTab);
+    setIsAdding(false);
   };
 
   const handleSearchFocus = () => {
-    setSearchFocused(true); // Set search to focused
-    if (onSearchFocus) onSearchFocus(); // Optional: Call the parent's onSearchFocus
+    setSearchFocused(true);
+    if (onSearchFocus) onSearchFocus();
   };
 
   const handleSearchBlur = () => {
-    setSearchFocused(false); // Set search to not focused
-    if (onSearchBlur) onSearchBlur(); // Optional: Call the parent's onSearchBlur
+    setSearchFocused(false);
+    if (onSearchBlur) onSearchBlur();
   };
 
   const handleIconClick = () => {
@@ -41,17 +35,15 @@ const Header = ({ onSearchFocus, onSearchBlur }) => {
       handleSearchBlur();
     } else {
       handleOpenSearch();
-      setIsAdding(true); // Show the overlay when search is opened
+      setIsAdding(true);
     }
   };
 
   const handleOpenSearch = () => {
-    // Handle the search open action (maybe show search results, etc.)
     console.log("Opening search...");
   };
 
   const handleCloseSearch = () => {
-    // Handle closing the search (maybe clear search input, etc.)
     setSearchQuery('');
     setSearchFocused(false);
     console.log("Closing search...");
@@ -70,10 +62,10 @@ const Header = ({ onSearchFocus, onSearchBlur }) => {
         width: '100%',
         height: '50px',
         marginTop: '0px',
-        position: 'relative', // Important to make the overlay absolute to this parent
+        position: 'relative',
       }}
     >
-      {/* Sliding Toggle */}
+      {/* Toggle */}
       <Box
         sx={{
           position: 'relative',
@@ -86,7 +78,6 @@ const Header = ({ onSearchFocus, onSearchBlur }) => {
           padding: '4px',
         }}
       >
-        {/* Sliding background */}
         <Box
           sx={{
             position: 'absolute',
@@ -100,11 +91,9 @@ const Header = ({ onSearchFocus, onSearchBlur }) => {
             zIndex: 1,
           }}
         />
-
-        {/* Buttons */}
         <Box sx={{ display: 'flex', width: '100%', zIndex: 2 }}>
           <button
-            onClick={() => handleTabChange('forYou')}
+            onClick={() => setTab('forYou')}
             style={{
               flex: 1,
               border: 'none',
@@ -121,7 +110,7 @@ const Header = ({ onSearchFocus, onSearchBlur }) => {
             For you
           </button>
           <button
-            onClick={() => handleTabChange('following')}
+            onClick={() => setTab('following')}
             style={{
               flex: 1,
               border: 'none',
@@ -140,7 +129,7 @@ const Header = ({ onSearchFocus, onSearchBlur }) => {
         </Box>
       </Box>
 
-      {/* Search bar */}
+      {/* Search */}
       <Paper
         component="form"
         sx={{
@@ -162,13 +151,13 @@ const Header = ({ onSearchFocus, onSearchBlur }) => {
           inputProps={{ 'aria-label': 'search' }}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          onFocus={handleSearchFocus} // Handle focus
+          onFocus={handleSearchFocus}
         />
       </Paper>
 
-      {/* Icon button */}
+      {/* Action Icon */}
       <IconButton
-        onClick={handleIconClick} // Handle icon click
+        onClick={handleIconClick}
         sx={{
           backgroundColor: 'rgba(40, 40, 40, 0.7)',
           color: '#ccc',
@@ -180,27 +169,27 @@ const Header = ({ onSearchFocus, onSearchBlur }) => {
           },
         }}
       >
-        {searchFocused ? <CloseIcon /> : <AddIcon />} {/* Toggle icon */}
+        {searchFocused ? <CloseIcon /> : <AddIcon />}
       </IconButton>
 
-      {/* Overlay (fullscreen) */}
+      {/* Modal Overlay */}
       {isAdding && (
         <Box
           sx={{
-            position: 'fixed',  // Make the overlay cover the full screen
+            position: 'fixed',
             top: 0,
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.3)', // Darken the background
-            zIndex: 1000,  // Ensure the overlay is above other content
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            zIndex: 1000,
             display: 'flex',
-            justifyContent: 'center', // Center horizontally
-            alignItems: 'center', // Center vertically
-            backdropFilter: 'blur(0px)', // Optional: add blur effect
+            justifyContent: 'center',
+            alignItems: 'center',
+            backdropFilter: 'blur(0px)',
           }}
         >
-          <PostModal value={searchQuery}onPost={()=>{}} sx={{ width: '400px', padding: '20px' }} />
+          <PostModal value={searchQuery} onPost={() => {}} sx={{ width: '400px', padding: '20px' }} />
           <IconButton
             onClick={handleCloseAdd}
             sx={{
@@ -209,10 +198,9 @@ const Header = ({ onSearchFocus, onSearchBlur }) => {
               right: 16,
               backgroundColor: 'rgba(40, 40, 40, 0.7)',
               color: '#fff',
-              cursor: 'pointer',
               '&:hover': {
-            backgroundColor: '#2A2A2A',
-          },
+                backgroundColor: '#2A2A2A',
+              },
             }}
           >
             <CloseIcon sx={{ color: '#ccc' }} />

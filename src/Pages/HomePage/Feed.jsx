@@ -10,6 +10,7 @@ import users from "../../MockData/usersAccountsData";
 import useUserStore from "../../Stores/UseUserStore";
 
 const Feed = () => {
+  const [headertab, headersetTab] = useState('following');
   const { userId } = useUserStore();
   const [tab, setTab] = useState("left");
   const [searchFocused, setSearchFocused] = useState(false);
@@ -53,6 +54,9 @@ const Feed = () => {
     (post) => followingIds.includes(post.userId) || post.userId === userId
   );
 
+  // For You: all posts sorted by likesCount descending
+  const forYouPosts = [...posts].sort((a, b) => b.likesCount - a.likesCount);
+
   return (
     <div
       style={{
@@ -67,6 +71,8 @@ const Feed = () => {
         onSearchFocus={() => setSearchFocused(true)}
         onSearchBlur={() => setSearchFocused(false)}
         onPost={handleAddPost}
+        tab={headertab}
+        setTab={headersetTab}
       />
 
       {searchFocused && (
@@ -115,11 +121,10 @@ const Feed = () => {
         </div>
       ) : (
         <div className="posts-container" style={{ maxWidth: "720px" }}>
-          {followingPosts.map((post) => {
+          {(headertab === "following" ? followingPosts : forYouPosts).map((post) => {
             const postUser = users.find((u) => u.id === post.userId);
             if (!postUser) return null;
-            console.log(postUser.profilePicture);
-            
+
             return (
               <TextAndPhoto
                 key={post.id}
