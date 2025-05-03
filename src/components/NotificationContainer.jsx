@@ -20,7 +20,7 @@ const NotificationContainer = ({ type, name , imageUrl , time , text }) => {
                                 <p className={styles['transparent']}>reposted your post</p>
                             </div>
                             <p>{text}</p>
-                            <p className={styles['transparent']}>{time}</p>
+                            <p className={styles['transparent']}>{time} hours ago</p>
                         </div>
                   </div>
                 );
@@ -36,7 +36,7 @@ const NotificationContainer = ({ type, name , imageUrl , time , text }) => {
                                 <p className={styles['transparent']}>commented on your post</p>
                             </div>
                             <p>{text}</p>
-                            <p className={styles['transparent']}>{time}</p>
+                            <p className={styles['transparent']}>{time} hours ago</p>
                         </div>
                   </div>
                 );
@@ -52,11 +52,11 @@ const NotificationContainer = ({ type, name , imageUrl , time , text }) => {
                             <p className={styles['transparent']}>liked your post</p>
                         </div>
                         <p>{text}</p>
-                        <p className={styles['transparent']}>{time}</p>
+                        <p className={styles['transparent']}>{time} hours ago</p>
                     </div>
               </div>
                 );
-              case 'plus':
+              case 'follow':
                 return (
                     <div className={styles['notification-container']}>
                     <div className={styles['avatar-container']}>
@@ -68,7 +68,7 @@ const NotificationContainer = ({ type, name , imageUrl , time , text }) => {
                             <p className={styles['transparent']}>followed you</p>
                         </div>
                         <p>{text}</p>
-                        <p className={styles['transparent']}>{time}</p>
+                        <p className={styles['transparent']}>{time} hours ago</p>
                     </div>
               </div>
                 );  

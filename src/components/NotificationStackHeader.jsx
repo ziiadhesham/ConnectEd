@@ -9,7 +9,7 @@ const NotificationStackHeader = () => {
   const labels = [
     { key: "tab1", text: "All" },
     { key: "tab2", text: "Likes" },
-    { key: "tab3", text: "Replies" },
+    { key: "tab3", text: "Reposts" },
     { key: "tab4", text: "Follows" },
   ];
 
@@ -32,11 +32,16 @@ const NotificationStackHeader = () => {
     backgroundColor: "transparent",
   };
 
-  // Filter notifications based on the selected tab
-  const filteredNotifications = notifications.filter((notification) => {
-    if (currentTab === "tab1") return true; // Show all notifications
-    return notification.type === currentTab.slice(3).toLowerCase(); // Filter based on type
-  });
+ // Filter notifications based on the selected tab
+const filteredNotifications = notifications.filter((notification) => 
+  { if (currentTab === "tab1") {return true;} 
+    else if (currentTab === "tab2") {return notification.type === "like";} 
+    else if (currentTab === "tab3") {return notification.type === "repost";}
+    else if (currentTab === "tab4") {return notification.type === "follow";}
+});
+
+console.log(filteredNotifications);
+
 
   return (
     <div style={ParentStyle}>
@@ -55,16 +60,19 @@ const NotificationStackHeader = () => {
         </div>
 
         {/* Render notifications dynamically based on filtered data */}
-        {filteredNotifications.map(notification => (
+        {[...filteredNotifications]
+          .sort((a, b) => a.time - b.time ) // oldest to newest
+          .map(notification => (
             <NotificationContainer 
-                key={notification.id}
-                type={notification.type} 
-                name={notification.name} 
-                imageUrl={notification.imageUrl} 
-                time={notification.time} 
-                text={notification.text} 
+              key={notification.id}
+              type={notification.type}
+              name={notification.name}
+              imageUrl={notification.imageUrl}
+              time={notification.time}
+              text={notification.text}
             />
-        ))}
+            ))}
+
     </div>
   );
 };
