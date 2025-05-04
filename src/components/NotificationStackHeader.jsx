@@ -63,14 +63,11 @@ console.log(filteredNotifications);
         {[...filteredNotifications]
           .sort((a, b) => a.time - b.time ) // oldest to newest
           .map(notification => (
+
             <NotificationContainer 
-              key={notification.id}
-              type={notification.type}
-              name={notification.name}
-              imageUrl={notification.imageUrl}
-              time={notification.time}
-              text={notification.text}
+              id={notification.id}
             />
+            
             ))}
 
     </div>

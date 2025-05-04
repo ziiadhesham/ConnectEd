@@ -1,26 +1,28 @@
 import NotificationAvatar from "./NotificationAvatar";
 import styles from '../styles/NotificationContainer.module.css';
 import { margin } from "@mui/system";
+import notifications from "../MockData/NotificationsData";  //from mockData
 
 
-const NotificationContainer = ({ type, name , imageUrl , time , text }) => {
-   
+const NotificationContainer = ({ id }) => {
+
+    const notification = notifications.find((item) => item.id === id);
    
         const renderOverlay = () => {
-            switch (type) {
+            switch (notification.type) {
               case 'repost':
                 return (
                     <div className={styles['notification-container']}>
                         <div className={styles['avatar-container']}>
-                            <NotificationAvatar imageUrl={imageUrl} type="repost" />
+                            <NotificationAvatar imageUrl={notification.imageUrl} type="repost" />
                         </div>
                         <div className={styles['data-container']}>
                             <div className={styles['head-container']}>
-                                <p className={styles['name-container']}>{name}</p> 
+                                <p className={styles['name-container']}>{notification.name}</p> 
                                 <p className={styles['transparent']}>reposted your post</p>
                             </div>
-                            <p>{text}</p>
-                            <p className={styles['transparent']}>{time} hours ago</p>
+                            <p>{notification.text}</p>
+                            <p className={styles['transparent']}>{notification.time} hours ago</p>
                         </div>
                   </div>
                 );
@@ -28,15 +30,15 @@ const NotificationContainer = ({ type, name , imageUrl , time , text }) => {
                 return (
                     <div className={styles['notification-container']}>
                         <div className={styles['avatar-container']}>
-                            <NotificationAvatar imageUrl={imageUrl} type="comment" />
+                            <NotificationAvatar imageUrl={notification.imageUrl} type={notification.type}/>
                         </div>
                         <div className={styles['data-container']}>
                             <div className={styles['head-container']}>
-                                <p className={styles['name-container']}>{name}</p> 
+                                <p className={styles['name-container']}>{notification.name}</p> 
                                 <p className={styles['transparent']}>commented on your post</p>
                             </div>
-                            <p>{text}</p>
-                            <p className={styles['transparent']}>{time} hours ago</p>
+                            <p>{notification.text}</p>
+                            <p className={styles['transparent']}>{notification.time} hours ago</p>
                         </div>
                   </div>
                 );
@@ -44,15 +46,15 @@ const NotificationContainer = ({ type, name , imageUrl , time , text }) => {
                 return (
                     <div className={styles['notification-container']}>
                     <div className={styles['avatar-container']}>
-                        <NotificationAvatar imageUrl={imageUrl} type="like" />
+                        <NotificationAvatar imageUrl={notification.imageUrl} type={notification.type} />
                     </div>
                     <div className={styles['data-container']}>
                         <div className={styles['head-container']}>
-                            <p className={styles['name-container']}>{name}</p> 
+                            <p className={styles['name-container']}>{notification.name}</p> 
                             <p className={styles['transparent']}>liked your post</p>
                         </div>
-                        <p>{text}</p>
-                        <p className={styles['transparent']}>{time} hours ago</p>
+                        <p>{notification.text}</p>
+                        <p className={styles['transparent']}>{notification.time} hours ago</p>
                     </div>
               </div>
                 );
@@ -60,15 +62,15 @@ const NotificationContainer = ({ type, name , imageUrl , time , text }) => {
                 return (
                     <div className={styles['notification-container']}>
                     <div className={styles['avatar-container']}>
-                        <NotificationAvatar imageUrl={imageUrl} type="plus" />
+                        <NotificationAvatar imageUrl={notification.imageUrl} type={notification.type} />
                     </div>
                     <div className={styles['data-container']}>
                         <div className={styles['head-container']}>
-                            <p className={styles['name-container']}>{name}</p> 
+                            <p className={styles['name-container']}>{notification.name}</p> 
                             <p className={styles['transparent']}>followed you</p>
                         </div>
-                        <p>{text}</p>
-                        <p className={styles['transparent']}>{time} hours ago</p>
+                        <p>{notification.text}</p>
+                        <p className={styles['transparent']}>{notification.time} hours ago</p>
                     </div>
               </div>
                 );  
