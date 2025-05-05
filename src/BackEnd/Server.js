@@ -31,3 +31,4 @@ app.listen(port, () => {
 });
 
 app.use('/api/posts', require('./Posts/postRoutes'));
+app.use('/api/messages', require('./Messages/messageRoutes'));
