@@ -1,11 +1,11 @@
 import NotificationContainer from "./NotificationContainer";
 import NavNotification from "./NavNotification";
 import React, { useState } from "react";
-import notifications from "../MockData/NotificationsData"; // Importing mock data
-
+import notifications from "../MockData/NotificationsData";
+import useUserStore from "../Stores/UseUserStore";
 const NotificationStackHeader = () => {
-  const [currentTab, setCurrentTab] = useState("tab1");
-
+const [currentTab, setCurrentTab] = useState("tab1");
+const { userId } = useUserStore();
   const labels = [
     { key: "tab1", text: "All" },
     { key: "tab2", text: "Likes" },
@@ -34,7 +34,8 @@ const NotificationStackHeader = () => {
 
  // Filter notifications based on the selected tab
 const filteredNotifications = notifications.filter((notification) => 
-  { if (currentTab === "tab1") {return true;} 
+  { if (notification.receiverId !== userId) return false;
+    if (currentTab === "tab1") {return true;} 
     else if (currentTab === "tab2") {return notification.type === "like";} 
     else if (currentTab === "tab3") {return notification.type === "repost";}
     else if (currentTab === "tab4") {return notification.type === "follow";}
