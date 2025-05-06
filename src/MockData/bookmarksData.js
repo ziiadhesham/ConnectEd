@@ -26,7 +26,7 @@ const bookmarks = [
     { id: 25, userId: 2, postId: 11, folderId: 28 },
     { id: 26, userId: 2, postId: 16, folderId: 30 },
     { id: 27, userId: 11, postId: 3, folderId: 37 },
-    { id: 28, userId: 24, postId: 8, folderId: 20 },
+    { id: 28, userId: 2, postId: 8, folderId: 20 },
     { id: 29, userId: 18, postId: 12, folderId: 15 },
     { id: 30, userId: 2, postId: 11, folderId: 34 }
   ];
