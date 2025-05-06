@@ -4,37 +4,24 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// Your app component imports
-import BookmarkFolderModal from './components/BookMarkFolderModal';
-import Sidebar from './components/Sidebar';
-import SettingProfileSidebar from './components/SettingProfieSidebar';
-import HomeIcon from '@mui/icons-material/Home';
+
+
+// Pages imports
 import HomePage from './Pages/HomePage/Home';
-import ComposerInput from './components/ComposerInput';
-import Feed from './Pages/HomePage/Feed';
-import ArticleCard from './components/ArticleCard';
-import TextAndVedio from './components/TextAndVedio';
-import TextAndPhoto from './components/textAndPhoto';
-import TrendingTopics from './Pages/HomePage/TrendingTopics';
-import PostModal from './components/PostModel';
 import Settings from './Pages/HomePage/Settings';
 import MessagesPage from "./Pages/Message/MessagesPage";
 import PostDetails from "./Pages/HomePage/PostDetailes";
 import NotificationsPage from "./Pages/Notifications/NotificationsPage";
-import Message from './Pages/Message/Message';
-import ConversationPage from './Pages/Message/ConversionPage';
 import LoginForm from './Pages/LoginPages/LoginForm';
 import ResetPassword from './Pages/LoginPages/ResetPassword';
 import ConfirmPassword from './Pages/LoginPages/ConfirmPassword';
 import SignUpForm from './Pages/LoginPages/SignUpForm';
 import Profile from './Pages/ProfilePage/ProfileUser';
 import Followers from './Pages/ProfilePage/FollowersAndFollowing';
-import SocialFolderItem from './components/SocialFolderItem';
-import BookmarksFolder from './Pages/Bookmarks/BookmarksFolder';
-import BookmarkedPosts from './Pages/Bookmarks/BookmarkedPosts';
 import BookmarkPage from './Pages/Bookmarks/BookmarkPage';
 import SettingsBlocked from './Pages/HomePage/SettingsBlocked';
 import SettingsNotifications from './Pages/HomePage/SettingsNotifications';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
