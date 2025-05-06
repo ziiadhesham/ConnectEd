@@ -4,6 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import usersAccounts from '../../MockData/usersAccountsData'; // Import mock user data
 import useUserStore from '../../Stores/UseUserStore';
 
+import Logo from './Connectedlogoz.png'
+import LogoTitle from './Connectedlogo.png'
+
 const LoginForm = () => {
 const setUserId = useUserStore((state) => state.setUserId);
   const [email, setEmail] = useState('');
@@ -31,9 +34,14 @@ const setUserId = useUserStore((state) => state.setUserId);
 
   return (
     <div className="page-background">
+      <div className='logoTitleContainer'>
+        <img className='logoTitle' src={LogoTitle} alt="Logo" />
+      </div>
       <div className="login-container">
         <div className="logo">
-          <span>✦</span>
+          
+            <img className='logoz' src={Logo} alt="Logo" />
+          
         </div>
         <form onSubmit={handleLogin}>
           <input
