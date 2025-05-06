@@ -1,8 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
-require('dotenv').config();
+// require('dotenv').config();
+require('dotenv').config({ path: './src/BackEnd/.env' });
 const User = require('./Users/UserModel');
 const Post = require('./Posts/PostsModel');
+const Notification = require('./Notifications/NotificationsModel');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -32,3 +34,4 @@ app.listen(port, () => {
 
 app.use('/api/posts', require('./Posts/postRoutes'));
 app.use('/api/messages', require('./Messages/messageRoutes'));
+app.use('/api/notifications', require('./Notifications/notificationsRoutes'));

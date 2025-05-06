@@ -6,7 +6,7 @@ const notificationController = require('./notificationController');
 router.post('/', notificationController.createNotification);
 
 // Get notifications by user ID
-router.get('/user/:userId', notificationController.getNotificationsByUserId);
+router.get('/user/:receiverId', notificationController.getNotificationById);
 
 // Delete notification
 router.delete('/:id', notificationController.deleteNotification);
