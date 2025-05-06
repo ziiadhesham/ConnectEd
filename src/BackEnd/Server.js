@@ -32,3 +32,5 @@ app.listen(port, () => {
 
 app.use('/api/posts', require('./Posts/postRoutes'));
 app.use('/api/messages', require('./Messages/messageRoutes'));
+app.use('/api/folders', require('./Bookmarks//routes/bookmarkFoldersRoutes'));
+app.use('/api/bookmarks', require('./Bookmarks/routes/bookmarksRoutes'));
