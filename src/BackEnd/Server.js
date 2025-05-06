@@ -3,12 +3,17 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const User = require('./Users/UserModel');
 const Post = require('./Posts/PostsModel');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware to parse incoming JSON requests
 app.use(express.json());
+app.use(cors({
+  origin: 'http://localhost:3000', // allow frontend origin
+  credentials: true,               // if you send cookies or auth headers
+}));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)

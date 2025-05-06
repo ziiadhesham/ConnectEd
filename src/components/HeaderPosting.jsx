@@ -10,11 +10,41 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import PostModal from './PostModel';
 
+import axios from 'axios';
+
 const Header = ({ tab, setTab, onSearchFocus, onSearchBlur }) => {
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isAdding, setIsAdding] = useState(false);
-
+  const onPost = async (postData) => {
+    
+    try {
+      // Upload to Cloudinary
+      const formData = new FormData();
+      formData.append('file', postData.file);
+      formData.append('upload_preset', 'Connected1');
+  
+      const cloudinaryRes = await axios.post(
+        'https://api.cloudinary.com/v1_1/doi3fbuvz/image/upload',
+        formData
+      );
+      const imageUrl = cloudinaryRes.data.secure_url;
+  
+      // Then create post in backend
+      const postRes = await axios.post('http://localhost:3001/api/posts', {
+        userId: '681898c3508a5c263cdc9b8b',
+        content: postData.text,
+        Image: imageUrl,
+      });
+  
+      console.log('Post saved to DB:', postRes.data);
+      handleCloseAdd();
+    } catch (err) {
+      console.error('Post failed:', err);
+      handleCloseAdd();
+    }
+  };
+  
   const handleCloseAdd = () => {
     setIsAdding(false);
   };
@@ -189,7 +219,7 @@ const Header = ({ tab, setTab, onSearchFocus, onSearchBlur }) => {
             backdropFilter: 'blur(0px)',
           }}
         >
-          <PostModal value={searchQuery} onPost={() => {}} sx={{ width: '400px', padding: '20px' }} />
+          <PostModal value={searchQuery} onPost={onPost} sx={{ width: '400px', padding: '20px' }} />
           <IconButton
             onClick={handleCloseAdd}
             sx={{
