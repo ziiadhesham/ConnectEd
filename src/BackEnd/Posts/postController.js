@@ -1,16 +1,27 @@
 const Post = require('./PostsModel');
 
 exports.createPost = async (req, res) => {
-    try {
-      const newPost = await Post.create({
-        ...req.body,
-        time: new Date().toISOString(),
-      });
-      res.status(201).json(newPost);
-    } catch (err) {
-      res.status(500).json({ error: 'Failed to create post', details: err });
-    }
-  };
+  try {
+    console.log('REQ BODY:', req.body);
+    console.log('REQ FILE:', req.file);
+
+    const { content, userId , Image} = req.body;
+    
+
+    const newPost = new Post({
+      content,
+      userId,
+      image: Image,
+    });
+
+    await newPost.save();
+    res.status(201).json(newPost);
+  } catch (err) {
+    console.error('CREATE POST ERROR:', err); // ← ADD THIS
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find().populate('userId', 'username').sort({ time: -1 });
