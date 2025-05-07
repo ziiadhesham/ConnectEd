@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const BookmarkFolder = require('./bookmarkfolderModel'); // Adjust path as needed
 const User = require('../Users/UserModel'); // Adjust path as needed
-const mockFolders = require('../../MockData/bookmarkFoldersData').default; // Adjust path as needed
+const mockFolders = require('../../FrontEnd/src/MockData/bookmarkFoldersData').default; // Adjust path as needed
 require('dotenv').config({ path: '../.env' });
 
 const seedBookmarkFolders = async () => {

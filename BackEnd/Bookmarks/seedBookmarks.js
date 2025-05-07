@@ -3,7 +3,7 @@ const Bookmark = require('./BookmarksModel'); // Adjust the path to your Bookmar
 const User = require('../Users/UserModel'); // Adjust the path to your User model
 const Post = require('../Posts/PostsModel'); // Adjust the path to your Post model
 const BookmarkFolder = require('./bookmarkfolderModel'); // Adjust path
-const mockBookmarks = require('../../MockData/bookmarksData').default; // Adjust the path to your bookmarks data
+const mockBookmarks = require('../../FrontEnd/src/MockData/bookmarksData').default; // Adjust the path to your bookmarks data
 require('dotenv').config({ path: '../.env' });
 
 const seedBookmarks = async () => {
