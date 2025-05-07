@@ -25,4 +25,8 @@ yarn-debug.log*
 yarn-error.log*
 .qodo
 .env
+<<<<<<< HEAD
 /Backend/.env
+=======
+/Backend/.env
+>>>>>>> b57e2b5a3718abbcde4916a3d1e30e0309d279e7
