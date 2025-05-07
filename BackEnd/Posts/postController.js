@@ -75,24 +75,36 @@ exports.deletePost = async (req, res) => {
 
 exports.likePost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
-    if (!post) return res.status(404).json({ error: 'Post not found' });
+    const { id, userId } = req.params;
+    console.log(`Post ID: ${id}, User ID: ${userId}`);
 
-    const alreadyLiked = post.likes.includes(req.user._id);
+    const post = await Post.findById(id);
+    const user = await User.findById(userId);
+
+    if (!post) {
+      console.log('Post not found');
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    const alreadyLiked = post.likes.includes(userId);
+    console.log(`Already liked? ${alreadyLiked}`);
+
     if (alreadyLiked) {
-      post.likes.pull(req.user._id);
+      post.likes.pull(userId);
       post.likesCount--;
     } else {
-      post.likes.push(req.user._id);
+      post.likes.push(userId);
       post.likesCount++;
     }
 
     await post.save();
     res.json({ likesCount: post.likesCount });
   } catch (err) {
+    console.error('Like post error:', err);
     res.status(500).json({ error: 'Failed to like/unlike post' });
   }
 };
+
 
 exports.repostPost = async (req, res) => {
   try {

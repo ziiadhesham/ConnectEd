@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Post = require('./PostsModel'); // Adjust path as needed
 const User = require('../Users/UserModel'); // Adjust path as needed
-const postsData = require('../../MockData/PostsData').default; // Adjust as needed
+const postsData = require('../../FrontEnd/src/MockData/PostsData').default; // Adjust as needed
 require('dotenv').config({ path: '../.env' });
 
 mongoose.connect(process.env.MONGO_URI)

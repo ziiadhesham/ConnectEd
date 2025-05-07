@@ -1,14 +1,62 @@
 import React, { useState } from 'react';
 import { Box, Fade } from '@mui/material';
 import ArticleCard from "../../components/ArticleCard";
-import ProfileCard from "../../components/ProfileCard"; // Make sure this path is correct
-import TrendingTopicsData from '../../MockData/TrendingTopicsData'; // Importing trending topics data
-import whoToFollow from '../../MockData/WhoToFollow'; // Importing who to follow data
+import ProfileCard from "../../components/ProfileCard";
+import UseUserStore from '../../Stores/UseUserStore';
+import users from '../../MockData/usersAccountsData';
+import posts from '../../MockData/PostsData';
+
+import { useNavigate } from 'react-router-dom';
+// Utility: Get top N posts by engagement (likes + comments)
+const getTopPosts = (posts, count = 5) => {
+  return [...posts]
+    .sort((a, b) => {
+      const engagementA = (a.likes?.length || 0) + (a.comments?.length || 0);
+      const engagementB = (b.likes?.length || 0) + (b.comments?.length || 0);
+      return engagementB - engagementA;
+    })
+    .slice(0, count);
+};
+
+// Utility: Find users most in common with current user
+const getSimilarUsers = (users, posts, currentUserId, count = 5) => {
+  const currentUser = users.find(u => u.id === currentUserId);
+  if (!currentUser) return [];
+
+  const similarityScores = users
+    .filter(u => u.id !== currentUserId)
+    .map(user => {
+      const commonFollowers = user.followers.filter(f => currentUser.followers.includes(f)).length;
+      const commonFollowing = user.following.filter(f => currentUser.following.includes(f)).length;
+
+      const currentUserLikes = posts.filter(p => p.likes.includes(currentUserId)).map(p => p.id);
+      const userLikes = posts.filter(p => p.likes.includes(user.id)).map(p => p.id);
+
+      const commonLikedPosts = userLikes.filter(pId => currentUserLikes.includes(pId)).length;
+
+      const score = commonFollowers + commonFollowing + commonLikedPosts;
+      return { user, score };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, count)
+    .map(entry => entry.user);
+
+  return similarityScores;
+};
 
 const TrendingTopics = () => {
   const [tab, setTab] = useState('trending'); // 'trending' or 'follow'
   const isPosting = false;
-
+  const { userId } = UseUserStore();
+const navigate = useNavigate();
+  const topPosts = getTopPosts(posts);
+  const similarUsers = getSimilarUsers(users, posts, userId);
+  const handlePostClick = (postId, e) => {
+    e.stopPropagation();
+    if (e.target.closest(".bookmark-button")) return;
+    navigate(`/post/${postId}`);
+  };
+  
   const handleTabChange = (newTab) => {
     setTab(newTab);
   };
@@ -93,18 +141,22 @@ const TrendingTopics = () => {
               width: '100%',
             }}
           >
-            {TrendingTopicsData.map((topic) => (
-              <ArticleCard
-                key={topic.id}
-                image={topic.image}
-                title={topic.title}
-                content={topic.content}
-                author={topic.author}
-                authorAvatar={topic.authorAvatar}
-                date={topic.date}
-                category={topic.category}
-              />
-            ))}
+            {topPosts.map((post) => {
+              const author = users.find(user => user.id === post.userId);
+              return (
+                <ArticleCard
+                  key={post.id}
+                  image={post.image}
+                  title={post.content.slice(0, 20) + '...'}
+                  content={post.content}
+                  author={author?.name || "Unknown"}
+                  authorAvatar={author?.avatar || ""}
+                  date={post.createdAt}
+                  category={post.category || "General"}
+                  onClick={(e) => handlePostClick(post.id, e)}
+                />
+              );
+            })}
           </Box>
         </Fade>
 
@@ -119,14 +171,15 @@ const TrendingTopics = () => {
               marginTop: '20px',
             }}
           >
-            {whoToFollow.map((user) => (
+            {similarUsers.map((user) => (
               <ProfileCard
+                key={user.id}
                 index={user.id}
                 name={user.name}
                 handle={user.username}
                 descript={user.bio}
-                avatar={user.avatar}
-                isFollowing={user.initiallyFollowing}
+                avatar={user.profilePicture}
+                isFollowing={user.followers.includes(userId)}
               />
             ))}
           </Box>

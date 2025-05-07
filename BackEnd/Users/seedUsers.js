@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const User = require('./UserModel'); // Adjust path as needed
-const usersAccounts = require('../../MockData/usersAccountsData').default;
+const usersAccounts = require('../../FrontEnd/src/MockData/usersAccountsData').default;
 require('dotenv').config({ path: '../.env' });
 
 

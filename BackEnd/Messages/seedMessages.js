@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Message = require('./MessagesModel'); // Adjust path as needed
 const User = require('../Users/UserModel'); // Adjust path as needed
-const messages = require('../../MockData/MessagesData').default; // Adjust path as needed
+const messages = require('../../FrontEnd/src/MockData/MessagesData').default; // Adjust path as needed
 require('dotenv').config({ path: '../.env' });
 
 mongoose.connect(process.env.MONGO_URI)

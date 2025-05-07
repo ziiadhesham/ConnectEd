@@ -9,9 +9,11 @@ const ArticleCard = ({
   authorAvatar,
   date,
   category,
+  onClick,
 }) => {
   return (
-    <Box
+    <Box 
+      onClick={onClick}
       sx={{
         width: '100%',
         // padding: '8px',
