@@ -32,3 +32,31 @@ exports.createUser = async (req, res) => {
     res.status(400).json({ error: 'Error creating user', details: err.message });
   }
 };
+// PUT update user profile
+exports.updateUserProfile = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { username, bio, profilePicture } = req.body;
+
+    // First update the user
+    await User.findByIdAndUpdate(
+      userId,
+      { username, bio, profilePicture },
+      { new: true, runValidators: true }
+    );
+
+    // Then fetch the updated user excluding the password
+    const updatedUser = await User.findById(userId).select('-password');
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(400).json({ error: 'Error updating profile', details: err.message });
+  }
+};
+
+
+
