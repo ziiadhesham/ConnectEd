@@ -31,7 +31,7 @@ app.use('/api/messages', require('./Messages/messageRoutes'));
 app.use('/api/folders', require('./Bookmarks//routes/bookmarkFoldersRoutes'));
 app.use('/api/bookmarks', require('./Bookmarks/routes/bookmarksRoutes'));
 app.use('/api/notifications', require('./Notifications/notificationsRoutes'));
-app.use('/api/users', require('./Users/userRoutes'));
+app.use('/api/users', require('./Users/userRoutes')); 
 
 
 
