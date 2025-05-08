@@ -1,4 +1,5 @@
 const Post = require('./PostsModel');
+const User = require('../Users/UserModel'); // adjust the path as needed
 
 exports.createPost = async (req, res) => {
   try {
@@ -108,54 +109,40 @@ exports.likePost = async (req, res) => {
 
 exports.repostPost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const { id, userId } = req.params;
+    const post = await Post.findById(id);
     if (!post) return res.status(404).json({ error: 'Post not found' });
 
-    const alreadyReposted = post.reposts.includes(req.user._id);
+    const alreadyReposted = post.reposts.includes(userId);
     if (alreadyReposted) {
-      post.reposts.pull(req.user._id);
+      post.reposts.pull(userId);
       post.repostsCount--;
     } else {
-      post.reposts.push(req.user._id);
+      post.reposts.push(userId);
       post.repostsCount++;
     }
 
     await post.save();
     res.json({ repostsCount: post.repostsCount });
   } catch (err) {
+    console.error('Repost error:', err);
     res.status(500).json({ error: 'Failed to repost/unrepost' });
   }
 };
 
-exports.bookmarkPost = async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-    if (!post) return res.status(404).json({ error: 'Post not found' });
 
-    const alreadyBookmarked = post.bookmarks.includes(req.user._id);
-    if (alreadyBookmarked) {
-      post.bookmarks.pull(req.user._id);
-      post.bookmarksCount--;
-    } else {
-      post.bookmarks.push(req.user._id);
-      post.bookmarksCount++;
-    }
 
-    await post.save();
-    res.json({ bookmarksCount: post.bookmarksCount });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to bookmark/unbookmark post' });
-  }
-};
 
 exports.commentOnPost = async (req, res) => {
   try {
+    const { id, userId } = req.params;
     const { text } = req.body;
-    const post = await Post.findById(req.params.id);
+
+    const post = await Post.findById(id);
     if (!post) return res.status(404).json({ error: 'Post not found' });
 
     post.comments.push({
-      userId: req.user._id,
+      userId,
       text,
       time: new Date().toISOString()
     });
@@ -163,6 +150,7 @@ exports.commentOnPost = async (req, res) => {
     await post.save();
     res.status(201).json(post.comments);
   } catch (err) {
+    console.error('Comment error:', err);
     res.status(500).json({ error: 'Failed to add comment' });
   }
 };

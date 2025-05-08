@@ -5,9 +5,8 @@ const authMiddleware = require('./authMiddleware'); // Import your auth middlewa
 
 // Extra features (require user authentication)
 router.post('/:id/like/:userId', postController.likePost);
-router.post('/:id/repost',postController.repostPost);
-router.post('/:id/bookmark',  postController.bookmarkPost);
-router.post('/:id/comment', postController.commentOnPost);  
+router.post('/:id/repost/:userId',postController.repostPost); 
+router.post('/:id/comment/:userId', postController.commentOnPost);  
 // Apply the authMiddleware on routes that need authentication
 router.post('/',  postController.createPost);
 router.get('/', postController.getAllPosts);
