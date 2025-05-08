@@ -1,32 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('./postController');
-const authMiddleware = require('./authMiddleware'); // Import your auth middleware
+const authMiddleware = require('../Middleware/authenticate'); // Import your auth middleware
 
 // Extra features (require user authentication)
-router.post('/:id/like/:userId', postController.likePost);
-router.post('/:id/repost/:userId',postController.repostPost); 
-router.post('/:id/comment/:userId', postController.commentOnPost);  
+router.post('/:id/like/:userId',authMiddleware, postController.likePost);
+router.post('/:id/repost/:userId',authMiddleware,postController.repostPost); 
+router.post('/:id/comment/:userId', authMiddleware,postController.commentOnPost);  
 // Apply the authMiddleware on routes that need authentication
-router.post('/',  postController.createPost);
+router.post('/', authMiddleware, postController.createPost);
 router.get('/', postController.getAllPosts);
 router.get('/:id', postController.getPostById);
-router.put('/:id',  postController.updatePost);  // Protect update post with authentication
-router.delete('/:id',  postController.deletePost);  // Protect delete post with authentication
+router.put('/:id', authMiddleware, postController.updatePost);  // Protect update post with authentication
+router.delete('/:id', authMiddleware, postController.deletePost);  // Protect delete post with authentication
 
 
-
-// // Apply the authMiddleware on routes that need authentication
-// router.post('/', authMiddleware, postController.createPost);
-// router.get('/', postController.getAllPosts);
-// router.get('/:id', postController.getPostById);
-// router.put('/:id', authMiddleware, postController.updatePost);  // Protect update post with authentication
-// router.delete('/:id', authMiddleware, postController.deletePost);  // Protect delete post with authentication
-
-// // Extra features (require user authentication)
-// router.post('/:id/like', authMiddleware, postController.likePost);
-// router.post('/:id/repost', authMiddleware, postController.repostPost);
-// router.post('/:id/bookmark', authMiddleware, postController.bookmarkPost);
-// router.post('/:id/comment', authMiddleware, postController.commentOnPost);
 
 module.exports = router;

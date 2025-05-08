@@ -118,10 +118,11 @@ exports.changePassword = async (req, res) => {
     if (!isMatch) return res.status(400).json({ error: 'Incorrect current password' });
 
     // Hash the new password and update it
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-    user.password = hashedPassword;
+    // user.password = hashedPassword;
+    user.password = newPassword;
     await user.save();
 
     res.status(200).json({ message: 'Password changed successfully' });
