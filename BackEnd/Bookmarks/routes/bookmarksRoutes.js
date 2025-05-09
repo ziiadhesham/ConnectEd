@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bookmarkController = require('../controllers/bookmarkController');
-const authMiddleware = require('../Middleware/authenticate');
+const authMiddleware = require('../../Middleware/authenticate');
 
 
 router.get('/',authMiddleware, bookmarkController.getAllBookmarks);

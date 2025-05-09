@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const folderController = require('../controllers/bookmarkFolderController');
-const authMiddleware = require('../Middleware/authenticate');
+const authMiddleware = require('../../Middleware/authenticate');
 
 router.post('/',authMiddleware, folderController.createFolder);
 router.get('/user/:userId',authMiddleware, folderController.getFoldersByUser);
