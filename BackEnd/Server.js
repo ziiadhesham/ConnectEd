@@ -9,6 +9,8 @@ const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3000;
+const Logger = require('./Middleware/RequestLoggers');
+app.use(Logger);
 
 // Middleware to parse incoming JSON requests
 
