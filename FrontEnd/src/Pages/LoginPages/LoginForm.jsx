@@ -1,47 +1,53 @@
 import React, { useState } from 'react';
 import './LoginForm.css';
 import { Link, useNavigate } from 'react-router-dom';
-import usersAccounts from '../../MockData/usersAccountsData'; // Import mock user data
+import axios from 'axios';
 import useUserStore from '../../Stores/UseUserStore';
 
-import Logo from './Connectedlogoz.png'
-import LogoTitle from './Connectedlogo.png'
+import Logo from './Connectedlogoz.png';
+import LogoTitle from './Connectedlogo.png';
 
 const LoginForm = () => {
-const setUserId = useUserStore((state) => state.setUserId);
+  const setUserId = useUserStore((state) => state.setUserId);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  // Handle form submission
-  const handleLogin = (e) => {
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError('');
 
-    // Check if user exists with the provided email and password
-    const user = usersAccounts.find(
-      (u) => u.email === email && u.password === password
-    );
+    try {
+      const response = await axios.post('http://localhost:3001/api/users/login', {
+        email,
+        password,
+      });
 
-    if (user) {
-      // Successful login, redirect to home page
-      setUserId(user.id);
+      const { token } = response.data;
+      localStorage.setItem('token', token); // Save token for later requests
+
+      // Optionally decode the token to get user ID (if needed)
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      setUserId(payload._id); // Store user ID in Zustand
+
       navigate('/home');
-    } else {
-      // Show error if credentials are invalid
-      setError('Invalid email or password');
+    } catch (err) {
+      console.error(err);
+      setError(
+        err.response?.data?.error || 'Login failed. Please try again.'
+      );
     }
   };
 
   return (
     <div className="page-background">
-      <div className='logoTitleContainer'>
-        <img className='logoTitle' src={LogoTitle} alt="Logo" />
+      <div className="logoTitleContainer">
+        <img className="logoTitle" src={LogoTitle} alt="Logo" />
       </div>
       <div className="login-container">
         <div className="logo">
-          
-            <img className='logoz' src={Logo} alt="Logo" />
-          
+          <img className="logoz" src={Logo} alt="Logo" />
         </div>
         <form onSubmit={handleLogin}>
           <input
@@ -49,12 +55,14 @@ const setUserId = useUserStore((state) => state.setUserId);
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <button type="submit" className="signin-button">
             Sign In
@@ -62,19 +70,23 @@ const setUserId = useUserStore((state) => state.setUserId);
 
           {error && <p style={{ color: 'red' }}>{error}</p>}
 
-          <button className="google-button">
-            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" />
+          <button type="button" className="google-button">
+            <img
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              alt="Google"
+            />
             Sign in with Google
           </button>
 
-          {/* Forgot password link */}
           <p style={{ marginTop: '15px' }}>
-            <Link to="/reset-password" style={{ color: '#ccc', textDecoration: 'underline' }}>
+            <Link
+              to="/reset-password"
+              style={{ color: '#ccc', textDecoration: 'underline' }}
+            >
               Forgot password
             </Link>
           </p>
 
-          {/* Sign up redirect */}
           <p>
             Don't have an account? <Link to="/signup">Sign up</Link>
           </p>

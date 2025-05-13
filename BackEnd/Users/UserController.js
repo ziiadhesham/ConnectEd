@@ -9,19 +9,22 @@ const jwt = require('jsonwebtoken');
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log('req.body:', req.body);
+    
 
     // Basic check — no hashing yet
     const user = await User.findOne({ email });
+    console.log('user:', user);
     if (!user || user.password !== password) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     // Create JWT token
-    const token = jwt.sign(
-      { _id: user._id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+   const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY, {
+      algorithm: 'HS256',
+      expiresIn: '20h'
+    });
+    
 
     res.status(200).json({ token });
   } catch (err) {
@@ -42,10 +45,10 @@ exports.getAllUsers = async (req, res) => {
 // POST create user
 exports.createUser = async (req, res) => {
   try {
-    const { mockId, email, password, name, username, profilePicture, bio } = req.body;
+    const {  email, password, name, username, profilePicture, bio } = req.body;
 
     const user = new User({
-      mockId,
+  
       email,
       password,
       name,
@@ -53,8 +56,10 @@ exports.createUser = async (req, res) => {
       profilePicture,
       bio,
     });
+console.log(req.body);
 
     const saved = await user.save();
+    
     res.status(201).json(saved);
   } catch (err) {
     res.status(400).json({ error: 'Error creating user', details: err.message });
