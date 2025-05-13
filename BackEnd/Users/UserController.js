@@ -69,12 +69,12 @@ console.log(req.body);
 exports.updateUserProfile = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { username, bio, profilePicture } = req.body;
+    const {name, username, bio, profilePicture } = req.body;
 
     // First update the user
     await User.findByIdAndUpdate(
       userId,
-      { username, bio, profilePicture },
+      { name,username, bio, profilePicture },
       { new: true, runValidators: true }
     );
 
@@ -172,6 +172,19 @@ exports.toggleFollow = async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({ error: 'Error toggling follow', details: err.message });
+  }
+};
+
+// GET /api/users/profile
+exports.getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select('-password');
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Error getting profile', details: err.message });
   }
 };
 

@@ -19,7 +19,7 @@ import TextAndPhoto from "../../components/textAndPhoto";
 import TextAndVedio from "../../components/TextAndVedio";
 import posts from "../../MockData/PostsData";
 import useSidebarStore from "../../Stores/SideBarStore";
-import usersAccounts from "../../MockData/usersAccountsData";
+
 import useUserStore from "../../Stores/UseUserStore";
 
 const Profile = () => {
@@ -41,21 +41,34 @@ const Profile = () => {
   const [profilePicturee, setProfilePicture] = useState("");
   const [followersList, setFollowersList] = useState([]);
   const [followingList, setFollowingList] = useState([]);
+  
 
   useEffect(() => {
-    if (userId) {
-      const userData = usersAccounts.find(user => user.id === userId);
-      if (userData) {
-        setName(userData.name);
-        setUsername(userData.username);
-        setBio(userData.bio);
-        setProfilePicture(userData.profilePicture);
-        setFollowersList(usersAccounts.filter(user => userData.followers.includes(user.id)));
-        setFollowingList(usersAccounts.filter(user => userData.following.includes(user.id)));
-        setPostsList(userData.posts);
-      }
+  const fetchUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch('http://localhost:3001/api/users/profile', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      const data = await res.json();
+
+      setName(data.name || '');
+      setUsername(data.username || '');
+      setBio(data.bio || '');
+      setProfilePicture(data.profilePicture || '');
+      setPostsList(data.posts || []);
+      setFollowersList(data.followers || []);
+      setFollowingList(data.following || []);
+    } catch (err) {
+      console.error("Failed to fetch user:", err.message);
     }
-  }, [userId]);
+  };
+
+  fetchUser();
+}, []);
+
 
   const handleTabChange = (newTab) => {
     setTab(newTab);
@@ -70,6 +83,37 @@ const Profile = () => {
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
+
+ const handleProfileUpdate = async () => {
+  try {
+    const token = localStorage.getItem('token'); // ✅ FIXED
+    console.log("Using token:", token); // Optional debug
+
+    const response = await fetch('http://localhost:3001/api/users/profile', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token // ✅ Correct usage
+      },
+      body: JSON.stringify({
+       name,
+       username,
+       bio,
+        profilePicture: profilePicturee
+      })
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Update failed');
+
+    console.log('Profile updated:', data);
+    setIsEditing(false);
+  } catch (err) {
+    console.error(err.message);
+    alert("Failed to update profile");
+  }
+};
+
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh", backgroundColor: "#2c2c2c" }}>
@@ -171,7 +215,7 @@ const Profile = () => {
               loading={false}
               success={false}
               disabled={false}
-              onClick={handleEditToggle}
+              onClick={isEditing ? handleProfileUpdate : handleEditToggle}
             />
 
             {isEditing && (

@@ -8,6 +8,8 @@ router.get('/', userController.getAllUsers); // public
 router.post('/', validateCreateUser, userController.createUser); // public
 router.post('/login', validateLogin, userController.loginUser); // public
 
+
+router.get('/profile', authMiddleware, userController.getUserProfile); // protected
 router.put('/profile', authMiddleware,validateProfileUpdate, userController.updateUserProfile); // protected
 router.put('/password', authMiddleware,validatePasswordChange, userController.changePassword);   // protected
 router.post('/:id/follow', authMiddleware, userController.toggleFollow);        // protected
