@@ -1,22 +1,21 @@
-const User = require('../Users/UserModel'); // Assuming this is your User model
+// middleware/authenticate.js
+const jwt = require('jsonwebtoken');
 
-module.exports = async (req, res, next) => {
-  const userId = req.header('x-user-id'); // Assuming you are using x-user-id header for authentication
+module.exports = (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-  if (!userId) {
-    return res.status(401).json({ error: 'Missing x-user-id header' });
+  if (!authHeader?.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Missing or invalid token' });
   }
 
-  try {
-    const user = await User.findById(userId).select('-password');
-    if (!user) {
-      return res.status(401).json({ error: 'User not found' });
-    }
+  const token = authHeader.split(' ')[1];
 
-    req.user = user; // Attach the user to the request object
-    next(); // Move to the next middleware or controller
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_KEY); // JWT_KEY in your .env
+    req.user = decoded; // ✅ Will contain _id
+    next();
   } catch (err) {
-    console.error(err); // Log any errors during DB lookup
-    res.status(500).json({ error: 'Failed to authenticate user' });
+    console.error("JWT error:", err.message);
+    return res.status(401).json({ error: 'Invalid token' });
   }
 };

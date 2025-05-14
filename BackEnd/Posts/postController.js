@@ -1,6 +1,9 @@
 const Post = require('./PostsModel');
 const User = require('../Users/UserModel'); // adjust the path as needed
 
+
+
+
 exports.createPost = async (req, res) => {
   try {
     console.log('REQ BODY:', req.body);
@@ -154,3 +157,36 @@ exports.commentOnPost = async (req, res) => {
     res.status(500).json({ error: 'Failed to add comment' });
   }
 };
+
+const mongoose = require('mongoose');
+
+exports.getMyPosts = async (req, res) => {
+  try {
+    console.log("🔍 Incoming getMyPosts request...");
+    console.log("🧠 req.user =", req.user);
+
+    const userId = req.user._id;
+    if (!userId) {
+      console.log("❌ No user ID found in token");
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+
+    const objectId = new mongoose.Types.ObjectId(userId);
+    console.log("✅ Converted ObjectId:", objectId);
+
+    const posts = await Post.find({ userId: objectId }).sort({ time: -1 });
+
+    console.log("✅ Posts fetched successfully:", posts.length);
+    res.status(200).json(posts);
+  } catch (err) {
+    console.error("❌ getMyPosts crashed:");
+    console.error(err.stack); // print full stack trace
+    res.status(500).json({
+      error: 'Failed to fetch post',
+      details: err.message,
+    });
+  }
+};
+
+
+

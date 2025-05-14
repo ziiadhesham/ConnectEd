@@ -1,3 +1,4 @@
+
 import {
   Box,
   useTheme,
@@ -17,62 +18,62 @@ import EditProfileButton from "../../components/EditProfileButton";
 import ToggleTextButton from "../../components/ToggleTextButton";
 import TextAndPhoto from "../../components/textAndPhoto";
 import TextAndVedio from "../../components/TextAndVedio";
-import posts from "../../MockData/PostsData";
 import useSidebarStore from "../../Stores/SideBarStore";
-
 import useUserStore from "../../Stores/UseUserStore";
 
 const Profile = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { sidebarOpen, toggleSidebar } = useSidebarStore();
-
   const sidebarWidth = sidebarOpen ? 300 : 72;
   const [tab, setTab] = useState("left");
   const navigate = useNavigate();
   const { userId } = useUserStore();
+
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState("Zoz beh");
-  const [username, setUsername] = useState("@ziiadehesham");
-  const [bio, setBio] = useState(`🧠 UI/UX Designer | 💡 Crafting seamless digital experiences
-🚀 Designing user-centric interfaces
-📍 NYC | Post on #Design #UX #UI`);
-  const [postslist, setPostsList] = useState([]);
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [bio, setBio] = useState("");
   const [profilePicturee, setProfilePicture] = useState("");
+  const [postslist, setPostsList] = useState([]);
   const [followersList, setFollowersList] = useState([]);
   const [followingList, setFollowingList] = useState([]);
-  
 
   useEffect(() => {
-  const fetchUser = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch('http://localhost:3001/api/users/profile', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      });
-      const data = await res.json();
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
 
-      setName(data.name || '');
-      setUsername(data.username || '');
-      setBio(data.bio || '');
-      setProfilePicture(data.profilePicture || '');
-      setPostsList(data.posts || []);
-      setFollowersList(data.followers || []);
-      setFollowingList(data.following || []);
-    } catch (err) {
-      console.error("Failed to fetch user:", err.message);
-    }
-  };
+        const userRes = await fetch("http://localhost:3001/api/users/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const userData = await userRes.json();
 
-  fetchUser();
-}, []);
+        setName(userData.name || "");
+        setUsername(userData.username || "");
+        setBio(userData.bio || "");
+        setProfilePicture(userData.profilePicture || "");
+        setFollowersList(userData.followers || []);
+        setFollowingList(userData.following || []);
 
+        const postsRes = await fetch("http://localhost:3001/api/posts/my-posts", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const postsData = await postsRes.json();
+        setPostsList(Array.isArray(postsData) ? postsData : []);
+      } catch (err) {
+        console.error("❌ Failed to fetch profile or posts:", err.message);
+      }
+    };
 
-  const handleTabChange = (newTab) => {
-    setTab(newTab);
-  };
+    fetchUserData();
+  }, []);
+
+  const handleTabChange = (newTab) => setTab(newTab);
 
   const handlePostClick = (postId, e) => {
     e.stopPropagation();
@@ -80,44 +81,37 @@ const Profile = () => {
     navigate(`/post/${postId}`);
   };
 
-  const handleEditToggle = () => {
-    setIsEditing(!isEditing);
+  const handleEditToggle = () => setIsEditing(!isEditing);
+
+  const handleProfileUpdate = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch("http://localhost:3001/api/users/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name,
+          username,
+          bio,
+          profilePicture: profilePicturee
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Update failed");
+      setIsEditing(false);
+    } catch (err) {
+      console.error("Failed to update:", err.message);
+      alert("Failed to update profile");
+    }
   };
-
- const handleProfileUpdate = async () => {
-  try {
-    const token = localStorage.getItem('token'); // ✅ FIXED
-    console.log("Using token:", token); // Optional debug
-
-    const response = await fetch('http://localhost:3001/api/users/profile', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token // ✅ Correct usage
-      },
-      body: JSON.stringify({
-       name,
-       username,
-       bio,
-        profilePicture: profilePicturee
-      })
-    });
-
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message || 'Update failed');
-
-    console.log('Profile updated:', data);
-    setIsEditing(false);
-  } catch (err) {
-    console.error(err.message);
-    alert("Failed to update profile");
-  }
-};
-
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh", backgroundColor: "#2c2c2c" }}>
-      {/* Left Sidebar */}
       {!isSmallScreen && (
         <Box
           sx={{
@@ -128,67 +122,46 @@ const Profile = () => {
             position: "fixed",
             left: 0,
             top: 0,
-            zIndex: 1000,
+            zIndex: 1000
           }}
         >
           <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} notificationCount={5} />
         </Box>
       )}
 
-      {/* Main Content Area (centered) */}
       <Box
         sx={{
           flex: 1,
           padding: 2,
           transition: "margin 0.3s ease",
           color: "white",
-          display: 'flex',
-          justifyContent: 'center',
-          minHeight: '100vh',
+          display: "flex",
+          justifyContent: "center",
+          minHeight: "100vh",
           marginLeft: !isSmallScreen ? `${sidebarWidth}px` : 0,
           marginRight: !isSmallScreen ? "25%" : 0,
-          width: '100%',
+          width: "100%"
         }}
       >
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: "100%" }}>
           <HeaderCard profilePicture={profilePicturee} />
 
           {isEditing && (
             <Box sx={{ position: "relative", top: "-50px", left: "100px" }}>
-              <Button
-                component="label"
-                sx={{
-                  px: 2,
-                  py: 1,
-                  borderRadius: "20px",
-                  backgroundColor: "#3a3a3a",
-                  color: "#fff",
-                  fontWeight: 500,
-                  textTransform: "none",
-                  "&:hover": {
-                    backgroundColor: "#4a4a4a",
-                  },
-                  boxShadow: "0 0 5px rgba(255,255,255,0.1)",
-                }}
-              >
+              <Button component="label" sx={{
+                px: 2, py: 1, borderRadius: "20px", backgroundColor: "#3a3a3a",
+                color: "#fff", fontWeight: 500, textTransform: "none",
+                "&:hover": { backgroundColor: "#4a4a4a" }, boxShadow: "0 0 5px rgba(255,255,255,0.1)"
+              }}>
                 Change Avatar
-                <input
-                  type="file"
-                  accept="image/*"
-                  hidden
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                      const imageUrl = URL.createObjectURL(file);
-                      setProfilePicture(imageUrl);
-                    }
-                  }}
-                />
+                <input type="file" accept="image/*" hidden onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) setProfilePicture(URL.createObjectURL(file));
+                }} />
               </Button>
             </Box>
           )}
 
-          {/* Name and Edit Button */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1 }}>
             {isEditing ? (
               <Grow in={isEditing}>
@@ -229,7 +202,6 @@ const Profile = () => {
             )}
           </Box>
 
-          {/* Username */}
           {isEditing ? (
             <Fade in={isEditing}>
               <TextField
@@ -251,7 +223,6 @@ const Profile = () => {
             <Typography sx={{ color: '#aaa', fontSize: 14 }}>{username}</Typography>
           )}
 
-          {/* Bio */}
           {isEditing ? (
             <Fade in={isEditing}>
               <TextField
@@ -279,49 +250,30 @@ const Profile = () => {
 
           <Box sx={{ display: 'flex', gap: 2, mt: 2, fontSize: 14 }}>
             <Box>{postslist.length} posts</Box>
-            <Box
-              onClick={() => navigate("/followers")}
-              sx={{ cursor: "pointer", "&:hover": { textDecoration: "underline" } }}
-            >
+            <Box onClick={() => navigate("/followers")} sx={{ cursor: "pointer", "&:hover": { textDecoration: "underline" } }}>
               {followersList.length} followers
             </Box>
-            <Box
-              onClick={() => navigate("/followers")}
-              sx={{ cursor: "pointer", "&:hover": { textDecoration: "underline" } }}
-            >
+            <Box onClick={() => navigate("/followers")} sx={{ cursor: "pointer", "&:hover": { textDecoration: "underline" } }}>
               {followingList.length} following
             </Box>
             <Box>
-              🔗{" "}
-              <a
-                href="https://linktr.ee/tranmautritam"
-                target="_blank"
-                rel="noreferrer"
-                style={{ color: "#4ea1f3" }}
-              >
-                https://linktr.ee/tranmautritam
-              </a>
+              🔗 <a href="https://linktr.ee/tranmautritam" target="_blank" rel="noreferrer" style={{ color: "#4ea1f3" }}>https://linktr.ee/tranmautritam</a>
             </Box>
           </Box>
 
           <Box sx={{ mt: 3, display: "flex", justifyContent: "center", height: "50px" }}>
-            <ToggleTextButton
-              tab={tab}
-              handleTabChange={handleTabChange}
-              leftText="Posts"
-              rightText="Featured"
-            />
+            <ToggleTextButton tab={tab} handleTabChange={handleTabChange} leftText="Posts" rightText="Featured" />
           </Box>
 
           <Box sx={{ mt: 3 }}>
             {tab === "left" ? (
-              <div className="posts-container" style={{ maxWidth: "720px" , margin: "0 auto"}}>
-                {posts.filter((post) => post.userId === userId).map((post) => (
+              <div className="posts-container" style={{ maxWidth: "720px", margin: "0 auto" }}>
+                {postslist.map((post) => (
                   <TextAndPhoto
-                    key={post.id}
-                    username={post.username}
+                    key={post._id}
+                    username={username}
                     time={post.time}
-                    avatar={post.avatar}
+                    avatar={profilePicturee}
                     content={post.content}
                     image={post.image}
                     video={post.video}
@@ -332,7 +284,7 @@ const Profile = () => {
                     bookmarks={post.bookmarks}
                     bookmarksCount={post.bookmarksCount}
                     commentsCount={post.comments?.length || 0}
-                    onClick={(e) => handlePostClick(post.id, e)}
+                    onClick={(e) => handlePostClick(post._id, e)}
                   />
                 ))}
               </div>
@@ -343,20 +295,17 @@ const Profile = () => {
         </Box>
       </Box>
 
-      {/* Right Sidebar */}
       {!isSmallScreen && (
-        <Box
-          sx={{
-            width: "25%",
-            backgroundColor: "#282828",
-            height: "100vh",
-            overflowY: "auto",
-            padding: 2,
-            position: "fixed",
-            right: 0,
-            top: 0,
-          }}
-        >
+        <Box sx={{
+          width: "25%",
+          backgroundColor: "#282828",
+          height: "100vh",
+          overflowY: "auto",
+          padding: 2,
+          position: "fixed",
+          right: 0,
+          top: 0
+        }}>
           <TrendingTopics />
         </Box>
       )}
