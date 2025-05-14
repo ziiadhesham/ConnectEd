@@ -34,7 +34,12 @@ exports.getAllPosts = async (req, res) => {
 
 exports.getPostById = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id).populate('userId', 'username');
+    const post = await Post.findById(req.params.id)
+      .populate('userId', 'username profilePicture') // Populate user details for the post's author
+      .populate('comments.userId', 'username profilePicture') // Populate user details for comment authors
+      .populate('likes', 'username profilePicture') // Populate user details for users who liked the post
+      .populate('reposts', 'username profilePicture') // Populate user details for users who reposted the post
+      .exec();
     if (!post) return res.status(404).json({ error: 'Post not found' });
     res.json(post);
   } catch (err) {

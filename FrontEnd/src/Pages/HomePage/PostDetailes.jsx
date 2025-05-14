@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import useSidebarStore from "../../Stores/SideBarStore";
@@ -8,31 +8,44 @@ import TextAndPhoto from "../../components/textAndPhoto";
 import PostComment from "../../components/PostComment";
 import PostModal from "../../components/PostModel";
 import { ArrowBack } from "@mui/icons-material";
-import posts from "../../MockData/PostsData"; // ✅ Mock posts import
-import users from "../../MockData/usersAccountsData";
+import axiosInstance from "../../config/axiosInstance";
 
 const PostDetails = () => {
-  const { id } = useParams(); // Get the id from the URL (it's a string by default)
+  const { id } = useParams();
   const navigate = useNavigate();
-  
-  // Convert `id` to number or string depending on your data type in posts
-  const postId = Number(id); // Convert to number if the posts data uses numbers for IDs
-
-  // Find the post using the correct type for comparison
-  const post = posts.find((p) => p.id === postId); // Ensure you're comparing numbers
-
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { sidebarOpen, toggleSidebar } = useSidebarStore();
 
-  if (!post) return <div>Post not found</div>; // Display "Post not found" if no matching post
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Get the user for the post using the userId
-  const postUser = users.find((user) => user.id === post.userId);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const postRes = await axiosInstance.get(`/posts/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setPost(postRes.data);
+        setLoading(false);
+        console.log("post", postRes.data);
+        
+      } catch (err) {
+        console.error("Error fetching post:", err);
+        setLoading(false);
+      }
+    };
+
+    fetchPost();
+  }, [id]);
+
+  if (loading) return <div>Loading...</div>;
+  if (!post) return <div>Post not found</div>;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
-      {/* Sidebar */}
       {!isSmallScreen && (
         <Box
           sx={{
@@ -50,7 +63,6 @@ const PostDetails = () => {
         </Box>
       )}
 
-      {/* Main Content */}
       <Box
         sx={{
           flex: 1,
@@ -67,7 +79,6 @@ const PostDetails = () => {
           paddingBottom: "100px",
         }}
       >
-        {/* Back Button */}
         <Box
           sx={{
             display: "inline-flex",
@@ -88,7 +99,6 @@ const PostDetails = () => {
           <ArrowBack style={{ fontSize: "1.7rem", margin: "auto" }} />
         </Box>
 
-        {/* Post Content */}
         <Box
           sx={{
             width: "100%",
@@ -99,11 +109,10 @@ const PostDetails = () => {
             gap: 2,
           }}
         >
-          {/* Post Details */}
           <TextAndPhoto
-            username={postUser?.name || "Unknown"}
+            username={post.userId.username || "Unknown"}
             time={post.time}
-            avatar={postUser.profilePicture}
+            avatar={post.userId.profilePicture}
             content={post.content}
             video={post.video}
             image={post.image}
@@ -113,37 +122,30 @@ const PostDetails = () => {
             bookmarks={post.bookmarks || []}
           />
 
-          {/* Comments */}
-          {post.comments?.map((comment, index) => {
-            const commentUser = users.find((user) => user.id === comment.userId);
-
-            return (
-              <Box
-                key={index}
-                sx={{
-                  width: "616px",
-                  backgroundColor: "rgba(248, 248, 248, 0.02)",
-                  borderRadius: "20px",
-                  padding: "0.8rem",
+          {post.comments?.map((comment, index) => (
+            <Box
+              key={index}
+              sx={{
+                width: "616px",
+                backgroundColor: "rgba(248, 248, 248, 0.02)",
+                borderRadius: "20px",
+                padding: "0.8rem",
+              }}
+            >
+              <PostComment
+                user={{
+                  name: comment.userId.username || "Unknown",
+                  avatar: comment.userId.profilePicture || "",
                 }}
-              >
-                <PostComment
-                  user={{
-                    name: commentUser?.name || "Unknown",
-                    avatar: commentUser?.profilePicture,
-                  }}
-                  time={comment.time}
-                  text={comment.text}
-                />
-              </Box>
-            );
-          })}
+                time={comment.time}
+                text={comment.text}
+              />
+            </Box>
+          ))}
 
-          {/* Spacer */}
           <Box sx={{ height: "70px" }} />
         </Box>
 
-        {/* Bottom Comment Box */}
         <Box
           sx={{
             position: "fixed",
@@ -164,7 +166,6 @@ const PostDetails = () => {
         </Box>
       </Box>
 
-      {/* Trending Topics */}
       {!isSmallScreen && (
         <Box
           sx={{

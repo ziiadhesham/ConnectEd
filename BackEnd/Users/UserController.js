@@ -174,6 +174,16 @@ exports.toggleFollow = async (req, res) => {
     res.status(500).json({ error: 'Error toggling follow', details: err.message });
   }
 };
+exports.getUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId).select('-password');
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Error getting user', details: err.message });
+  }
+};
 
 // GET /api/users/profile
 exports.getUserProfile = async (req, res) => {
