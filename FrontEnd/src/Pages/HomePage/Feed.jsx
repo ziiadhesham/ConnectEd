@@ -157,6 +157,7 @@ const Feed = () => {
             return (
               <TextAndPhoto
                 key={post._id}
+                postId={post._id}
                 username={postUser.username}
                 avatar={postUser.profilePicture}
                 time={post.time}

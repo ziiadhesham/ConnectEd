@@ -14,7 +14,7 @@ const BookmarkButton = ({ disabled = false }) => {
     e.preventDefault(); // Prevent the default action
     e.stopPropagation(); // Prevent the click event from bubbling up to parent
     if (!disabled) {
-      setActive((prev) => !prev);
+      // setActive((prev) => !prev);
       setShowModal(true);
     }
   };

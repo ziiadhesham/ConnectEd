@@ -16,5 +16,8 @@ router.get('/',authMiddleware, messageController.getAllMessages);
 
 // Delete message
 router.delete('/:id',authMiddleware, messageController.deleteMessage);
+// Get all messages involving a user
+router.get('/user/:userId', authMiddleware, messageController.getMessagesByUserId);
+
 
 module.exports = router;

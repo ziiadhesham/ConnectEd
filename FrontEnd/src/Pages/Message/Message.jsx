@@ -6,12 +6,11 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import messagesData from "../../MockData/MessagesData";
-import users from "../../MockData/usersAccountsData";
 import MessageItem from "../../components/MessageItem";
 import MessageInput from "../../components/MessageInput";
 import useConversationStore from "../../Stores/useConversationStore";
 import useUserStore from "../../Stores/UseUserStore";
+import axiosInstance from "../../config/axiosInstance";
 
 export default function Message() {
   const { selectedUserId } = useConversationStore();
@@ -19,41 +18,74 @@ export default function Message() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const currentUser = users.find((u) => u.id === userId);
-  const otherUser = users.find((u) => u.id === selectedUserId);
-
   const [messages, setMessages] = useState([]);
+  const [otherUser, setOtherUser] = useState(null);
+
   const chatContainerRef = useRef(null);
 
+  // Fetch messages from backend
   useEffect(() => {
-    const filteredMessages = messagesData.filter(
-      (msg) =>
-        (msg.senderId === userId && msg.receiverId === selectedUserId) ||
-        (msg.senderId === selectedUserId && msg.receiverId === userId)
-    );
-    setMessages(filteredMessages);
-  }, [selectedUserId, userId]);
+    const fetchMessages = async () => {
+      if (!userId || !selectedUserId) return;
 
-  const handleSendMessage = (newMessage) => {
-    const newMsg = {
-      id: messages.length + 1,
-      senderId: userId,
-      receiverId: selectedUserId,
-      message: newMessage,
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      try {
+        // const res = await fetch(`/api/messages/between/${userId}/${selectedUserId}`, {
+        //   headers: {
+        //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+        //   },
+        // });
+        const res = await axiosInstance.get(`/messages/between/${userId}/${selectedUserId}`);
+        const data = await res.data;
+        setMessages(data);
+
+        // Set the other user (from sender or receiver)
+        const sampleMessage = data.find(
+          (msg) => msg.senderId._id === selectedUserId || msg.receiverId._id === selectedUserId
+        );
+        if (sampleMessage) {
+          const userInfo =
+            sampleMessage.senderId._id === selectedUserId
+              ? sampleMessage.senderId
+              : sampleMessage.receiverId;
+          setOtherUser(userInfo);
+        }
+      } catch (err) {
+        console.error("Error fetching messages:", err);
+      }
     };
-    setMessages((prev) => [...prev, newMsg]);
-  };
 
+    fetchMessages();
+  }, [userId, selectedUserId]);
+
+  // Auto scroll
   useEffect(() => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
+
+  // Send a message to backend
+  const handleSendMessage = async (newMessage) => {
+    try {
+      const res = await fetch("/api/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          senderId: userId,
+          receiverId: selectedUserId,
+          message: newMessage,
+        }),
+      });
+
+      const savedMsg = await res.json();
+      setMessages((prev) => [...prev, savedMsg]);
+    } catch (err) {
+      console.error("Failed to send message", err);
+    }
+  };
 
   if (!otherUser) {
     return (
@@ -84,7 +116,7 @@ export default function Message() {
         }}
       >
         <Avatar
-          src={otherUser.profilePicture}
+          src={otherUser.profilePicture || "/avatar1.png"}
           alt={otherUser.name}
           sx={{ width: 40, height: 40, mr: 1 }}
         />
@@ -109,15 +141,13 @@ export default function Message() {
         }}
       >
         {messages.map((msg) => {
-          const isCurrentUser = msg.senderId === userId;
-          const sender = users.find((u) => u.id === msg.senderId);
+          const isCurrentUser = msg.senderId._id === userId;
+          const sender = msg.senderId;
 
           let replyInfo = null;
           if (msg.isReply && msg.replyTo) {
-            const originalMsg = messages.find((m) => m.id === msg.replyTo);
-            const repliedUser = users.find(
-              (u) => u.id === originalMsg?.senderId
-            );
+            const originalMsg = messages.find((m) => m._id === msg.replyTo);
+            const repliedUser = originalMsg?.senderId;
 
             replyInfo = {
               name: repliedUser?.name || "Unknown",
@@ -128,14 +158,18 @@ export default function Message() {
 
           return (
             <MessageItem
-              key={msg.id}
+              key={msg._id}
               avatarSrc={sender?.profilePicture || "/avatar1.png"}
               name={sender?.name || "Unknown"}
-              time={msg.time}
+              time={new Date(msg.time).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
               message={msg.message}
               image={msg.image || null}
               isReply={msg.isReply}
               replyTo={replyInfo}
+              isCurrentUser={isCurrentUser}
             />
           );
         })}

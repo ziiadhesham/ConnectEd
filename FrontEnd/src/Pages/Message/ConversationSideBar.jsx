@@ -7,62 +7,62 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import ConversationItem from "../../components/ConversationItem";
 import ToggleTextButton from "../../components/ToggleTextButton";
-import ComposerInput from "../../components/ComposerInput";
 import CreateNewConversation from "../../components/CreateNewConversation";
 import useUserStore from "../../Stores/UseUserStore";
-import users from "../../MockData/usersAccountsData";
-import messages from "../../MockData/MessagesData";
 import useConversationStore from "../../Stores/useConversationStore";
+import axiosInstance from "../../config/axiosInstance";
 
 const ConversationSideBar = () => {
   const { setSelectedUserId } = useConversationStore();
+  const { userId } = useUserStore();
 
   const [tab, setTab] = useState("left");
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [conversationsToDisplay, setConversationsToDisplay] = useState([]);
 
-  const { userId } = useUserStore();
+  useEffect(() => {
+    const fetchConversations = async () => {
+      try {
+        // const res = await fetch(`/api/messages/user/${userId}`, {
+        //   headers: {
+        //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+        //   },
+        // });
+        const res = await axiosInstance.get(`/messages/user/${userId}`);
+        const data = await res.data;
 
-  // Get current user
-  const currentUser = users.find(user => user.id === userId);
-  const following = currentUser?.following || [];
+        // Create a map of last message per conversation partner
+        const map = new Map();
 
-  // Filter messages where current user is sender or receiver
-  const userMessages = messages.filter(
-    (msg) => msg.senderId === userId || msg.receiverId === userId
-  );
+        data.forEach((msg) => {
+          const otherUser =
+            msg.senderId._id === userId ? msg.receiverId : msg.senderId;
+          const key = otherUser._id;
 
-  
+          if (!map.has(key) || new Date(map.get(key).time) < new Date(msg.time)) {
+            map.set(key, {
+              id: otherUser._id,
+              name: otherUser.name,
+              avatarUrl: otherUser.profilePicture,
+              message: msg.message,
+              time: new Date(msg.time).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+              image: msg.image || null,
+            });
+          }
+        });
 
-  // Create map of last message per other user
-  const conversationMap = new Map();
+        setConversationsToDisplay(Array.from(map.values()));
+      } catch (error) {
+        console.error("Failed to fetch messages:", error);
+      }
+    };
 
-  userMessages.forEach((msg) => {
-    const otherUserId = msg.senderId === userId ? msg.receiverId : msg.senderId;
-
-    // Always use the latest message by id (or sort by timestamp if available)
-    if (
-      !conversationMap.has(otherUserId) ||
-      conversationMap.get(otherUserId).id < msg.id
-    ) {
-      conversationMap.set(otherUserId, msg);
-    }
-  });
-
-  const conversationsToDisplay = Array.from(conversationMap.entries()).map(
-    ([otherUserId, message]) => {
-      const otherUser = users.find((u) => u.id === otherUserId);
-
-      return {
-        id: otherUserId,
-        name: otherUser?.name || "Unknown",
-        avatarUrl: otherUser?.profilePicture || "",
-        message: message.message,
-        time: message.time,
-        image: message.image || null,
-      };
-    }
-  );
+    fetchConversations();
+  }, [userId]);
 
   const handleTabChange = (newTab) => setTab(newTab);
   const handleOpenModal = () => setShowModal(true);
@@ -80,8 +80,7 @@ const ConversationSideBar = () => {
           height: "100vh",
         }}
       >
-        {/* Search and Add */}
-        {/* Tabs */}
+        {/* Tabs + Add Button */}
         <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
           <ToggleTextButton
             tab={tab}
@@ -89,7 +88,7 @@ const ConversationSideBar = () => {
             leftText="Primary"
             rightText="Request"
           />
-           <IconButton
+          <IconButton
             onClick={handleOpenModal}
             sx={{
               backgroundColor: "#2a2a2a",
@@ -105,21 +104,20 @@ const ConversationSideBar = () => {
         {/* Conversation List */}
         <Box sx={{ flex: 1, overflowY: "auto", pr: 1 }}>
           {conversationsToDisplay.map((conv, index) => (
-           <Box
-           key={conv.id}
-           onClick={() => {
-             setSelectedIndex(index);
-             setSelectedUserId(conv.id); // store the selected user's ID
-           }}
-           sx={{ cursor: "pointer", mb: "10px" }}
-         >
-          
+            <Box
+              key={conv.id}
+              onClick={() => {
+                setSelectedIndex(index);
+                setSelectedUserId(conv.id);
+              }}
+              sx={{ cursor: "pointer", mb: "10px" }}
+            >
               <ConversationItem
                 name={conv.name}
                 message={conv.message}
                 time={conv.time}
                 avatarUrl={conv.avatarUrl}
-                image={conv.image} // optional, if your component uses it
+                image={conv.image}
                 state={selectedIndex === index ? "selected" : "default"}
               />
             </Box>
@@ -155,7 +153,6 @@ const ConversationSideBar = () => {
               right: 16,
               backgroundColor: "rgba(40, 40, 40, 0.7)",
               color: "#fff",
-              cursor: "pointer",
               "&:hover": {
                 backgroundColor: "#2A2A2A",
               },

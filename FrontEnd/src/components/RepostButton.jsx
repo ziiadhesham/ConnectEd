@@ -1,15 +1,29 @@
 import React, { useState } from "react";
 import { IconButton, Box, Typography } from "@mui/material";
 import RepeatIcon from "@mui/icons-material/Repeat";
+import  useUserStore  from "../Stores/UseUserStore";
+import axiosInstance from "../config/axiosInstance";
 
-const RepostButton = ({ initialReposts = 12 }) => {
+
+const RepostButton = ({ initialReposts = 12, postId }) => {
+  const { userId } = useUserStore();
+
   const [reposted, setReposted] = useState(false);
   const [interaction, setInteraction] = useState("default");
   const [repostes, setRepostes] = useState(initialReposts);
 
-  const handleToggle = () => {
+  const  handleToggle = async (e) => {
+     try {
+    const res = await axiosInstance.post(`/posts/${postId}/repost/${userId}`);
+    const newCount = res.data.repostsCount;
+    setRepostes(newCount);
+    e.stopPropagation();
     setReposted((prev) => !prev);
-    setRepostes((prev) => (reposted ? prev - 1 : prev + 1));
+
+     }
+     catch (err) {
+      console.error("Failed to like post:", err);
+     }
   };
 
   return (

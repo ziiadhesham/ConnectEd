@@ -10,6 +10,7 @@ export default function PostActions({
   commentsCount = 0,
   repostsCount = 0,
   bookmarksCount = 0,
+  postId // ✅ just declare it here
 }) {
   return (
     <Box
@@ -25,7 +26,6 @@ export default function PostActions({
         marginTop: "0px",
       }}
     >
-      {/* Desktop & Mobile Layouts */}
       <Box
         sx={{
           display: "flex",
@@ -35,12 +35,12 @@ export default function PostActions({
           flexGrow: 1,
         }}
       >
-        <LikeButton initialLikes={likesCount} />
-        <RepostButton initialReposts={repostsCount} />
-        <CommentButton initialComments={commentsCount} />
+        <LikeButton initialLikes={likesCount} postId={postId} />
+        <RepostButton initialReposts={repostsCount} postId={postId} />
+        <CommentButton initialComments={commentsCount} postId={postId} />
       </Box>
       <Box>
-        <BookmarkButton bookmarksCount={bookmarksCount} />
+        <BookmarkButton bookmarksCount={bookmarksCount} postId={postId} />
       </Box>
     </Box>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -16,28 +16,53 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import CheckIcon from "@mui/icons-material/Check";
 import useConversationStore from "../Stores/useConversationStore";
+import useUserStore from "../Stores/UseUserStore";
+import axios from "axios";
 
 import "../styles/CreateNewConversation.css";
-import useUserStore from "../Stores/UseUserStore";
-import Users from "../MockData/usersAccountsData";
+import axiosInstance from "../config/axiosInstance";
 
-export default function ConversationSelector({onClose}) {
+export default function ConversationSelector({ onClose }) {
   const [selected, setSelected] = useState(null); // Change to null for single selection
   const [search, setSearch] = useState("");
+  const [users, setUsers] = useState([]); // Store all users
+  const [filteredUsers, setFilteredUsers] = useState([]); // Filtered users based on search and follow
   const { userId } = useUserStore();
   const { setSelectedUserId } = useConversationStore();
 
-  const toggleUser = (id, name) => {
-    setSelected({ id, name }); // Set the selected user (id and name)
-  };
+  // Fetch users and following data
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+       const response = await axiosInstance.get("/users");// Endpoint to get all users
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Error fetching users", error);
+      }
+    };
 
-  const currentUser = Users.find((u) => u.id === userId);
+    fetchUsers();
+  }, []);
+
+  // Fetch current user data to get the following list
+  const currentUser = users.find((u) => u._id === userId);
   const followingIds = currentUser?.following || [];
 
-  const filteredUsers = Users.filter((user) =>
-    followingIds.includes(user.id) &&
-    user.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // Filter users based on search and the following list
+  useEffect(() => {
+    if (users.length > 0) {
+      const filtered = users.filter(
+        (user) =>
+          followingIds.includes(user._id) &&
+          user.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setFilteredUsers(filtered);
+    }
+  }, [search, users, followingIds]);
+
+  const toggleUser = (id, name) => {
+    setSelected({ id, name });
+  };
 
   // Event handler for SVG or its parent div, which now takes userId as an argument
   const handleSvgClick = (userId) => {
@@ -126,16 +151,16 @@ export default function ConversationSelector({onClose}) {
       >
         {filteredUsers.map((user) => (
           <ListItemButton
-            key={user.id}
+            key={user._id}
             sx={{
               borderRadius: 1,
               mb: 1,
-              bgcolor: selected?.id === user.id
+              bgcolor: selected?.id === user._id
                 ? "rgba(248, 248, 248, 0.1)"
                 : "rgba(248, 248, 248, 0.02)",
               borderRadius: "20px"
             }}
-            onClick={() => toggleUser(user.id, user.name)} // Select only one user
+            onClick={() => toggleUser(user._id, user.name)} // Select only one user
           >
             <ListItemAvatar>
               <Box
@@ -160,7 +185,7 @@ export default function ConversationSelector({onClose}) {
               primaryTypographyProps={{ color: "#fff" }}
               secondaryTypographyProps={{ color: "#aaa", fontSize: "0.8rem" }}
             />
-            {selected?.id === user.id && (
+            {selected?.id === user._id && (
               <IconButton edge="end" size="24px">
                 <CheckIcon
                   sx={{

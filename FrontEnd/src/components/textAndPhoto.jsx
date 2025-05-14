@@ -74,6 +74,9 @@ const TextAndPhoto = ({
   repostsCount = 0,
   bookmarksCount = 0,
   onClick,
+  postId,
+  
+
   
 }) => {
   return (
@@ -115,6 +118,7 @@ const TextAndPhoto = ({
           commentsCount={commentsCount}
           repostsCount={repostsCount}
           bookmarksCount={bookmarksCount}
+          postId={postId}
         />
       </div>
     </div>

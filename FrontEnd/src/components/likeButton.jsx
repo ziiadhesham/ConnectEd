@@ -2,17 +2,28 @@ import React, { useState } from "react";
 import { IconButton, Box, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
-const LikeButton = ({ initialLikes = 12 }) => {
+import axiosInstance from "../config/axiosInstance";
+import  useUserStore  from "../Stores/UseUserStore";
+const LikeButton = ({ initialLikes = 0, postId }) => {
+  const { userId } = useUserStore();
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(initialLikes);
   const [interaction, setInteraction] = useState("default");
 
-  const handleLike = (e) => {
-    e.stopPropagation();
+ const handleLike = async (e) => {
+  e.stopPropagation();
+
+  try {
+    const res = await axiosInstance.post(`/posts/${postId}/like/${userId}`);
+    const newCount = res.data.likesCount;
+
     setLiked((prev) => !prev);
-    setLikes((prev) => (liked ? prev - 1 : prev + 1));
-  };
+    setLikes(newCount);
+  } catch (err) {
+    console.error("Failed to like post:", err);
+  }
+};
+
 
   return (
     <Box

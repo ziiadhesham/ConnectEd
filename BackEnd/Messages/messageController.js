@@ -22,12 +22,16 @@ exports.getMessagesBetweenUsers = async (req, res) => {
   try {
     const { user1, user2 } = req.params;
 
-    const messages = await Message.find({
-      $or: [
-        { senderId: user1, receiverId: user2 },
-        { senderId: user2, receiverId: user1 }
-      ]
-    }).sort({ time: 1 });
+   const messages = await Message.find({
+  $or: [
+    { senderId: user1, receiverId: user2 },
+    { senderId: user2, receiverId: user1 }
+  ]
+})
+.sort({ time: 1 })
+.populate('senderId', 'name profilePicture')
+.populate('receiverId', 'name profilePicture');
+
 
     res.json(messages);
   } catch (err) {
@@ -64,3 +68,20 @@ exports.getAllMessages = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch messages', details: err });
   }
 }
+// Get all messages involving a specific user (as sender or receiver)
+exports.getMessagesByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const messages = await Message.find({
+      $or: [{ senderId: userId }, { receiverId: userId }],
+    })
+      .sort({ time: -1 })
+      .populate("senderId", "name profilePicture")
+      .populate("receiverId", "name profilePicture");
+
+    res.json(messages);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch user messages", details: err });
+  }
+};
