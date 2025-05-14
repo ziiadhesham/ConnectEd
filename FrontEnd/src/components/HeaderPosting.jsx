@@ -11,11 +11,16 @@ import CloseIcon from '@mui/icons-material/Close';
 import PostModal from './PostModel';
 
 import axios from 'axios';
+import axiosInstance from '../config/axiosInstance';
+import useUserStore from '../Stores/UseUserStore';
+
 
 const Header = ({ tab, setTab, onSearchFocus, onSearchBlur }) => {
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isAdding, setIsAdding] = useState(false);
+  const { userId } = useUserStore();
+
   const onPost = async (postData) => {
     
     try {
@@ -31,8 +36,8 @@ const Header = ({ tab, setTab, onSearchFocus, onSearchBlur }) => {
       const imageUrl = cloudinaryRes.data.secure_url;
   
       // Then create post in backend
-      const postRes = await axios.post('http://localhost:3001/api/posts', {
-        userId: '681898c3508a5c263cdc9b8b',
+      const postRes = await axiosInstance.post('/posts', {
+        userId: userId,
         content: postData.text,
         Image: imageUrl,
       });

@@ -6,6 +6,14 @@ import SignUpForm from './components/SignUpForm';
 import ResetPassword from './components/ResetPassword'; 
 import ConfirmPassword from './components/ConfirmPassword';
 
+// app.js
+const express = require('express');
+const userRoutes = require('./routes/userRoutes');
+const app = express();
+
+app.use(express.json());
+app.use('/api/users', userRoutes);
+
 function App() {
   return (
     <Router>

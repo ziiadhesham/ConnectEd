@@ -1,21 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Header from "../../components/HeaderPosting";
 import TextAndPhoto from "../../components/textAndPhoto";
 import TextAndVedio from "../../components/TextAndVedio";
 import ToggleTextButton from "../../components/ToggleTextButton";
 import ProfileCard from "../../components/ProfileCard";
 import { useNavigate } from "react-router-dom";
-import initialPosts from "../../MockData/PostsData";
-import users from "../../MockData/usersAccountsData";
 import useUserStore from "../../Stores/UseUserStore";
+import axiosInstance from "../../config/axiosInstance";
 
 const Feed = () => {
-  const [headertab, headersetTab] = useState('following');
-  const { userId } = useUserStore();
+  const [headertab, headersetTab] = useState("following");
   const [tab, setTab] = useState("left");
   const [searchFocused, setSearchFocused] = useState(false);
-  const [posts, setPosts] = useState(initialPosts);
+  const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const { userId } = useUserStore();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [postsRes, usersRes, currentUserRes] = await Promise.all([
+          axiosInstance.get("/posts"),
+          axiosInstance.get("/users"),
+          axiosInstance.get(`/users/${userId}`),
+        ]);
+
+        setPosts(postsRes.data);
+        setUsers(usersRes.data);
+        setCurrentUser(currentUserRes.data);
+        console.log("posts", postsRes.data[0], "users", usersRes.data[0], "currentUser", currentUserRes.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
 
   const handleTabChange = (newTab) => {
     setTab(newTab);
@@ -30,7 +60,7 @@ const Feed = () => {
   const handleAddPost = (newPost) => {
     const newPostObject = {
       id: Date.now().toString(),
-      userId: userId,
+      userId: { _id: userId }, // mock userId for new posts
       time: "Just now",
       content: newPost.text,
       image: newPost.file ? URL.createObjectURL(newPost.file) : null,
@@ -46,15 +76,14 @@ const Feed = () => {
     setPosts([newPostObject, ...posts]);
   };
 
-  const currentUser = users.find((u) => u.id === userId);
-  const followingIds = currentUser?.following || [];
+  const normalizedUserId = userId?.toString();
+  const normalizedFollowingIds = (currentUser?.following || []).map((id) => id.toString());
 
-  // Show posts only from followed users and self
-  const followingPosts = posts.filter(
-    (post) => followingIds.includes(post.userId) || post.userId === userId
-  );
+  const followingPosts = posts.filter((post) => {
+    const postUserId = post.userId?._id?.toString();
+    return normalizedFollowingIds.includes(postUserId) || postUserId === normalizedUserId;
+  });
 
-  // For You: all posts sorted by likesCount descending
   const forYouPosts = [...posts].sort((a, b) => b.likesCount - a.likesCount);
 
   return (
@@ -122,12 +151,12 @@ const Feed = () => {
       ) : (
         <div className="posts-container" style={{ maxWidth: "720px" }}>
           {(headertab === "following" ? followingPosts : forYouPosts).map((post) => {
-            const postUser = users.find((u) => u.id === post.userId);
+            const postUser = users.find((u) => u._id === post.userId?._id);
             if (!postUser) return null;
 
             return (
               <TextAndPhoto
-                key={post.id}
+                key={post._id}
                 username={postUser.username}
                 avatar={postUser.profilePicture}
                 time={post.time}
@@ -141,7 +170,7 @@ const Feed = () => {
                 bookmarks={post.bookmarks}
                 bookmarksCount={post.bookmarksCount}
                 commentsCount={post.comments?.length || 0}
-                onClick={(e) => handlePostClick(post.id, e)}
+                onClick={(e) => handlePostClick(post._id, e)}
               />
             );
           })}

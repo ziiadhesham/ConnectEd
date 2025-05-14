@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import './LoginForm.css';
 import { Link, useNavigate } from 'react-router-dom';
+<<<<<<< Updated upstream:FrontEnd/src/Pages/LoginPages/LoginForm.jsx
 import axios from 'axios';
+=======
+import usersAccounts from '../../MockData/usersAccountsData';
+>>>>>>> Stashed changes:src/Pages/LoginPages/LoginForm.jsx
 import useUserStore from '../../Stores/UseUserStore';
 
 import Logo from './Connectedlogoz.png';
@@ -12,10 +16,12 @@ const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // NEW
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+<<<<<<< Updated upstream:FrontEnd/src/Pages/LoginPages/LoginForm.jsx
     setError('');
 
     try {
@@ -37,6 +43,31 @@ const LoginForm = () => {
       setError(
         err.response?.data?.error || 'Login failed. Please try again.'
       );
+=======
+    setIsLoading(true);
+  
+    try {
+      const response = await fetch('http://localhost:3000/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.error || 'Login failed');
+      }
+  
+      // Save token and redirect
+      localStorage.setItem('token', data.token);
+      setUserId(data.user.id);
+      navigate('/home');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+>>>>>>> Stashed changes:src/Pages/LoginPages/LoginForm.jsx
     }
   };
 
@@ -55,20 +86,33 @@ const LoginForm = () => {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+<<<<<<< Updated upstream:FrontEnd/src/Pages/LoginPages/LoginForm.jsx
             required
+=======
+            required // NEW
+>>>>>>> Stashed changes:src/Pages/LoginPages/LoginForm.jsx
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+<<<<<<< Updated upstream:FrontEnd/src/Pages/LoginPages/LoginForm.jsx
             required
+=======
+            required // NEW
+            minLength={6} // NEW
+>>>>>>> Stashed changes:src/Pages/LoginPages/LoginForm.jsx
           />
-          <button type="submit" className="signin-button">
-            Sign In
+          <button 
+            type="submit" 
+            className="signin-button"
+            disabled={isLoading} // NEW
+          >
+            {isLoading ? 'Signing In...' : 'Sign In'} 
           </button>
 
-          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {error && <p className="error-message">{error}</p>} {/* className added */}
 
           <button type="button" className="google-button">
             <img

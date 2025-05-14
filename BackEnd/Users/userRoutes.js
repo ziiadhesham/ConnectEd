@@ -13,5 +13,6 @@ router.get('/profile', authMiddleware, userController.getUserProfile); // protec
 router.put('/profile', authMiddleware,validateProfileUpdate, userController.updateUserProfile); // protected
 router.put('/password', authMiddleware,validatePasswordChange, userController.changePassword);   // protected
 router.post('/:id/follow', authMiddleware, userController.toggleFollow);        // protected
+router.get("/:id",authMiddleware ,userController.getUserById); // public
 
 module.exports = router;
