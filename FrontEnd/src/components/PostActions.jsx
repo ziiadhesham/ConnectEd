@@ -11,9 +11,9 @@ export default function PostActions({
   repostsCount = 0,
   bookmarksCount = 0,
   postId, // ✅ just declare it here
-  likes,
-  comments,
-  reposts
+  likes=  [],
+  comments=[],
+  reposts=[],
 }) {
   return (
     <Box
