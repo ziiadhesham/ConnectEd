@@ -4,13 +4,13 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkFolderModal from "./BookMarkFolderModal";
 import CloseIcon from '@mui/icons-material/Close';
-import useUserStore from "../Stores/UseUserStore";
-import axiosInstance from "../config/axiosInstance";
+
 
 const BookmarkButton = ({ disabled = false ,postId}) => {
   const [active, setActive] = useState(false);
   const [interaction, setInteraction] = useState("default");
   const [showModal, setShowModal] = useState(false);
+  // setActive(showModal);
 
   const handleToggle = (e) => {
     e.preventDefault(); // Prevent the default action
