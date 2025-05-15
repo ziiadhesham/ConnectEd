@@ -4,12 +4,12 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Check from "./check"; // Import the Check component
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const SocialSidebarUserItem = ({ name, username, avatar, collapsed, active }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-
+  const navigate = useNavigate();
   return (
     <ListItem
       button
@@ -98,8 +98,9 @@ const SocialSidebarUserItem = ({ name, username, avatar, collapsed, active }) =>
               <SettingsIcon />
             </IconButton>
           </Link>
-          <IconButton sx={{ color: "white" }}>
-            <LogoutIcon />
+          {/* un set token from local storage and navigate to ./ */}
+          <IconButton sx={{ color: "white" }} onClick={() => { localStorage.removeItem("token"); navigate("/"); } }>
+            <LogoutIcon  />
           </IconButton>
         </Box>
       </Fade>
