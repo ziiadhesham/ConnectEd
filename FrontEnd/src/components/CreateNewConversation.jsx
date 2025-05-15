@@ -29,6 +29,7 @@ export default function ConversationSelector({ onClose }) {
   const [filteredUsers, setFilteredUsers] = useState([]); // Filtered users based on search and follow
   const { userId } = useUserStore();
   const { setSelectedUserId } = useConversationStore();
+  const defaultAvatar = "/avatars/default.jpg";
 
   // Fetch users and following data
   useEffect(() => {
@@ -62,6 +63,7 @@ export default function ConversationSelector({ onClose }) {
 
   const toggleUser = (id, name) => {
     setSelected({ id, name });
+    console.log("Selected user:", { id, name });
   };
 
   // Event handler for SVG or its parent div, which now takes userId as an argument
@@ -175,7 +177,8 @@ export default function ConversationSelector({ onClose }) {
                 }}
               />
               <Avatar
-                src={user.profilePicture}
+              //add default pic if there is no pic
+                src={user.profilePic ? user.profilePic : defaultAvatar}
                 sx={{ width: "44px", height: "40px" }}
               />
             </ListItemAvatar>

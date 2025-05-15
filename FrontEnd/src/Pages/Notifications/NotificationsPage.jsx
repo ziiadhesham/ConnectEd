@@ -1,14 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import TrendingTopics from "../HomePage/TrendingTopics";
 import Sidebar from "../../components/Sidebar";
 import NotificationStackHeader from "../../components/NotificationStackHeader";
 import useSidebarStore from "../../Stores/SideBarStore";
+import useUserStore from "../../Stores/UseUserStore";
+import axiosInstance from "../../config/axiosInstance";
 
 const NotificationsPage = () => {
   const { sidebarOpen, toggleSidebar } = useSidebarStore();
+  const { userId } = useUserStore();
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md")); // md = 960px
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const res = await axiosInstance.get(`/notifications/user/${userId}`);
+        console.log(userId)
+        setNotifications(res.data);
+        console.log(res.data);
+      } catch (err) {
+        console.error("Error fetching notifications:", err);
+      }
+    };
+
+    if (userId) fetchNotifications();
+  }, [userId]);
 
   return (
     <Box
@@ -33,7 +53,7 @@ const NotificationsPage = () => {
             transition: "width 0.3s ease",
           }}
         >
-          <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} notificationCount={5} />
+          <Sidebar open={sidebarOpen} toggleDrawer={toggleSidebar} notificationCount={notifications.length} />
         </Box>
       )}
 
@@ -57,14 +77,14 @@ const NotificationsPage = () => {
             borderRight: isSmallScreen ? "none" : "1px solid rgba(255, 255, 255, 0.1)",
             overflowY: "auto",
             WebkitOverflowScrolling: "touch",
-            scrollbarWidth: "none", // Firefox
+            scrollbarWidth: "none",
             "&::-webkit-scrollbar": {
-              display: "none", // Chrome, Safari, Edge
+              display: "none",
             },
             padding: isSmallScreen ? "8px" : "16px",
           }}
         >
-          <NotificationStackHeader />
+          <NotificationStackHeader notifications={notifications} />
         </Box>
 
         {/* Trending Topics */}
@@ -74,9 +94,9 @@ const NotificationsPage = () => {
             display: isSmallScreen ? "none" : "block",
             overflowY: "auto",
             WebkitOverflowScrolling: "touch",
-            scrollbarWidth: "none", // Firefox
+            scrollbarWidth: "none",
             "&::-webkit-scrollbar": {
-              display: "none", // Chrome, Safari, Edge
+              display: "none",
             },
             padding: isSmallScreen ? "8px" : "16px",
           }}

@@ -81,13 +81,14 @@ const ConversationSideBar = () => {
         }}
       >
         {/* Tabs + Add Button */}
-        <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
-          <ToggleTextButton
+        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1, mt: 1, alignItems: "center" }}>
+          {/* <ToggleTextButton
             tab={tab}
             handleTabChange={handleTabChange}
             leftText="Primary"
             rightText="Request"
-          />
+          /> */}
+          <div style={{ fontSize: "22px", color: "#fff" }}>Messages</div>
           <IconButton
             onClick={handleOpenModal}
             sx={{

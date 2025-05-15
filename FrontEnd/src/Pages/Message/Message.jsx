@@ -24,21 +24,17 @@ export default function Message() {
   const chatContainerRef = useRef(null);
 
   // Fetch messages from backend
-  useEffect(() => {
-    const fetchMessages = async () => {
-      if (!userId || !selectedUserId) return;
+useEffect(() => {
+  const fetchMessages = async () => {
+    if (!userId || !selectedUserId) return;
 
-      try {
-        // const res = await fetch(`/api/messages/between/${userId}/${selectedUserId}`, {
-        //   headers: {
-        //     Authorization: `Bearer ${localStorage.getItem("token")}`,
-        //   },
-        // });
-        const res = await axiosInstance.get(`/messages/between/${userId}/${selectedUserId}`);
-        const data = await res.data;
-        setMessages(data);
+    try {
+      const res = await axiosInstance.get(`/messages/between/${userId}/${selectedUserId}`);
+      const data = await res.data;
+      setMessages(data);
 
-        // Set the other user (from sender or receiver)
+      // If messages exist, extract the other user from message data
+      if (data.length > 0) {
         const sampleMessage = data.find(
           (msg) => msg.senderId._id === selectedUserId || msg.receiverId._id === selectedUserId
         );
@@ -49,13 +45,18 @@ export default function Message() {
               : sampleMessage.receiverId;
           setOtherUser(userInfo);
         }
-      } catch (err) {
-        console.error("Error fetching messages:", err);
+      } else {
+        // No messages exist; fetch selected user's info directly
+        const userRes = await axiosInstance.get(`/users/${selectedUserId}`);
+        setOtherUser(userRes.data);
       }
-    };
+    } catch (err) {
+      console.error("Error fetching messages or user info:", err);
+    }
+  };
 
-    fetchMessages();
-  }, [userId, selectedUserId]);
+  fetchMessages();
+}, [userId, selectedUserId]);
 
   // Auto scroll
   useEffect(() => {

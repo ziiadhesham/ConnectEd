@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   IconButton,
@@ -20,6 +20,7 @@ import SocialSidebarItem from './SocialSidebarItem';
 import SocialSidebarUserItem from './SocialSidebarUserItem';
 import usersAccounts from "../MockData/usersAccountsData"; // Your users mock data
 import useUserStore from "../Stores/UseUserStore"; // Hook to get userId
+import axiosInstance from '../config/axiosInstance';
 
 const Sidebar = ({ open, toggleDrawer, notificationCount = 0 }) => {
   const { userId } = useUserStore();
@@ -27,7 +28,21 @@ const Sidebar = ({ open, toggleDrawer, notificationCount = 0 }) => {
   const currentPath = location.pathname.toLowerCase();
 
   // Find the user based on userId
-  const currentUser = usersAccounts.find(user => user.id === userId);
+  // const currentUser = usersAccounts.find(user => user.id === userId);
+  //function to get current user calling api
+  const [currentUser, setCurrentUser] = useState(null);
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await axiosInstance.get(`/users/${userId}`);// Endpoint to get user by id
+        setCurrentUser(response.data);
+        console.log("Current User:", response.data);
+      } catch (error) {
+        console.error("Error fetching current user:", error);
+      }
+    };
+    fetchCurrentUser();
+  }, [userId]);
 
   const menuItems = [
     { icon: <Home />, label: 'Home' },
@@ -91,7 +106,7 @@ const Sidebar = ({ open, toggleDrawer, notificationCount = 0 }) => {
       </Box>
 
       {/* Footer with User + Post */}
-      <Box p={1}>
+      <Box p={1} sx={{marginBottom: '24px'}}>
         {currentUser && (
           <SocialSidebarUserItem
             name={currentUser.name}
@@ -101,32 +116,7 @@ const Sidebar = ({ open, toggleDrawer, notificationCount = 0 }) => {
             active={false}
           />
         )}
-        {open ? (
-          <Button
-            variant="contained"
-            fullWidth
-            sx={{
-              mt: 2,
-              backgroundColor: '#2c2c2e',
-              '&:hover': { backgroundColor: 'rgba(40, 40, 40, 0.7)' },
-              borderRadius: "32px",
-            }}
-          >
-            Post
-          </Button>
-        ) : (
-          <IconButton
-            sx={{
-              color: 'white',
-              mt: 1,
-              borderRadius: "32px",
-              bgcolor: "rgba(40, 40, 40, 0.7)",
-              ml: "4px",
-            }}
-          >
-            <Add />
-          </IconButton>
-        )}
+       
       </Box>
     </Drawer>
   );
