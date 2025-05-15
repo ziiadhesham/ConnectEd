@@ -14,6 +14,7 @@ export default function PostActions({
   likes=  [],
   comments=[],
   reposts=[],
+  
 }) {
   return (
     <Box

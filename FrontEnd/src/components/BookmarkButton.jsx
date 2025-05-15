@@ -4,8 +4,10 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkFolderModal from "./BookMarkFolderModal";
 import CloseIcon from '@mui/icons-material/Close';
+import useUserStore from "../Stores/UseUserStore";
+import axiosInstance from "../config/axiosInstance";
 
-const BookmarkButton = ({ disabled = false }) => {
+const BookmarkButton = ({ disabled = false ,postId}) => {
   const [active, setActive] = useState(false);
   const [interaction, setInteraction] = useState("default");
   const [showModal, setShowModal] = useState(false);
@@ -78,7 +80,7 @@ const BookmarkButton = ({ disabled = false }) => {
           }}
         >
           <Box  onClick={(e) => e.stopPropagation()}>{/* Clicking inside modal won't close it */}
-            <BookmarkFolderModal onClose={handleCloseModal} />
+           <BookmarkFolderModal postId={postId} onClose={() => setShowModal(false)} />
           </Box>
           <IconButton
             onClick={handleCloseModal}

@@ -13,6 +13,9 @@ import {
   Block, HeadsetMic, VisibilityOff, Cookie, Message, ExpandLess, ExpandMore,
 } from '@mui/icons-material';
 import { Link } from 'react-router';
+import axiosInstance from '../../config/axiosInstance';
+import useUserStore from '../../Stores/UseUserStore';
+
 const Settings = () => {
   const { sidebarOpen, toggleSidebar } = useSidebarStore();
 
@@ -26,33 +29,6 @@ const Settings = () => {
       {/* Sidebar */}
       <Box sx={{ width: 280, p: 1.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
        
-        {/* Search Bar */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            bgcolor: 'rgba(40, 40, 40, 0.8)',
-            borderRadius: 4,
-            px: 1.5,
-            py: 1,
-          }}
-        >
-            
-          
-          <input
-            type="text"
-            placeholder="Search settings..."
-            style={{
-              background: 'transparent',
-              border: 'none',
-              outline: 'none',
-              color: 'white',
-              marginLeft: 10,
-              flex: 1,
-              fontSize: '0.9rem'
-            }}
-          />
-        </Box>
 
         {/* User Info */}
         <Box
@@ -78,52 +54,105 @@ const Settings = () => {
         </Box>
 
         {/* Menu Options */}
-        {[ 
-          { label: 'Notifications', icon: <Notifications /> },
-          { label: 'Preferences', icon: <PrefIcon /> },
-          { label: 'Blocked', icon: <Block /> },
-          {
-            label: 'Contact support',
-            icon: <HeadsetMic />,
-            expandable: true,
-            expanded: supportOpen,
-            onClick: () => setSupportOpen(!supportOpen),
-          },
-        ].map((item, index) => (
-          <Link key={item.label} to={item.label.toLowerCase()} style={{ textDecoration: 'none', color: '#fff' }}>
-            <Box key={index}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                bgcolor: 'rgba(40, 40, 40, 0.8)',
-                p: 1.5,
-                borderRadius: 3,
-                cursor: 'pointer',
-                mb: 1,
-                '&:hover': { bgcolor: 'rgba(50, 50, 50, 0.8)' },
-              }}
-              onClick={item.onClick}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Box sx={{ color: '#fff' }}>{item.icon}</Box>
-                <Typography fontWeight="medium" fontSize="0.95rem">{item.label}</Typography>
-              </Box>
-              {item.expandable ? (item.expanded ? <ExpandLess /> : <ExpandMore />) : null}
-            </Box>
+        {/* Notifications and Blocked as Links */}
+<Link to="notifications" style={{ textDecoration: 'none', color: '#fff' }}>
+  <Box
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      bgcolor: 'rgba(40, 40, 40, 0.8)',
+      p: 1.5,
+      borderRadius: 3,
+      cursor: 'pointer',
+      mb: 1,
+      '&:hover': { bgcolor: 'rgba(50, 50, 50, 0.8)' },
+    }}
+  >
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+      <Box sx={{ color: '#fff' }}><Notifications /></Box>
+      <Typography fontWeight="medium" fontSize="0.95rem">Notifications</Typography>
+    </Box>
+  </Box>
+</Link>
 
-            {item.expandable && (
-              <Collapse in={item.expanded} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding sx={{ pl: 4 }}>
-                  <ListItem button><ListItemText primary="FAQ" /></ListItem>
-                  <ListItem button><ListItemText primary="Live Chat" /></ListItem>
-                </List>
-              </Collapse>
-            )}
-          </Box>
-          </Link>
-        ))}
+<Link to="blocked" style={{ textDecoration: 'none', color: '#fff' }}>
+  <Box
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      bgcolor: 'rgba(40, 40, 40, 0.8)',
+      p: 1.5,
+      borderRadius: 3,
+      cursor: 'pointer',
+      mb: 1,
+      '&:hover': { bgcolor: 'rgba(50, 50, 50, 0.8)' },
+    }}
+  >
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+      <Box sx={{ color: '#fff' }}><Block /></Box>
+      <Typography fontWeight="medium" fontSize="0.95rem">Blocked</Typography>
+    </Box>
+  </Box>
+</Link>
+
+{/* Contact support dropdown - NOT a link */}
+<Box>
+ <Box
+  sx={{
+    bgcolor: 'rgba(40, 40, 40, 0.8)',
+    borderRadius: 3,
+    mb: 1,
+    overflow: 'hidden', // ensures inner dropdown fits cleanly
+  }}
+>
+  {/* Toggle */}
+  <Box
+    onClick={() => setSupportOpen(!supportOpen)}
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      p: 1.5,
+      cursor: 'pointer',
+      '&:hover': { bgcolor: 'rgba(50, 50, 50, 0.8)' },
+    }}
+  >
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+      <Box sx={{ color: '#fff' }}><HeadsetMic /></Box>
+      <Typography fontWeight="medium" fontSize="0.95rem">Contact support</Typography>
+    </Box>
+    {supportOpen ? <ExpandLess /> : <ExpandMore />}
+  </Box>
+
+  {/* Dropdown Items */}
+  <Collapse in={supportOpen} timeout="auto" unmountOnExit>
+    <List component="div" disablePadding sx={{ px: 2, pb: 1 }}>
+      <ListItem
+        button
+        component="a"
+        href="supportConnected@gmail.com"
+        sx={{
+          borderRadius: 2,
+          px: 1.5,
+          py: 1,
+          '&:hover': { bgcolor: 'rgba(50, 50, 50, 0.8)' },
+        }}
+      >
+        <ListItemText
+          primary="Email support"
+          primaryTypographyProps={{
+            color: '#fff',
+            fontSize: '0.9rem',
+          }}
+        />
+      </ListItem>
+    </List>
+  </Collapse>
+</Box>
+</Box>
+
       </Box>
 
       {/* Main Content */}
