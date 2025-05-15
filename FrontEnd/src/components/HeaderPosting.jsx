@@ -15,7 +15,7 @@ import axiosInstance from '../config/axiosInstance';
 import useUserStore from '../Stores/UseUserStore';
 
 
-const Header = ({ tab, setTab, onSearchFocus, onSearchBlur }) => {
+const Header = ({ tab, setTab, onSearchFocus, onSearchBlur ,profilepicture }) => {
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isAdding, setIsAdding] = useState(false);
@@ -224,7 +224,7 @@ const Header = ({ tab, setTab, onSearchFocus, onSearchBlur }) => {
             backdropFilter: 'blur(0px)',
           }}
         >
-          <PostModal value={searchQuery} onPost={onPost} sx={{ width: '400px', padding: '20px' }} />
+          <PostModal value={searchQuery} onPost={onPost} sx={{ width: '400px', padding: '20px' }} profilepicture={profilepicture} />
           <IconButton
             onClick={handleCloseAdd}
             sx={{

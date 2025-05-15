@@ -16,7 +16,6 @@ import HeaderCard from "../../components/HeaderCard";
 import EditProfileButton from "../../components/EditProfileButton";
 import ToggleTextButton from "../../components/ToggleTextButton";
 import TextAndPhoto from "../../components/textAndPhoto";
-import TextAndVedio from "../../components/TextAndVedio";
 import useSidebarStore from "../../Stores/SideBarStore";
 import useUserStore from "../../Stores/UseUserStore";
 
@@ -85,6 +84,23 @@ const Profile = () => {
   const handleProfileUpdate = async () => {
     try {
       const token = localStorage.getItem("token");
+      let uploadedUrl = profilePicturee;
+
+      // Upload to Cloudinary if it's a new File
+      if (profilePicturee && profilePicturee instanceof File) {
+        const formData = new FormData();
+        formData.append("file", profilePicturee);
+        formData.append("upload_preset", "Connected1"); // 🔁 Replace with yours
+        formData.append("cloud_name", "doi3fbuvz"); // 🔁 Replace with yours
+
+        const cloudRes = await fetch("https://api.cloudinary.com/v1_1/doi3fbuvz/image/upload", {
+          method: "POST",
+          body: formData
+        });
+
+        const cloudData = await cloudRes.json();
+        uploadedUrl = cloudData.secure_url;
+      }
 
       const res = await fetch("http://localhost:3001/api/users/profile", {
         method: "PUT",
@@ -96,7 +112,7 @@ const Profile = () => {
           name,
           username,
           bio,
-          profilePicture: profilePicturee
+          profilePicture: uploadedUrl
         })
       });
 
@@ -143,7 +159,11 @@ const Profile = () => {
         }}
       >
         <Box sx={{ width: "100%" }}>
-          <HeaderCard profilePicture={profilePicturee} />
+          <HeaderCard profilePicture={
+            profilePicturee instanceof File
+              ? URL.createObjectURL(profilePicturee)
+              : profilePicturee
+          } />
 
           {isEditing && (
             <Box sx={{ position: "relative", top: "-50px", left: "100px" }}>
@@ -155,7 +175,7 @@ const Profile = () => {
                 Change Avatar
                 <input type="file" accept="image/*" hidden onChange={(e) => {
                   const file = e.target.files[0];
-                  if (file) setProfilePicture(URL.createObjectURL(file));
+                  if (file) setProfilePicture(file);
                 }} />
               </Button>
             </Box>
@@ -272,7 +292,7 @@ const Profile = () => {
                     key={post._id}
                     username={username}
                     time={post.time}
-                    avatar={profilePicturee}
+                    avatar={profilePicturee instanceof File ? URL.createObjectURL(profilePicturee) : profilePicturee}
                     content={post.content}
                     image={post.image}
                     video={post.video}

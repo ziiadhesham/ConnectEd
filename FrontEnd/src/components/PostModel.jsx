@@ -13,7 +13,7 @@ import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-function PostModal({ value = '', isCommentModal = false, onPost, onComment }) {
+function PostModal({ value = '', isCommentModal = false, onPost, onComment ,profilepicture }) {
   const [inputValue, setInputValue] = useState(value);
   const [uploadedFile, setUploadedFile] = useState(null);
   const fileInputRef = useRef(null);
@@ -88,7 +88,7 @@ function PostModal({ value = '', isCommentModal = false, onPost, onComment }) {
 
       {/* Avatar & Text */}
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Avatar src="https://i.pravatar.cc/300" sx={{ width: 32, height: 32 }} />
+        <Avatar src={profilepicture|| ''} sx={{ width: 32, height: 32 }} />
         <TextField
           variant="standard"
           fullWidth

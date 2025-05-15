@@ -102,6 +102,7 @@ const Feed = () => {
         onPost={handleAddPost}
         tab={headertab}
         setTab={headersetTab}
+        profilepicture={currentUser?.profilePicture}
       />
 
       {searchFocused && (

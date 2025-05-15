@@ -201,14 +201,15 @@ const TrendingTopics = () => {
           >
             {similarUsers.map((user) => (
               <ProfileCard
-                key={user.id}
-                index={user.id}
+                key={user._id}
+                userId={user._id} // 👈 Pass it here
                 name={user.name}
                 handle={user.username}
                 descript={user.bio}
                 avatar={user.profilePicture}
                 isFollowing={user.followers.includes(userId)}
               />
+
             ))}
           </Box>
         </Fade>
