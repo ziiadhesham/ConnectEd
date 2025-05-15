@@ -7,7 +7,8 @@ import axiosInstance from "../config/axiosInstance";
 const RepostButton = ({ initialReposts = 0, postId, repostedby = [] }) => {
   const { userId } = useUserStore();
 
-  const [reposted, setReposted] = useState(false);
+const [reposted, setReposted] = useState(repostedby.includes(userId));
+
   const [interaction, setInteraction] = useState("default");
   const [repostes, setRepostes] = useState(initialReposts);
 

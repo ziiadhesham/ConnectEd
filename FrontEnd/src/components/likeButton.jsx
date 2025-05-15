@@ -7,23 +7,27 @@ import useUserStore from "../Stores/UseUserStore";
 
 const LikeButton = ({ likedBy = [], initialLikes = 0, postId }) => {
   const { userId } = useUserStore();
+
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(initialLikes);
   const [interaction, setInteraction] = useState("default");
 
-  // Sync initial "liked" state
+  // Sync liked and likes when props change
   useEffect(() => {
-    if (likedBy.includes(userId)) {
-      setLiked(true);
-    }
-  }, [likedBy, userId]);
+    setLiked(likedBy.includes(userId));
+    setLikes(initialLikes);
+  }, [likedBy, initialLikes, userId]);
 
   const handleLike = async (e) => {
     e.stopPropagation();
+
+    if (!userId || !postId) return;
+
     try {
       const res = await axiosInstance.post(`/posts/${postId}/like/${userId}`);
       const newCount = res.data.likesCount;
-      setLiked((prev) => !prev);
+
+      setLiked((prevLiked) => !prevLiked);
       setLikes(newCount);
     } catch (err) {
       console.error("Failed to like post:", err);
@@ -37,7 +41,7 @@ const LikeButton = ({ likedBy = [], initialLikes = 0, postId }) => {
         display: "inline-flex",
         alignItems: "center",
         gap: "4px",
-        padding: "5px 5px",
+        padding: "5px",
         borderRadius: 20,
         backgroundColor:
           interaction === "press"
