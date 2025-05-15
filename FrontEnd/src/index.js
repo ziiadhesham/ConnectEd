@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import PrivateRoute from './components/privateRoute';
 
 // Pages imports
 import HomePage from './Pages/HomePage/Home';
@@ -22,34 +21,33 @@ import BookmarkPage from './Pages/Bookmarks/BookmarkPage';
 import SettingsBlocked from './Pages/HomePage/SettingsBlocked';
 import SettingsNotifications from './Pages/HomePage/SettingsNotifications';
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <div style={{ backgroundColor: "rgba(0, 0, 0, 0.8)", height: "200%", minHeight: "100vh", margin: "0px", padding: "0px" }}>
       <Router>
         <Routes>
-          {/* Default page is LoginForm */}
+          {/* Public Routes */}
           <Route path="/" element={<LoginForm />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/post/:id" element={<PostDetails />} />
-          <Route path="/notifications" element={<NotificationsPage />} />
-          <Route path="/messages" element={<MessagesPage />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/confirm-password" element={<ConfirmPassword />} />
           <Route path="/signup" element={<SignUpForm />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/followers" element={<Followers />} />
-          <Route path="/bookmarks" element={<BookmarkPage />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/settings/notifications" element={<SettingsNotifications />} />
-          <Route path="/settings/blocked" element={<SettingsBlocked />} />
 
+          {/* Protected Routes */}
+          <Route path="/home" element={<PrivateRoute><HomePage /></PrivateRoute>} />
+          <Route path="/post/:id" element={<PrivateRoute><PostDetails /></PrivateRoute>} />
+          <Route path="/notifications" element={<PrivateRoute><NotificationsPage /></PrivateRoute>} />
+          <Route path="/messages" element={<PrivateRoute><MessagesPage /></PrivateRoute>} />
+          <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+          <Route path="/followers" element={<PrivateRoute><Followers /></PrivateRoute>} />
+          <Route path="/bookmarks" element={<PrivateRoute><BookmarkPage /></PrivateRoute>} />
+          <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
+          <Route path="/settings/notifications" element={<PrivateRoute><SettingsNotifications /></PrivateRoute>} />
+          <Route path="/settings/blocked" element={<PrivateRoute><SettingsBlocked /></PrivateRoute>} />
         </Routes>
       </Router>
     </div>
   </React.StrictMode>
 );
 
-// For performance measurement
 reportWebVitals();

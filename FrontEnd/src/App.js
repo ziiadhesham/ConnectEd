@@ -21,8 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LoginForm />} />
-         
-
+        
           <Route path="/signup" element={<SignUpForm />} />     
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/reset-password/confirm" element={<ConfirmPassword />} />
