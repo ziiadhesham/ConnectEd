@@ -9,6 +9,7 @@ import PostComment from "../../components/PostComment";
 import PostModal from "../../components/PostModel";
 import { ArrowBack } from "@mui/icons-material";
 import axiosInstance from "../../config/axiosInstance";
+import useUserStore from "../../Stores/UseUserStore";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ const PostDetails = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { sidebarOpen, toggleSidebar } = useSidebarStore();
-
+const { userId } = useUserStore();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -42,6 +43,31 @@ const PostDetails = () => {
 
     if (id) fetchPost();
   }, [id, token]);
+const handleCommentSubmit = async ({ text }) => {
+  try {
+     // You must store userId at login time
+    if (!userId) {
+      console.error("User ID not found");
+      return;
+    }
+
+    const response = await axiosInstance.post(
+      `/posts/${id}/comment/${userId}`,
+      { text },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    // Update local post state with new comments
+    setPost((prevPost) => ({
+      ...prevPost,
+      comments: response.data,
+    }));
+  } catch (error) {
+    console.error("Failed to submit comment:", error);
+  }
+};
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -153,7 +179,7 @@ const PostDetails = () => {
               >
                 <PostComment
                   user={{
-                    name: commentUser.username || "Unknown",
+                    name: commentUser.username || "zooz",
                     avatar: commentUser.profilePicture || "",
                   }}
                   time={comment.time}
@@ -183,7 +209,8 @@ const PostDetails = () => {
             borderRadius: "16px",
           }}
         >
-          <PostModal isCommentModal={true} />
+          <PostModal isCommentModal={true} onComment={handleCommentSubmit} />
+
         </Box>
       </Box>
 

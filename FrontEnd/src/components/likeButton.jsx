@@ -14,8 +14,12 @@ const LikeButton = ({ likedBy = [], initialLikes = 0, postId }) => {
 
   // Sync liked and likes when props change
   useEffect(() => {
-    setLiked(likedBy.includes(userId));
+    if(Array.isArray(likedBy) && likedBy.includes(userId)){
+       setLiked(likedBy.includes(userId));
     setLikes(initialLikes);
+      
+    }
+   
   }, [likedBy, initialLikes, userId]);
 
   const handleLike = async (e) => {

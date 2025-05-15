@@ -7,14 +7,15 @@ import axiosInstance from "../config/axiosInstance";
 const RepostButton = ({ initialReposts = 0, postId, repostedby = [] }) => {
   const { userId } = useUserStore();
 
-const [reposted, setReposted] = useState(repostedby.includes(userId));
+const [reposted, setReposted] = useState(false);
 
   const [interaction, setInteraction] = useState("default");
   const [repostes, setRepostes] = useState(initialReposts);
 
   // Sync the reposted state initially
   useEffect(() => {
-    if (repostedby.includes(userId)) {
+
+    if (Array.isArray(repostedby) && repostedby.includes(userId)) {
       setReposted(true);
     }
   }, [repostedby, userId]);

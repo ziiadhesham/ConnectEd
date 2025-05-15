@@ -164,15 +164,15 @@ const Feed = () => {
                 content={post.content}
                 image={post.image}
                 video={post.video}
-                likes={post.likes}
+                likes={post.likes || []}
                 likesCount={post.likesCount}
-                reposts={post.reposts}
+                reposts={post.reposts||[]}
                 repostsCount={post.repostsCount}
                 bookmarks={post.bookmarks}
                 bookmarksCount={post.bookmarksCount}
                 commentsCount={post.comments?.length || 0}
                 onClick={(e) => handlePostClick(post._id, e)}
-                comments={post.comments}
+                comments={post.comments || []}
                 
         
               />

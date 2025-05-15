@@ -75,9 +75,9 @@ const TextAndPhoto = ({
   bookmarksCount = 0,
   onClick,
   postId,
-  likes,    
-  comments,
-  reposts,
+  likes=[],    
+  comments=[],
+  reposts=[],
 
   
 
@@ -123,9 +123,9 @@ const TextAndPhoto = ({
           repostsCount={repostsCount}
           bookmarksCount={bookmarksCount}
           postId={postId}
-          likes={likes}
-          comments={comments}
-          reposts={reposts}
+          likes={likes||[]}
+          comments={comments||[]}
+          reposts={reposts||[]}
         />
       </div>
     </div>
