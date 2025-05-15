@@ -45,7 +45,6 @@ const { userId } = useUserStore();
   }, [id, token]);
 const handleCommentSubmit = async ({ text }) => {
   try {
-     // You must store userId at login time
     if (!userId) {
       console.error("User ID not found");
       return;
@@ -64,10 +63,27 @@ const handleCommentSubmit = async ({ text }) => {
       ...prevPost,
       comments: response.data,
     }));
+
+    // Send notification if commenting on someone else's post
+    if (userId !== post.userId) {
+      await axiosInstance.post(
+        "/notifications",
+        {
+          type: "comment",
+          senderId: userId,
+          receiverId: post.userId,
+          text: "commented on your post",
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+    }
   } catch (error) {
-    console.error("Failed to submit comment:", error);
+    console.error("Failed to submit comment or send notification:", error);
   }
 };
+
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -149,6 +165,7 @@ const handleCommentSubmit = async ({ text }) => {
         >
           <TextAndPhoto
             username={user.username || "Unknown"}
+            postOwnerId={post.userId || {}}
             avatar={user.profilePicture || ""}
             time={post.time}
             content={post.content}

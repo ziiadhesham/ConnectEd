@@ -159,6 +159,7 @@ const Feed = () => {
                 key={post._id}
                 postId={post._id}
                 username={postUser.username}
+                postOwnerId={postUser._id}
                 avatar={postUser.profilePicture}
                 time={post.time}
                 content={post.content}

@@ -5,36 +5,47 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import axiosInstance from "../config/axiosInstance";
 import useUserStore from "../Stores/UseUserStore";
 
-const LikeButton = ({ likedBy = [], initialLikes = 0, postId }) => {
+const LikeButton = ({ likedBy = [], initialLikes = 0, postId, postOwnerId }) => {
   const { userId } = useUserStore();
 
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(initialLikes);
   const [interaction, setInteraction] = useState("default");
 
-  // Sync liked and likes when props change
   useEffect(() => {
-    if(Array.isArray(likedBy) && likedBy.includes(userId)){
-       setLiked(likedBy.includes(userId));
-    setLikes(initialLikes);
-      
+    if (Array.isArray(likedBy) && likedBy.includes(userId)) {
+      setLiked(true);
+      setLikes(initialLikes);
     }
-   
   }, [likedBy, initialLikes, userId]);
 
   const handleLike = async (e) => {
     e.stopPropagation();
-
     if (!userId || !postId) return;
 
     try {
+      // Like/unlike the post
       const res = await axiosInstance.post(`/posts/${postId}/like/${userId}`);
       const newCount = res.data.likesCount;
 
-      setLiked((prevLiked) => !prevLiked);
+      const justLiked = !liked;
+      setLiked(justLiked);
       setLikes(newCount);
+
+      // Send notification if it's a new like and not your own post
+      if (justLiked && userId !== postOwnerId) {
+        await axiosInstance.post("/notifications", {
+          type: "like",
+          senderId: userId,
+          receiverId: postOwnerId,
+          text: "liked your post",
+        });
+      }
     } catch (err) {
-      console.error("Failed to like post:", err);
+      console.error("Failed to like post or send notification:");
+      console.error("Message:", err.message);
+      console.error("Response data:", err.response?.data);
+      console.error("Stack:", err.stack);
     }
   };
 

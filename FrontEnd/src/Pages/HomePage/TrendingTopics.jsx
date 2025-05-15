@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { Box, Fade } from '@mui/material';
 import ArticleCard from "../../components/ArticleCard";
 import ProfileCard from "../../components/ProfileCard";
-import UseUserStore from '../../Stores/UseUserStore';
-import users from '../../MockData/usersAccountsData';
-import posts from '../../MockData/PostsData';
-
+import useUserStore from '../../Stores/UseUserStore';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../config/axiosInstance';
+
 // Utility: Get top N posts by engagement (likes + comments)
 const getTopPosts = (posts, count = 5) => {
   return [...posts]
@@ -20,17 +19,17 @@ const getTopPosts = (posts, count = 5) => {
 
 // Utility: Find users most in common with current user
 const getSimilarUsers = (users, posts, currentUserId, count = 5) => {
-  const currentUser = users.find(u => u.id === currentUserId);
+  const currentUser = users.find(u => u._id === currentUserId);
   if (!currentUser) return [];
 
   const similarityScores = users
-    .filter(u => u.id !== currentUserId)
+    .filter(u => u._id !== currentUserId)
     .map(user => {
       const commonFollowers = user.followers.filter(f => currentUser.followers.includes(f)).length;
       const commonFollowing = user.following.filter(f => currentUser.following.includes(f)).length;
 
-      const currentUserLikes = posts.filter(p => p.likes.includes(currentUserId)).map(p => p.id);
-      const userLikes = posts.filter(p => p.likes.includes(user.id)).map(p => p.id);
+      const currentUserLikes = posts.filter(p => p.likes.includes(currentUserId)).map(p => p._id);
+      const userLikes = posts.filter(p => p.likes.includes(user._id)).map(p => p._id);
 
       const commonLikedPosts = userLikes.filter(pId => currentUserLikes.includes(pId)).length;
 
@@ -44,22 +43,53 @@ const getSimilarUsers = (users, posts, currentUserId, count = 5) => {
   return similarityScores;
 };
 
+
 const TrendingTopics = () => {
   const [tab, setTab] = useState('trending'); // 'trending' or 'follow'
-  const isPosting = false;
-  const { userId } = UseUserStore();
-const navigate = useNavigate();
+  const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { userId } = useUserStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [postsRes, usersRes] = await Promise.all([
+          axiosInstance.get('/posts'),  // Your API for all posts
+          axiosInstance.get('/users')   // Your API for all users
+        ]);
+        
+        setPosts(postsRes.data);
+        setUsers(usersRes.data);
+      } catch (error) {
+        console.error('Failed to fetch posts or users:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const topPosts = getTopPosts(posts);
   const similarUsers = getSimilarUsers(users, posts, userId);
+  console.log(users, posts, userId);
+  console.log(similarUsers);
+
   const handlePostClick = (postId, e) => {
     e.stopPropagation();
     if (e.target.closest(".bookmark-button")) return;
+    
     navigate(`/post/${postId}`);
   };
-  
+
   const handleTabChange = (newTab) => {
     setTab(newTab);
   };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -75,8 +105,6 @@ const navigate = useNavigate();
             height: '40px',
             alignItems: 'center',
             padding: '4px',
-            opacity: isPosting ? 0.6 : 1,
-            pointerEvents: isPosting ? 'none' : 'auto',
           }}
         >
           <Box
@@ -145,15 +173,15 @@ const navigate = useNavigate();
               const author = users.find(user => user.id === post.userId);
               return (
                 <ArticleCard
-                  key={post.id}
-                  image={post.image}
+                  key={post._id}
+                  image={post.image || "https://picsum.photos/seed/1/600/400"}
                   title={post.content.slice(0, 20) + '...'}
                   content={post.content}
                   author={author?.name || "Unknown"}
                   authorAvatar={author?.avatar || ""}
                   date={post.createdAt}
                   category={post.category || "General"}
-                  onClick={(e) => handlePostClick(post.id, e)}
+                  onClick={(e) => handlePostClick(post._id, e)}
                 />
               );
             })}

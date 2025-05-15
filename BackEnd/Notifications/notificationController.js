@@ -2,12 +2,25 @@ const Notification = require('./NotificationsModel');
 
 //create new notification
 exports.createNotification = async (req, res) => {
-    try {
-        const newNotification = await notification.create(req.body);
-        res.status(201).json(newNotification);
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to create notification', details: err });
+  try {
+    const { type, senderId, receiverId, text } = req.body;
+
+    if (!type || !senderId || !receiverId) {
+      return res.status(400).json({ error: "Missing required fields" });
     }
+
+    const newNotification = await Notification.create({
+      type,
+      senderId,
+      receiverId,
+      text,
+    });
+
+    res.status(201).json(newNotification);
+  } catch (err) {
+    console.error("Notification creation error:", err);
+    res.status(500).json({ error: 'Failed to create notification', details: err.message });
+  }
 };
 
 //get all notifications

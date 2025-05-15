@@ -78,6 +78,7 @@ const TextAndPhoto = ({
   likes=[],    
   comments=[],
   reposts=[],
+  postOwnerId
 
   
 
@@ -126,6 +127,7 @@ const TextAndPhoto = ({
           likes={likes||[]}
           comments={comments||[]}
           reposts={reposts||[]}
+          postOwnerId={postOwnerId}
         />
       </div>
     </div>
