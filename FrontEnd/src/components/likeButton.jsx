@@ -1,29 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IconButton, Box, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import axiosInstance from "../config/axiosInstance";
-import  useUserStore  from "../Stores/UseUserStore";
-const LikeButton = ({ initialLikes = 0, postId }) => {
+import useUserStore from "../Stores/UseUserStore";
+
+const LikeButton = ({ likedBy = [], initialLikes = 0, postId }) => {
   const { userId } = useUserStore();
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(initialLikes);
   const [interaction, setInteraction] = useState("default");
 
- const handleLike = async (e) => {
-  e.stopPropagation();
+  // Sync initial "liked" state
+  useEffect(() => {
+    if (likedBy.includes(userId)) {
+      setLiked(true);
+    }
+  }, [likedBy, userId]);
 
-  try {
-    const res = await axiosInstance.post(`/posts/${postId}/like/${userId}`);
-    const newCount = res.data.likesCount;
-
-    setLiked((prev) => !prev);
-    setLikes(newCount);
-  } catch (err) {
-    console.error("Failed to like post:", err);
-  }
-};
-
+  const handleLike = async (e) => {
+    e.stopPropagation();
+    try {
+      const res = await axiosInstance.post(`/posts/${postId}/like/${userId}`);
+      const newCount = res.data.likesCount;
+      setLiked((prev) => !prev);
+      setLikes(newCount);
+    } catch (err) {
+      console.error("Failed to like post:", err);
+    }
+  };
 
   return (
     <Box
@@ -54,7 +59,9 @@ const LikeButton = ({ initialLikes = 0, postId }) => {
       <IconButton sx={{ color: "rgba(248, 248, 248, 0.7)", padding: 0 }}>
         {liked ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
       </IconButton>
-      <Typography sx={{ color: "rgba(248, 248, 248, 0.7)", fontSize: 14 }}>{likes}</Typography>
+      <Typography sx={{ color: "rgba(248, 248, 248, 0.7)", fontSize: 14 }}>
+        {likes}
+      </Typography>
     </Box>
   );
 };

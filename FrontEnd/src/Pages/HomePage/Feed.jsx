@@ -172,6 +172,9 @@ const Feed = () => {
                 bookmarksCount={post.bookmarksCount}
                 commentsCount={post.comments?.length || 0}
                 onClick={(e) => handlePostClick(post._id, e)}
+                comments={post.comments}
+                
+        
               />
             );
           })}

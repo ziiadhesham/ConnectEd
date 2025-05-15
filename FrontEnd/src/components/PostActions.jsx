@@ -10,7 +10,10 @@ export default function PostActions({
   commentsCount = 0,
   repostsCount = 0,
   bookmarksCount = 0,
-  postId // ✅ just declare it here
+  postId, // ✅ just declare it here
+  likes,
+  comments,
+  reposts
 }) {
   return (
     <Box
@@ -35,8 +38,8 @@ export default function PostActions({
           flexGrow: 1,
         }}
       >
-        <LikeButton initialLikes={likesCount} postId={postId} />
-        <RepostButton initialReposts={repostsCount} postId={postId} />
+        <LikeButton initialLikes={likesCount} postId={postId}  likedBy={likes}/>
+        <RepostButton initialReposts={repostsCount} postId={postId} repostedby={reposts}/>
         <CommentButton initialComments={commentsCount} postId={postId} />
       </Box>
       <Box>

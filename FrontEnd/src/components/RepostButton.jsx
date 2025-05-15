@@ -1,29 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IconButton, Box, Typography } from "@mui/material";
 import RepeatIcon from "@mui/icons-material/Repeat";
-import  useUserStore  from "../Stores/UseUserStore";
+import useUserStore from "../Stores/UseUserStore";
 import axiosInstance from "../config/axiosInstance";
 
-
-const RepostButton = ({ initialReposts = 12, postId }) => {
+const RepostButton = ({ initialReposts = 0, postId, repostedby = [] }) => {
   const { userId } = useUserStore();
 
   const [reposted, setReposted] = useState(false);
   const [interaction, setInteraction] = useState("default");
   const [repostes, setRepostes] = useState(initialReposts);
 
-  const  handleToggle = async (e) => {
-     try {
-    const res = await axiosInstance.post(`/posts/${postId}/repost/${userId}`);
-    const newCount = res.data.repostsCount;
-    setRepostes(newCount);
-    e.stopPropagation();
-    setReposted((prev) => !prev);
+  // Sync the reposted state initially
+  useEffect(() => {
+    if (repostedby.includes(userId)) {
+      setReposted(true);
+    }
+  }, [repostedby, userId]);
 
-     }
-     catch (err) {
-      console.error("Failed to like post:", err);
-     }
+  const handleToggle = async (e) => {
+    e.stopPropagation();
+    try {
+      const res = await axiosInstance.post(`/posts/${postId}/repost/${userId}`);
+      const newCount = res.data.repostsCount;
+      setRepostes(newCount);
+      setReposted((prev) => !prev);
+    } catch (err) {
+      console.error("Failed to repost:", err);
+    }
   };
 
   return (
@@ -40,6 +44,7 @@ const RepostButton = ({ initialReposts = 12, postId }) => {
             ? "#282828"
             : interaction === "hover"
             ? "rgba(248, 248, 248, 0.23)"
+            // dark green background when reposted
             : "transparent",
         cursor: "pointer",
         transition: "background-color 0.2s ease",
@@ -50,10 +55,17 @@ const RepostButton = ({ initialReposts = 12, postId }) => {
       onMouseDown={() => setInteraction("press")}
       onMouseUp={() => setInteraction("hover")}
     >
-      <IconButton sx={{ color: reposted ? "green" : "rgba(248, 248, 248, 0.7)", padding: 0 }}>
+      <IconButton
+        sx={{
+          color: reposted ? "green" : "rgba(248, 248, 248, 0.7)",
+          padding: 0,
+        }}
+      >
         <RepeatIcon />
       </IconButton>
-      <Typography sx={{ color: "rgba(248, 248, 248, 0.7)", fontSize: 16 }}>{repostes}</Typography>
+      <Typography sx={{ color: "rgba(248, 248, 248, 0.7)", fontSize: 16 }}>
+        {repostes}
+      </Typography>
     </Box>
   );
 };
