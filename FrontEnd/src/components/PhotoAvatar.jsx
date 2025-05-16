@@ -1,11 +1,11 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-
-export default function ImageAvatars({ imgsrc = "https://i.pravatar.cc/300?img=10" }) {
+//avatar link from internet
+export default function ImageAvatars({ src="https://mui.com/static/images/avatar/1.jpg" }) {
   return (
     <Stack direction="row" spacing={2}>
-      <Avatar alt="Remy Sharp" src={imgsrc} />
+      <Avatar alt="Remy Sharp" src={src} />
     </Stack>
   );
 }

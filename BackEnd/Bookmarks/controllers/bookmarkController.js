@@ -31,13 +31,21 @@ exports.getBookmarksByFolder = async (req, res) => {
 exports.getBookmarksByUser = async (req, res) => {
   try {
     const bookmarks = await Bookmark.find({ userId: req.params.userId })
-      .populate('postId')
-      .populate('folderId'); // Optional: shows which folder it's in
+      .populate({
+        path: 'folderId',
+        select: '_id name', // keep it lean
+      })
+      .populate({
+        path: 'postId',
+        select: '_id title', // adjust fields based on your post schema
+      });
+
     res.json(bookmarks);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 // Delete a bookmark by its ID
 exports.deleteBookmark = async (req, res) => {

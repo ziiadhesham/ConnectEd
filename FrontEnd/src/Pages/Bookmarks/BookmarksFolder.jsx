@@ -14,48 +14,60 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import FolderIcon from "@mui/icons-material/Folder";
 import CheckIcon from "@mui/icons-material/Check";
-import axios from "axios";
 
 import useBookmarkFolderStore from "../../Stores/useBookmarkFolderStore";
-import bookmarks from "../../MockData/bookmarksData"; // Replace with API call later
 import useUserStore from "../../Stores/UseUserStore";
 import axiosInstance from "../../config/axiosInstance";
 
 const BookmarksFolder = () => {
-  const { userId } = useUserStore(); // Current logged-in user
+  const { userId } = useUserStore();
   const { selectedFolderId, setSelectedFolderId } = useBookmarkFolderStore();
 
-  const [tab, setTab] = useState("left");
   const [creatingNew, setCreatingNew] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
   const [folders, setFolders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch folders from API
   useEffect(() => {
-    const fetchFolders = async () => {
+    const fetchData = async () => {
       try {
-        const res = await axiosInstance.get(`/folders/user/${userId}`);
-        const fetchedFolders = res.data;
+        const [folderRes, bookmarkRes] = await Promise.all([
+          axiosInstance.get(`/folders/user/${userId}`),
+          axiosInstance.get(`/bookmarks/user/${userId}`),
+        ]);
 
-        // Add post count to each folder (mocked from bookmarksData)
-        const updatedFolders = fetchedFolders.map((folder) => {
-          const count = bookmarks.filter(
-            (bookmark) =>
-              bookmark.folderId === folder._id && bookmark.userId === userId
-          ).length;
-          return { ...folder, count };
-        });
+        const folders = folderRes.data;
+        const bookmarks = bookmarkRes.data;
+
+        // Important: convert ObjectIds to strings if needed to ensure proper comparison
+ const updatedFolders = folders.map((folder) => {
+  const folderIdStr = folder._id?.toString();
+
+  const matchingBookmarks = bookmarks.filter((bookmark) => {
+  const folderId =
+    typeof bookmark.folderId === "object"
+      ? bookmark.folderId._id?.toString()
+      : bookmark.folderId?.toString();
+
+  return folderId === folder._id?.toString();
+  
+});
+
+  console.log("Matching bookmarks for folder:", matchingBookmarks.length);
+  
+  return { ...folder, count: matchingBookmarks.length };
+});
+  
 
         setFolders(updatedFolders);
       } catch (err) {
-        console.error("Failed to fetch folders:", err);
+        console.error("Failed to fetch folders/bookmarks:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchFolders();
+    fetchData();
   }, [userId]);
 
   const handleCreateSubmit = async () => {
@@ -63,7 +75,7 @@ const BookmarksFolder = () => {
     if (!name) return;
 
     try {
-      const res = await axiosInstance.post(`/folders`, { name , userId});
+      const res = await axiosInstance.post(`/folders`, { name, userId });
       const newFolder = res.data;
       setFolders((prev) => [...prev, { ...newFolder, count: 0 }]);
       setNewFolderName("");
@@ -72,8 +84,6 @@ const BookmarksFolder = () => {
       console.error("Error creating folder:", err);
     }
   };
-
-  const handleTabChange = (newTab) => setTab(newTab);
 
   return (
     <Box
@@ -202,7 +212,10 @@ const BookmarksFolder = () => {
                 primary={folder.name}
                 primaryTypographyProps={{ color: "#fff" }}
               />
-              <Typography variant="body2" sx={{ color: "#aaa", mr: 1 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: "#aaa", mr: 1, minWidth: "24px", textAlign: "right" }}
+              >
                 {folder.count}
               </Typography>
               {selectedFolderId === folder._id && (

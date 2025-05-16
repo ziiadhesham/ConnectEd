@@ -38,7 +38,8 @@ const Feed = () => {
         setPosts(postsRes.data);
         setUsers(usersRes.data);
         setCurrentUser(currentUserRes.data);
-        console.log("posts", postsRes.data[0], "users", usersRes.data[0], "currentUser", currentUserRes.data);
+        console.log(currentUserRes.data.profilePicture);
+        // console.log("posts", postsRes.data[0], "users", usersRes.data[0], "currentUser", currentUserRes.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -153,6 +154,8 @@ const Feed = () => {
         <div className="posts-container" style={{ maxWidth: "720px" }}>
           {(headertab === "following" ? followingPosts : forYouPosts).map((post) => {
             const postUser = users.find((u) => u._id === post.userId?._id);
+            console.log(postUser.profilePicture);
+            
             if (!postUser) return null;
 
             return (
